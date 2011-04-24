@@ -1,6 +1,10 @@
 HTMLUnitGenerator
 - Generate unit test cases from a simple test case language
 
+Sample generated test: 
+  src/test/java/generatedtest/HTMLUnitGeneratedTest.java 
+Generated from: 
+  testspec/data/test_bbb.xml
 
 *** Build instructions ***
 Go to compiler folder, do:
