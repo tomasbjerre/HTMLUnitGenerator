@@ -1,0 +1,35 @@
+<paths>
+ <path id="searchButton">
+  /html/body/div[2]/center/span/center/form/table/tbody/tr/td[2]/span/span/input
+ </path>
+ <path id="searchResults">
+  /html/body/div[4]/div/div/div[6]/div/div/div[2]/div/ol/li/div/span/h3/a/em
+ </path>
+</paths>
+
+<urls>
+ <url id="googleurl">
+  http://www.google.com/
+ </url>
+</urls>
+
+<flow>  
+  <state id="start">
+    <transition to="google" using="googleurl" />
+  </state>
+
+  <state id="google">
+    <form id="f" submit="searchButton">
+      <input name="q" value="Tomas Bjerre" />
+    </form>
+    <transition to="results" using="f" />
+  </state>
+
+  <state id="results">
+    <find path="searchResults">
+      <text>
+        Tomas Bjerre
+      </text>
+    </find>
+  </state>
+</flow>

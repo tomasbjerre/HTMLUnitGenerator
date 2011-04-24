@@ -1,0 +1,59 @@
+<paths>
+ <path id="campaignmodule">
+  /html/body/div[2]/div/div[2]/div[2]/div/div[3]
+ </path>
+ <path id="searchpopup">
+  //*[@id="modalbox-inner"]
+ </path>
+ <path id="_eventId_search">
+  //*[@id="_eventId_search"]
+ </path>
+ <path id="campaignModuleChoose">
+  /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[3]/a/span
+ </path>
+</paths>
+
+<urls>
+ <url id="baspaket">
+  http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+ </url>
+</urls>
+
+<flow>  
+  <state id="start">
+    <transition to="campaignmodulestate" using="baspaket" />
+  </state>
+
+  <state id="campaignmodulestate">
+    <find path="campaignmodule">
+      <tag type="a">
+        <attribute name="href" value="/servlet/orderflow/search/search-flow?Id=tcm:142-23371" />
+      </tag>
+    </find>
+
+    <transition to="searchflow" using="campaignModuleChoose" />
+  </state>
+
+  <state id="searchflow">
+    <find path="searchpopup">
+      <tag type="input">
+        <attribute name="id" value="_eventId_search" />
+      </tag>
+    </find>
+
+    <form id="locationForm" submit="_eventId_search">
+      <input name="_eventId" value="search" />
+      <input name="phoneNumber.fullNumber" value="0768966787" />
+    </form>
+
+    <transition to="searching" using="locationForm" />
+  </state>
+
+  <state id="searching">
+    <find path="searchpopup">
+      <tag type="input">
+        <attribute name="id" value="_eventId_search" />
+      </tag>
+    </find>
+  </state>
+</flow>

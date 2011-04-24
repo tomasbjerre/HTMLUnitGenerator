@@ -1,0 +1,19 @@
+HTMLUnitGenerator
+- Generate unit test cases from a simple test case language
+
+
+*** Build instructions ***
+Go to compiler folder, do:
+./compile.sh #Build
+./clean.sh #Clean
+
+In eclipse:
+  Project -> Properties -> Libraries -> Add Variable
+  M2_REPO = /home/yourusername/.m2/repository
+
+
+*** TODO ***
+- Replace functionality of compile.sh and clean.sh with Maven.
+- Make test_bbb.xml generated test case run successfully
+- Make test_google.xml generated test case run successfully
+

@@ -1,0 +1,16 @@
+import parser.Token;
+import parser.ASTNode;
+
+aspect SourceLine {
+
+  protected Token ASTNode.first;
+  protected Token ASTNode.last;
+  
+  public String ASTNode.startLineCol() {
+    return "(Line:" + first.beginLine + " Col:" + first.beginColumn + ")";
+  }
+  public String ASTNode.endLineCol() {
+    return "(Line:" + last.endLine + " Col:" + last.endColumn + ")";
+  }
+  
+}
