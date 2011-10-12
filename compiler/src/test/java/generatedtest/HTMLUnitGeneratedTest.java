@@ -4,7 +4,9 @@ import org.junit.Test;
 import org.w3c.dom.Node;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.Page;
+import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import java.util.regex.*;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class HTMLUnitGeneratedTest extends TestCase {
 
 @Test
 public void testHomePage() throws Exception {
- WebClient webClient = new WebClient();
+ WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
  webClient.setCssEnabled(true);
  webClient.setJavaScriptEnabled(true);
  webClient.setThrowExceptionOnFailingStatusCode(false);
@@ -29,6 +31,7 @@ public void testHomePage() throws Exception {
 
 
 page = webClient.getPage("http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+webClient.waitForBackgroundJavaScriptStartingBefore(2000);
 
 step = "campaignmodulestate";
 //Find attributes inside /html/body/div[2]/div/div[2]/div[2]/div/div[3]
@@ -36,12 +39,12 @@ successfull = find(page, "/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", 
 if (!successfull)
  fail(step+") Failed finding tag \"a\" with attribute \"href\" and value \"/servlet/orderflow/search/search-flow?Id=tcm:142-23371\" in \"/html/body/div[2]/div/div[2]/div[2]/div/div[3]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
 
-//Find and click element: /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[3]/a/span
-matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[3]/a/span");
+//Find and click element: /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
+matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span");
 if (matchingElement.size() == 0)
-  fail("Faild to find element /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[3]/a/span");
+  fail("Faild to find element /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span");
 matchingElement.get(0).click();
-webClient.waitForBackgroundJavaScriptStartingBefore(10000);
+webClient.waitForBackgroundJavaScriptStartingBefore(2000);
 
 
 step = "searchflow";
@@ -63,7 +66,7 @@ matchingElement = (ArrayList<HtmlElement>) page.getByXPath("//*[@id=\"_eventId_s
 if (matchingElement.size() == 0)
   fail("Faild to find element //*[@id=\"_eventId_search\"]");
 matchingElement.get(0).click();
-webClient.waitForBackgroundJavaScriptStartingBefore(10000);
+webClient.waitForBackgroundJavaScriptStartingBefore(2000);
 
 
 step = "searching";
@@ -76,24 +79,10 @@ if (!successfull)
 }
 
 private boolean find(HtmlPage page, String xpath, String tag, String attribute, String value) {
- ArrayList<HtmlElement> matchingDivs;
- boolean successfull;
- String pageAsXml = page.asXml();
- matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
- successfull = false;
+ ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
  for (HtmlElement div : matchingDivs) {
-  successfull = recursiveFind(div.getChildNodes(), tag, attribute, value);
-  if (successfull)
+  if (recursiveFind(div.getChildNodes(), tag, attribute, value))
    return true;
- }
- if (!successfull) {
-  String asXml = page.asXml();
-  Pattern selectPattern = Pattern
-    .compile(
-      "<"+tag+".*?"+attribute+"=\""+value+"\".*?>",
-      Pattern.CASE_INSENSITIVE);
-  Matcher selectMatcher = selectPattern.matcher(asXml);
-  return selectMatcher.find();
  }
  return false;
 }

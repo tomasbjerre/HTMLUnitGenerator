@@ -9,7 +9,7 @@
   //*[@id="_eventId_search"]
  </path>
  <path id="campaignModuleChoose">
-  /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[3]/a/span
+  /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
  </path>
 </paths>
 
