@@ -46,13 +46,27 @@
       <input name="phoneNumber.fullNumber" value="0768966787" />
     </form>
 
-    <transition to="searching" using="locationForm" />
+    <transition to="selectfloor" using="locationForm" />
   </state>
 
-  <state id="searching">
+  <state id="selectfloor">
     <find path="searchpopup">
       <tag type="input">
         <attribute name="id" value="_eventId_search" />
+      </tag>
+    </find>
+    
+    <form id="locationForm" submit="_eventId_search">
+        <input name="address.floor" value="3" />
+    </form>
+   
+    <transition to="searchresults" using="locationForm" />
+  </state>
+
+  <state id="searchresults">
+    <find path="searchpopup">
+      <tag type="a">
+        <attribute name="href" value="/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new" />
       </tag>
     </find>
   </state>
