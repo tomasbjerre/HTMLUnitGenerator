@@ -14,6 +14,6 @@ public class Url extends Referencable {
 
 	@Override
 	public String toString() {
-		return value;
+		return " <url id=\""+name+"\">" + value + "</url>\n";
 	}
 }

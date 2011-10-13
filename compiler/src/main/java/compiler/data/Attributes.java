@@ -8,8 +8,11 @@ public class Attributes extends HashMap<String, Attribute> {
 	@Override
 	public String toString() {
 		String result = "";
-		for (Attribute atttribute : values())
-			result += atttribute;
+		for (Attribute atttribute : values()) {
+			result += "     <attribute";
+			result += atttribute.toString();
+			result += "/>\n";
+		}
 		return result;
 	}
 }

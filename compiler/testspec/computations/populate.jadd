@@ -38,12 +38,14 @@ aspect Populate
   public void UrlTag.populate(Flow flow, State state, SymbolTable table) {
 	Url url = new Url(getIdAttribute().getIdDecl().getVALUE(), getContent().getCONTENT());
     table.addReferencable(this.getIdAttribute().getIdDecl().getVALUE(),url);
+    flow.addUrl(url);
     super.populate(flow, state, table);
   }
   
   public void PathTag.populate(Flow flow, State state, SymbolTable table) {
     Path path = new Path(getIdAttribute().getIdDecl().getVALUE(), getContent().getCONTENT());
     table.addReferencable(this.getIdAttribute().getIdDecl().getVALUE(),path);
+    flow.addPath(path);
     super.populate(flow, state, table);
   }
   
@@ -86,7 +88,8 @@ aspect Populate
   public void TransitionTag.populate(Flow flow, State state, SymbolTable table) {
         State jumpTo = (State)table.lookupReferencable(getToAttribute().getIdUse().getVALUE());
         compiler.data.Referencable using = table.lookupReferencable(getUsingAttribute().getIdUse().getVALUE());
-        Transition transition = new Transition(jumpTo, using);
+        String delay = getDelayAttribute().getContent().getCONTENT();
+        Transition transition = new Transition(jumpTo, using, delay);
         state.setTransition(transition);
   }
 }

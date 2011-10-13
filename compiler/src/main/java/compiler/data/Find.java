@@ -1,45 +1,45 @@
 package compiler.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Find {
-    protected Path path = null;
-    protected ArrayList<Tag> tags = new ArrayList<Tag>();
-    private ArrayList<Text> texts = new ArrayList<Text>();
+	protected Path path = null;
+	protected List<Tag> tags = new ArrayList<Tag>();
+	private final List<Text> texts = new ArrayList<Text>();
 
-    public Find(Path path) {
-        this.path = path;
-    }
+	public Find(Path path) {
+		this.path = path;
+	}
 
-    public void addTag(Tag tag) {
-        this.tags.add(tag);
-    }
+	public void addTag(Tag tag) {
+		this.tags.add(tag);
+	}
 
-    public void addText(Text text) {
-        texts.add(text);
-    }
+	public void addText(Text text) {
+		texts.add(text);
+	}
+	public Path getPath() {
+		return path;
+	}
 
-    public Path getPath() {
-        return path;
-    }
+	public List<Tag> getTags() {
+		return tags;
+	}
 
-    public ArrayList<Tag> getTags() {
-        return tags;
-    }
+	public List<Text> getTexts() {
+		return texts;
+	}
 
-    public ArrayList<Text> getTexts() {
-        return texts;
-    }
-
-    @Override
-    public String toString() {
-        String result = "-Find\n";
-        result += "In path:" + path + "\n";
-        if (tags.size() > 0) {
-            for (Tag tag : tags)
-                result += tag + "\n";
-            result += "\n";
-        }
-        return result;
-    }
+	@Override
+	public String toString() {
+		String result = "  <find path=\""+path.getName()+"\">\n";
+		if (tags.size() > 0) {
+			for (Tag tag : tags) {
+				result += tag.toString();
+			}
+		}
+		result += "  </find>\n";
+		return result;
+	}
 }

@@ -65,6 +65,7 @@ TOKEN : {
 | < PATHATTRIBUTE: "path=">
 | < TYPEATTRIBUTE: "type=">
 | < SUBMITATTRIBUTE: "submit=">
+| < DELAYATTRIBUTE: "delay=">
 }
 
 
@@ -104,7 +105,7 @@ void inputTag() #InputTag : {}
 
 void transitionTag() #TransitionTag : {}
 {
- <TRANSITIONBEGIN> toAttribute() usingAttribute() <RTEND>
+ <TRANSITIONBEGIN> toAttribute() usingAttribute() delayAttribute() <RTEND>
 }
 
 void findTag() #FindTag : {}
@@ -172,6 +173,11 @@ void valueAttribute() #ValueAttribute : {}
 void typeAttribute() #TypeAttribute : {}
 {
  <TYPEATTRIBUTE> contentAttribute()
+}
+
+void delayAttribute() #DelayAttribute : {}
+{
+ <DELAYATTRIBUTE> contentAttribute()
 }
 
 void toAttribute() #ToAttribute: {}

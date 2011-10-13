@@ -8,7 +8,7 @@ FindTag ::= PathAttribute TextTag* TagTag*;
 InputTag ::= NameAttribute ValueAttribute;
 TagTag ::= TypeAttribute AttributeTag*;
 TextTag ::= Content;
-TransitionTag ::= ToAttribute UsingAttribute;
+TransitionTag ::= ToAttribute UsingAttribute DelayAttribute;
 AttributeTag ::= NameAttribute ValueAttribute;
 
 abstract Referencable ::= IdAttribute;
@@ -27,6 +27,7 @@ abstract ContentAttribute ::= Content;
 NameAttribute: ContentAttribute;
 ValueAttribute: ContentAttribute;
 TypeAttribute: ContentAttribute;
+DelayAttribute: ContentAttribute;
 
 IdAttribute ::= IdDecl;
 
