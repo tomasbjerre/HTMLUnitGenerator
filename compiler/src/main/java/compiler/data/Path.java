@@ -14,6 +14,6 @@ public class Path extends Referencable {
 
 	@Override
 	public String toString() {
-		return " <path id=\""+name+"\">" + value + "</path>\n";
+		return " <path id=\""+name+"\">\n  " + value + "\n </path>\n";
 	}
 }

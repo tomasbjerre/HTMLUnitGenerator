@@ -26,13 +26,15 @@ public class Form extends Referencable {
 
 	@Override
 	public String toString() {
-		String result = "-Form\n";
-		result += "Name:" + name + "\n";
-		if (tags.size() > 0) {
-			for (Tag tag : tags)
-				result += tag + "\n";
-			result += "\n";
+		String result = "  <form id=\""+getName()+"\" submit=\""+getSubmit().getName()+"\">\n";
+		for (Tag tag : getTags()) {
+			result += "   <" + tag.getType();
+			for (Attribute attribute : tag.getAttributes().values()) {
+				result += " name=\"" + attribute.getName() + "\" value=\"" + attribute.getValue() + "\"";
+			}
+			result += "/>\n";
 		}
+		result += "  </form>\n";
 		return result;
 	}
 }

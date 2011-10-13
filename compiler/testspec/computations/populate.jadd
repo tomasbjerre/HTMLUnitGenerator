@@ -32,6 +32,7 @@ aspect Populate
         tag.addAttribute(new Attribute(inputTag.getNameAttribute().getContent().getCONTENT(), inputTag.getValueAttribute().getContent().getCONTENT()));
         form.addTag(tag);
     }
+    state.addForm(form);
     super.populate(flow, state, table);
   }
   

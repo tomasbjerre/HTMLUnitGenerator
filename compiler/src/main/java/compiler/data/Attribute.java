@@ -19,7 +19,8 @@ public class Attribute {
 
 	@Override
 	public String toString() {
-		String result = " "+name+"=\""+value+"\"";
+		String result = " name=\""+name+"\"";
+		result += " value=\""+value+"\"";
 		return result;
 	}
 }

@@ -28,75 +28,68 @@
  </url>
 </urls>
 
-<flow>  
-  <state id="start">
-    <transition to="campaignmodulestate" using="baspaket" delay="2000"/>
-  </state>
+<flow>
+ <state id="start">
+  <transition to="campaignmodulestate" using="baspaket" delay="2000"/>
+ </state>
 
-  <state id="campaignmodulestate">
-    <find path="campaignmodule">
-      <tag type="a">
-        <attribute name="href" value="/servlet/orderflow/search/search-flow?Id=tcm:142-23371" />
-      </tag>
-    </find>
+ <state id="campaignmodulestate">
+  <find path="campaignmodule">
+    <tag type="a">
+     <attribute name="href" value="/servlet/orderflow/search/search-flow?Id=tcm:142-23371"/>
+    </tag>
+  </find>
+  <transition to="searchflow" using="campaignModuleChoose" delay="5000"/>
+ </state>
 
-    <transition to="searchflow" using="campaignModuleChoose" delay="5000"/>
-  </state>
+ <state id="searchflow">
+  <find path="searchpopup">
+    <tag type="input">
+     <attribute name="id" value="_eventId_search"/>
+    </tag>
+  </find>
+  <form id="locationForm" submit="_eventId_search">
+   <input name="_eventId" value="search"/>
+   <input name="phoneNumber.fullNumber" value="0768966787"/>
+  </form>
+  <transition to="selectfloor" using="locationForm" delay="5000"/>
+ </state>
 
-  <state id="searchflow">
-    <find path="searchpopup">
-      <tag type="input">
-        <attribute name="id" value="_eventId_search" />
-      </tag>
-    </find>
+ <state id="selectfloor">
+  <find path="searchpopup">
+    <tag type="input">
+     <attribute name="id" value="_eventId_search"/>
+    </tag>
+  </find>
+  <form id="locationForm" submit="_eventId_search">
+   <input name="address.floor" value="3"/>
+  </form>
+  <transition to="searchresults" using="locationForm" delay="10000"/>
+ </state>
 
-    <form id="locationForm" submit="_eventId_search">
-      <input name="_eventId" value="search" />
-      <input name="phoneNumber.fullNumber" value="0768966787" />
-    </form>
+ <state id="searchresults">
+  <find path="searchpopup">
+    <tag type="a">
+     <attribute name="href" value="/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new"/>
+    </tag>
+  </find>
+  <transition to="ordercart" using="searchPopupChooseFoundOffer" delay="10000"/>
+ </state>
 
-    <transition to="selectfloor" using="locationForm"  delay="5000"/>
-  </state>
+ <state id="ordercart">
+  <find path="orderCartArea">
+    <tag type="option">
+     <attribute name="value" value="dsl24"/>
+    </tag>
+  </find>
+  <transition to="tvDetails" using="checkoutOrder" delay="10000"/>
+ </state>
 
-  <state id="selectfloor">
-    <find path="searchpopup">
-      <tag type="input">
-        <attribute name="id" value="_eventId_search" />
-      </tag>
-    </find>
-    
-    <form id="locationForm" submit="_eventId_search">
-        <input name="address.floor" value="3" />
-    </form>
-   
-    <transition to="searchresults" using="locationForm" delay="10000"/>
-  </state>
-
-  <state id="searchresults">
-    <find path="searchpopup">
-      <tag type="a">
-        <attribute name="href" value="/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new" />
-      </tag>
-    </find>
-   
-    <transition to="ordercart" using="searchPopupChooseFoundOffer" delay="10000"/>
-  </state>
-
-  <state id="ordercart">
-    <find path="orderCartArea">
-      <tag type="option">
-        <attribute name="value" value="dsl24" />
-      </tag>
-    </find>
-   
-    <transition to="tvDetails" using="checkoutOrder" delay="10000"/>
-  </state>
-
-  <state id="tvDetails">
-    <find path="orderCartArea">
-      <tag type="input">
-        <attribute name="src" value="/res/img/button/tillbaka.png" />
-      </tag>
-    </find>
-  </state>
+ <state id="tvDetails">
+  <find path="orderCartArea">
+    <tag type="input">
+     <attribute name="src" value="/res/img/button/tillbaka.png"/>
+    </tag>
+  </find>
+ </state>
 </flow>

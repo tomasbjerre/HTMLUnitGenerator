@@ -2,11 +2,11 @@ package compiler.data;
 
 
 public class Tag {
-	protected String type = "";
+	private String type = "";
 	protected Attributes attributes = new Attributes();
 
 	public Tag(String type) {
-		this.type = type;
+		this.setType(type);
 	}
 
 	public void addAttribute(Attribute attribute) {
@@ -18,14 +18,22 @@ public class Tag {
 	}
 
 	public String getName() {
-		return type;
+		return getType();
 	}
 
 	@Override
 	public String toString() {
-		String result = "    <tag type=\""+type+"\">\n";
+		String result = "    <tag type=\""+getType()+"\">\n";
 		result += attributes.toString();
 		result += "    </tag>\n";
 		return result;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }
