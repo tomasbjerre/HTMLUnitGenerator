@@ -183,7 +183,7 @@ public class HTMLJunitGenerator extends Generator {
 		result += "if (matchingElement.size() == 0)\n";
 		result += "  fail(\"Faild to find element "
 				+ escapeString(using.getValue()) + "\");\n";
-		result += "matchingElement.get(0).click();\n";
+		result += "page = matchingElement.get(0).click();\n";
 		result += "\n";
 	}
 

@@ -17,6 +17,9 @@
  <path id="orderCartArea">
   /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
  </path>
+ <path id="website">
+  /html/body
+ </path>
  <path id="checkoutOrder">
   /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
  </path>
@@ -86,7 +89,7 @@
  </state>
 
  <state id="tvDetails">
-  <find path="orderCartArea">
+  <find path="website">
     <tag type="input">
      <attribute name="src" value="/res/img/button/tillbaka.png"/>
     </tag>

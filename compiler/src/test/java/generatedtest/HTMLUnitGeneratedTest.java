@@ -32,6 +32,9 @@ import junit.framework.TestCase;
  <path id="orderCartArea">
   /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
  </path>
+ <path id="website">
+  /html/body
+ </path>
  <path id="checkoutOrder">
   /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
  </path>
@@ -101,7 +104,7 @@ import junit.framework.TestCase;
  </state>
 
  <state id="tvDetails">
-  <find path="orderCartArea">
+  <find path="website">
     <tag type="input">
      <attribute name="src" value="/res/img/button/tillbaka.png"/>
     </tag>
@@ -145,7 +148,7 @@ if (!successfull) {
 matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span");
 if (matchingElement.size() == 0)
   fail("Faild to find element /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span");
-matchingElement.get(0).click();
+page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(5000);
 
@@ -178,7 +181,7 @@ try {
 matchingElement = (ArrayList<HtmlElement>) page.getByXPath("//*[@id=\"_eventId_search\"]");
 if (matchingElement.size() == 0)
   fail("Faild to find element //*[@id=\"_eventId_search\"]");
-matchingElement.get(0).click();
+page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(5000);
 
@@ -204,7 +207,7 @@ try {
 matchingElement = (ArrayList<HtmlElement>) page.getByXPath("//*[@id=\"_eventId_search\"]");
 if (matchingElement.size() == 0)
   fail("Faild to find element //*[@id=\"_eventId_search\"]");
-matchingElement.get(0).click();
+page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(10000);
 
@@ -221,7 +224,7 @@ if (!successfull) {
 matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img");
 if (matchingElement.size() == 0)
   fail("Faild to find element /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img");
-matchingElement.get(0).click();
+page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(10000);
 
@@ -238,17 +241,17 @@ if (!successfull) {
 matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input");
 if (matchingElement.size() == 0)
   fail("Faild to find element /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input");
-matchingElement.get(0).click();
+page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(10000);
 
 step = "tvDetails";
 System.out.println(System.currentTimeMillis()+") Entering state 7 of 7 85% complete \"tvDetails\"");
-//Find attributes inside /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
-successfull = find(page, "/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]", "input", "src", "/res/img/button/tillbaka.png");
+//Find attributes inside /html/body
+successfull = find(page, "/html/body", "input", "src", "/res/img/button/tillbaka.png");
 if (!successfull) {
  System.out.println(page.asXml());
- fail(step+") Failed finding tag \"input\" with attribute \"src\" and value \"/res/img/button/tillbaka.png\" in \"/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
+ fail(step+") Failed finding tag \"input\" with attribute \"src\" and value \"/res/img/button/tillbaka.png\" in \"/html/body\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
 
 }
  webClient.closeAllWindows();
