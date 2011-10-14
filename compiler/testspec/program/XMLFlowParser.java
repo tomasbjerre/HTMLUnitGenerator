@@ -14,7 +14,16 @@ import compiler.data.Flow;
 import compiler.generator.htmljunit.HTMLJunitGenerator;
 
 public class XMLFlowParser extends Flow {
+	public XMLFlowParser() {
+
+	}
+
 	public XMLFlowParser(Reader reader, Writer output, String testFileName) {
+		System.out.println(compile(reader, output, testFileName));
+	}
+
+	public String compile(Reader reader, Writer output, String testFileName) {
+		String messages = "";
 		try {
 			// Check grammar
 			Parser parser = new Parser(reader);
@@ -24,9 +33,10 @@ public class XMLFlowParser extends Flow {
 			TreeMap<Integer, String> errors = new TreeMap<Integer, String>();
 			SymbolTable symbolTable = start.nameAnalysis(errors);
 			if (errors.size() > 0) {
-				for (Integer key : errors.keySet())
-					System.out.println(key + ") " + errors.get(key));
-				return;
+				for (Integer key : errors.keySet()) {
+					messages += key + ") " + errors.get(key) + "\n";
+				}
+				return messages;
 			}
 
 			// Populate data
@@ -34,8 +44,12 @@ public class XMLFlowParser extends Flow {
 			HTMLJunitGenerator junitGenerator = new HTMLJunitGenerator(this,testFileName);
 			write(output, junitGenerator.toString());
 		} catch (ParseException e) {
-			System.out.println(e.getMessage());
+			return e.getMessage();
+		} catch (Error e) {
+			return e.getMessage();
 		}
+
+		return messages;
 	}
 
 	private void write(Writer writer, String content) {
