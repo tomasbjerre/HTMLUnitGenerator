@@ -1,7 +1,8 @@
 package program;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.TreeMap;
 
 import parser.ParseException;
@@ -13,10 +14,10 @@ import compiler.data.Flow;
 import compiler.generator.htmljunit.HTMLJunitGenerator;
 
 public class XMLFlowParser extends Flow {
-	public XMLFlowParser(String testCase, String output) {
+	public XMLFlowParser(Reader reader, Writer output, String testFileName) {
 		try {
 			// Check grammar
-			Parser parser = new Parser(new FileReader(testCase));
+			Parser parser = new Parser(reader);
 			Start start = parser.start();
 
 			// Check references
@@ -30,12 +31,19 @@ public class XMLFlowParser extends Flow {
 
 			// Populate data
 			start.populate(this,symbolTable);
-			HTMLJunitGenerator junitGenerator = new HTMLJunitGenerator(this);
-			junitGenerator.writeToFile(output, junitGenerator.toString());
-		} catch (FileNotFoundException e) {
-			System.err.println("File " + testCase + " not found");
+			HTMLJunitGenerator junitGenerator = new HTMLJunitGenerator(this,testFileName);
+			write(output, junitGenerator.toString());
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
+		}
+	}
+
+	private void write(Writer writer, String content) {
+		try {
+			writer.write(content, 0, content.length());
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

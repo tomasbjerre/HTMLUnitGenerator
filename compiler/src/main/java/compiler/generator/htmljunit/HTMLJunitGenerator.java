@@ -72,9 +72,11 @@ public class HTMLJunitGenerator extends Generator {
 			+ "     )\n" + "   return form;\n" + " return null;\n" + "}\n";
 
 	private String currentUrl;
+	private final String testFileName;
 
-	public HTMLJunitGenerator(Flow flow) {
+	public HTMLJunitGenerator(Flow flow, String testFileName) {
 		this.flow = flow;
+		this.testFileName = testFileName;
 	}
 
 	private void addMethod(String method) {
@@ -219,7 +221,7 @@ public class HTMLJunitGenerator extends Generator {
 
 	@Override
 	public String toString() {
-		result = "package generatedtest;";
+		result = "package webtest;";
 		result += "\n";
 		result += "import org.junit.Test;\n";
 		result += "\n";
@@ -227,7 +229,6 @@ public class HTMLJunitGenerator extends Generator {
 		result += "import com.gargoylesoftware.htmlunit.WebClient;\n";
 		result += "import com.gargoylesoftware.htmlunit.html.*;\n";
 		result += "import com.gargoylesoftware.htmlunit.*;\n";
-		result += "import java.util.regex.*;\n";
 		result += "\n";
 		result += "import java.util.ArrayList;\n";
 		result += "\n";
@@ -238,7 +239,8 @@ public class HTMLJunitGenerator extends Generator {
 		result += flow.toString();
 		result += "*/\n";
 		result += "\n";
-		result += "public class HTMLUnitGeneratedTest extends TestCase {\n";
+		result += "@SuppressWarnings(\"unchecked\")\n";
+		result += "public class " + testFileName + " extends TestCase {\n";
 		result += "@Test\n";
 		result += "public void testHomePage() throws Exception {\n";
 		result += " WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);\n";
