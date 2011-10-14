@@ -1,21 +1,5 @@
 HTMLUnitGenerator
 - Generate JUnit test cases from a simple test case language.
 
-Sample generated test: 
-  eclipse/src/test/java/webtest/BBBTest.java 
-Generated from: 
-  eclipse/src/test/java/webtest/BBBTest.xml
-
-*** Build instructions ***
-Go to compiler folder, do:
-./compile.sh #Build
-./clean.sh #Clean
-
-In eclipse:
-  Project -> Properties -> Libraries -> Add Variable
-  M2_REPO = /home/yourusername/.m2/repository
-
-
-*** TODO ***
-- Replace functionality of compile.sh and clean.sh with Maven.
-- Create web GUI
+Check out the wiki!
+http://github.com/tomasbjerre/HTMLUnitGenerator/wiki
