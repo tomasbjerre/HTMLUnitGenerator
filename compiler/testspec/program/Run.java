@@ -38,6 +38,15 @@ public class Run {
 		return "";
 	}
 
+	protected static String getOutput(String input) {
+		if (getInputPath(input).isEmpty())
+			return getInputName(input) + ".java";
+		else if (getInputPath(input).equals("/"))
+			return "/" + getInputName(input) + ".java";
+		else
+			return getInputPath(input) + "/" + getInputName(input) + ".java";
+	}
+
 	public static void main(String[] args) throws IOException {
 		String input = "";
 		String output = "";
@@ -46,7 +55,7 @@ public class Run {
 			System.exit(1);
 		}
 		input = args[0];
-		output = getInputPath(args[0]) + "/" + getInputName(args[0]) + ".java";
+		output = getOutput(input);
 
 		System.out.println("Parsing test case \"" + input + "\".");
 		System.out.println("Writing to \"" + output + "\".");

@@ -6,7 +6,8 @@ cd ..
 mvn clean
 cd ..
 
-
 cd eclipse
 mvn clean
 cd ..
+
+rm -rf dist/*

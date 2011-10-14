@@ -56,4 +56,17 @@ public class RunTest {
 		assertEquals("testspec/data", Run.getInputPath(string9));
 	}
 
+	@Test
+	public void testGetOutput() {
+		assertEquals("src/test/java/generatedtest/HTMLUnitGeneratedTest1.java", Run.getOutput(string1));
+		assertEquals("/src/test/java/generatedtest/HTMLUnitGeneratedTest2.java", Run.getOutput(string2));
+		assertEquals("src/test/java/generatedtest/HTMLUnitGeneratedTest3.java", Run.getOutput(string3));
+		assertEquals("HTMLUnitGeneratedTest4.java", Run.getOutput(string4));
+		assertEquals("HTMLUnitGeneratedTest5.java", Run.getOutput(string5));
+		assertEquals("/HTMLUnitGeneratedTest5.java", Run.getOutput(string6));
+		assertEquals("one/HTMLUnitGeneratedTest5.java", Run.getOutput(string7));
+		assertEquals("/one/HTMLUnitGeneratedTest5.java", Run.getOutput(string8));
+		assertEquals("testspec/data/test_bbb.java", Run.getOutput(string9));
+	}
+
 }
