@@ -1,0 +1,38 @@
+<paths>
+ <path id="mainArea">
+  /html/body/center/table/tbody/tr[3]/td/table
+ </path>
+ <path id="linksLink">
+  /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a
+ </path>
+</paths>
+
+<urls>
+</urls>
+
+<flow>
+ <state id="start">
+  <transition to="startPage" using="url1" delay="0" />
+ </state>
+
+ <state id="startPage">
+  <transition to="links" using="linksLink" delay="0" />
+ </state>
+
+ <state id="links">
+  <find path="mainArea">
+   <tag type="a">
+    <attribute name="href" value="/link/category/blandat" />
+   </tag>
+  </find>
+  <transition to="images" using="imagesLink" delay="0" />
+ </state>
+
+ <state id="images">
+  <find path="mainArea">
+   <tag type="a">
+    <attribute name="href" value="/image/view/?i=/080112 Fiske/" />
+   </tag>
+  </find>
+ </state>
+</flow>
