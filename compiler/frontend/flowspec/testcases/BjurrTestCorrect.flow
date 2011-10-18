@@ -1,0 +1,11 @@
+Path mainArea is /html/body/center/table/tbody/tr[3]/td/table
+Path linksLink is /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a
+Path imagesLink is /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a
+
+Url url1 is http://bjurr.se/
+
+Go to url1 and wait 0 seconds
+Click on linksLink and wait 0 seconds
+Find a with attribute href set to /link/category/blandat in mainArea
+Click on imagesLink and wait 0 seconds
+Find a with attribute href set to /image/view/?i=/100213-kkrona-brand/ in mainArea

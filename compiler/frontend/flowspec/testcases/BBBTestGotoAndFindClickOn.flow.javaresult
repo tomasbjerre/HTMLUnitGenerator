@@ -20,30 +20,12 @@ Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/
 Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
 Path website is /html/body
 Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
-Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
-Path searchpopup is //*[@id="modalbox-inner"]
-Path _eventId_search is //*[@id="_eventId_search"]
-Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
-Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
-Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
-Path website is /html/body
-Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
-Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
-Path searchpopup is //*[@id="modalbox-inner"]
-Path _eventId_search is //*[@id="_eventId_search"]
-Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
-Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
-Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
-Path website is /html/body
-Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
 
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
-Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
-Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
 
-Go to http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html and wait 2 seconds
+Go to baspaket and wait 2 seconds
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
-Click /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span and wait 3 seconds
+Click on campaignModuleChoose and wait 3 seconds
 Find input with attribute id set to _eventId_search in searchpopup
 */
 
@@ -71,8 +53,8 @@ System.out.println(System.currentTimeMillis()+") Entering state 1 of 3 0% comple
 page = webClient.getPage("http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
 webClient.waitForBackgroundJavaScriptStartingBefore(2000);
 
-step = "State10";
-System.out.println(System.currentTimeMillis()+") Entering state 2 of 3 33% complete \"State10\"");
+step = "State1";
+System.out.println(System.currentTimeMillis()+") Entering state 2 of 3 33% complete \"State1\"");
 //Find attributes inside /html/body/div[2]/div/div[2]/div[2]/div/div[3]
 successfull = find(page, "/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371");
 if (!successfull) {
@@ -88,8 +70,8 @@ page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(3000);
 
-step = "State11";
-System.out.println(System.currentTimeMillis()+") Entering state 3 of 3 66% complete \"State11\"");
+step = "State2";
+System.out.println(System.currentTimeMillis()+") Entering state 3 of 3 66% complete \"State2\"");
 //Find attributes inside //*[@id="modalbox-inner"]
 successfull = find(page, "//*[@id=\"modalbox-inner\"]", "input", "id", "_eventId_search");
 if (!successfull) {

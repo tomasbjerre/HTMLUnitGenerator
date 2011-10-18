@@ -12,9 +12,9 @@ public class Transition extends compiler.data.Transition {
 	public String toString() {
 		int delay = Integer.parseInt(getDelay())/1000;
 		if (using instanceof Url)
-			return "Go to " + ((Url)using).getValue() + " and wait "+ delay + " seconds\n";
+			return "Go to " + ((Url)using).getName() + " and wait "+ delay + " seconds\n";
 		if (using instanceof Path)
-			return "Click " + ((Path)using).getValue() + " and wait "+ delay + " seconds\n";
+			return "Click on " + ((Path)using).getName() + " and wait "+ delay + " seconds\n";
 		return "";
 	}
 }

@@ -14,9 +14,9 @@ public class Form extends compiler.data.Form {
 		for (compiler.data.Tag tag : getTags()) {
 			for (compiler.data.Attribute attribute : tag.getAttributes().values()) {
 				if (i > 0)
-					result += "and " + attribute.getName() + " set to " + attribute.getValue() + "";
+					result += " and " + attribute.getName() + " as " + attribute.getValue() + "";
 				else
-					result += "with " + attribute.getName() + " set to " + attribute.getValue() + "";
+					result += " with " + attribute.getName() + " as " + attribute.getValue() + "";
 				i++;
 			}
 		}

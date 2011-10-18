@@ -9,6 +9,8 @@ aspect Populate
   protected static State ASTNode.currentState = null;
   
   public void Start.populate(Flow flow, SymbolTable table) {
+  	currentState = null;
+  	stateCounter = 1;
     for (int k=0; k<getNumChild(); k++) {
       getChild(k).populate(flow, table);
     }
@@ -79,8 +81,7 @@ aspect Populate
   }
   
   public void FillInAndClick.populate(Flow flow, SymbolTable table) {
-	  	Path submit = (Path)table.lookupReferencable(getClickOnType().getIdUse().getVALUE());
-	    Form form = new Form(this.getIdDecl().getVALUE(),submit);
+	    Form form = new Form(this.getIdDecl().getVALUE(),null);
 	    table.addReferencable(this.getIdDecl().getVALUE(),form);
 	    for (FormContent formContent : getFormContentList()) {
 	        Tag tag = new Tag("input");
@@ -93,6 +94,7 @@ aspect Populate
 		Transition transition = new Transition(newState, form, delayStr);
 		currentState.setTransition(transition);
 		currentState = newState;
-		super.populate(flow, table);
+
+		getClickOnType().populate(flow, table);
   }
 }

@@ -173,9 +173,12 @@ public class HTMLJunitGenerator extends Generator {
 				result += " select.setSelectedAttribute(\""+value+"\", true);\n";
 				result += "}\n";
 			}
-		result += "//Submit form, by clicking " + using.getSubmit().getValue()
-				+ "\n";
-		handle(using.getSubmit());
+
+		if (using.getSubmit() != null) {
+			result += "//Submit form, by clicking " + using.getSubmit().getValue()
+					+ "\n";
+			handle(using.getSubmit());
+		}
 	}
 
 	private void handle(Path using) {

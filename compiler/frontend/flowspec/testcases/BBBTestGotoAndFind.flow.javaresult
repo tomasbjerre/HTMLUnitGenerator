@@ -20,19 +20,10 @@ Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/
 Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
 Path website is /html/body
 Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
-Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
-Path searchpopup is //*[@id="modalbox-inner"]
-Path _eventId_search is //*[@id="_eventId_search"]
-Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
-Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
-Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
-Path website is /html/body
-Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
 
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
-Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
 
-Go to http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html and wait 2 seconds
+Go to baspaket and wait 2 seconds
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
 */
 
@@ -60,8 +51,8 @@ System.out.println(System.currentTimeMillis()+") Entering state 1 of 2 0% comple
 page = webClient.getPage("http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
 webClient.waitForBackgroundJavaScriptStartingBefore(2000);
 
-step = "State9";
-System.out.println(System.currentTimeMillis()+") Entering state 2 of 2 50% complete \"State9\"");
+step = "State1";
+System.out.println(System.currentTimeMillis()+") Entering state 2 of 2 50% complete \"State1\"");
 //Find attributes inside /html/body/div[2]/div/div[2]/div[2]/div/div[3]
 successfull = find(page, "/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371");
 if (!successfull) {

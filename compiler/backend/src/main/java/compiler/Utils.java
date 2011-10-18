@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,10 +12,18 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 
-import compiler.data.xml.TargetFactory;
-
 public class Utils {
-	protected static String getInputName(String string) {
+	public static ArrayList<File> getFiles(String path, String endian) {
+		ArrayList<File> matches = new ArrayList<File>();
+		File folder = new File(path);
+		File files[] = folder.listFiles();
+		for (File f : files)
+			if (f.getName().endsWith(endian))
+				matches.add(f);
+		return matches;
+	}
+
+	public static String getInputName(String string) {
 		String firstDotPart = string;
 		if (string.indexOf(".") != -1) {
 			String[] dotSplit = string.split("\\.");
@@ -73,24 +80,27 @@ public class Utils {
 		return linesStr;
 	}
 
-	protected ArrayList<File> getFiles(String path, String endian) {
-		ArrayList<File> matches = new ArrayList<File>();
-		File folder = new File(path);
-		File files[] = folder.listFiles();
-		for (File f : files)
-			if (f.getName().endsWith(endian))
-				matches.add(f);
-		return matches;
-	}
-
-	private boolean normalizedEquals(String expectedTestResultContent,
+	public static boolean normalizedEquals(String expectedTestResultContent,
 			String actualTestResultContent) {
 		expectedTestResultContent = splitUnsplit(expectedTestResultContent);
 		actualTestResultContent = splitUnsplit(actualTestResultContent);
 		return expectedTestResultContent.equals(actualTestResultContent);
 	}
 
-	protected String readFile(File file) {
+	public static void postCompile(String expectedResultFilename,
+			String expectedTestResultContent,
+			StringWriter actualTestResultWriter) {
+		String actualTestResultContent = actualTestResultWriter.toString();
+		if (expectedTestResultContent == null) {
+			System.out.println("Did not find expeced result file, writing result to"+expectedResultFilename);
+			writeFile(expectedResultFilename,actualTestResultContent);
+		}else{
+			if (!normalizedEquals(expectedTestResultContent,actualTestResultContent))
+				assertEquals(expectedTestResultContent,actualTestResultContent);
+		}
+	}
+
+	public static String readFile(File file) {
 		try {
 			String content = "";
 			FileReader fileReader = new FileReader(file);
@@ -107,36 +117,11 @@ public class Utils {
 		return null;
 	}
 
-	protected String readFile(String expectedResultFilename) {
+	public static String readFile(String expectedResultFilename) {
 		return readFile(new File(expectedResultFilename));
 	}
 
-	protected void runTests(Frontend frontend, ArrayList<File> testCases, String resultEndian) {
-		try {
-			for (File testCase : testCases) {
-				System.out.println((testCases.indexOf(testCase)+1)+"/"+testCases.size()+"> Running test: "+testCase.getAbsoluteFile());
-				String expectedResultFilename = testCase.getAbsoluteFile() + "." + resultEndian;
-				String expectedTestResultContent = readFile(expectedResultFilename);
-				StringWriter stringWriter = new StringWriter();
-				frontend.compile(
-						new FileReader(testCase),
-						stringWriter,
-						getInputName(testCase.getName()),new TargetFactory());
-				String actualTestResultContent = stringWriter.toString();
-				if (expectedTestResultContent == null) {
-					System.out.println("Did not find expeced result file, writing result to"+expectedResultFilename);
-					writeFile(expectedResultFilename,actualTestResultContent);
-				}else{
-					if (!normalizedEquals(expectedTestResultContent,actualTestResultContent))
-						assertEquals(expectedTestResultContent,actualTestResultContent);
-				}
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private String splitUnsplit(String expectedTestResultContent) {
+	public static String splitUnsplit(String expectedTestResultContent) {
 		String[] expectedTestResultContentSplit = expectedTestResultContent.split("\n");
 		expectedTestResultContent = "";
 		for (int i = 0; i < expectedTestResultContentSplit.length; i++) {
@@ -146,7 +131,7 @@ public class Utils {
 		return expectedTestResultContent;
 	}
 
-	protected void writeFile(String filename, String content) {
+	public static void writeFile(String filename, String content) {
 		try {
 			Writer wrtiter = new FileWriter(filename);;
 			BufferedWriter bufferedWriter = new BufferedWriter(wrtiter);

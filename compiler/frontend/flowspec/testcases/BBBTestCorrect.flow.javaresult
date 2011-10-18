@@ -23,19 +23,19 @@ Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/di
 
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
 
-Go to http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html and wait 2 seconds
+Go to baspaket and wait 2 seconds
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
-Click /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span and wait 10 seconds
+Click on campaignModuleChoose and wait 10 seconds
 Find input with attribute id set to _eventId_search in searchpopup
-Fill in locationFormwith _eventId set to searchand phoneNumber.fullNumber set to 0768966787
-Click //*[@id="_eventId_search"] and wait 10 seconds
+Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
+Click on _eventId_search and wait 10 seconds
 Find input with attribute id set to _eventId_search in searchpopup
-Fill in locationFormwith address.floor set to 3
-Click //*[@id="_eventId_search"] and wait 10 seconds
+Fill in locationForm with address.floor as 3
+Click on _eventId_search and wait 10 seconds
 Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in searchpopup
-Click /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img and wait 10 seconds
+Click on searchPopupChooseFoundOffer and wait 10 seconds
 Find option with attribute value set to dsl24 in orderCartArea
-Click /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input and wait 10 seconds
+Click on checkoutOrder and wait 10 seconds
 Find input with attribute src set to /res/img/button/tillbaka.png in website
 */
 
@@ -104,13 +104,6 @@ try {
  select = form.getSelectByName("phoneNumber.fullNumber");
  select.setSelectedAttribute("0768966787", true);
 }
-//Submit form, by clicking //*[@id="_eventId_search"]
-//Find and click element: //*[@id="_eventId_search"]
-matchingElement = (ArrayList<HtmlElement>) page.getByXPath("//*[@id=\"_eventId_search\"]");
-if (matchingElement.size() == 0)
-  fail("Faild to find element //*[@id=\"_eventId_search\"]");
-page = matchingElement.get(0).click();
-
 webClient.waitForBackgroundJavaScriptStartingBefore(10000);
 
 step = "State3";
@@ -140,13 +133,6 @@ try {
  select = form.getSelectByName("address.floor");
  select.setSelectedAttribute("3", true);
 }
-//Submit form, by clicking //*[@id="_eventId_search"]
-//Find and click element: //*[@id="_eventId_search"]
-matchingElement = (ArrayList<HtmlElement>) page.getByXPath("//*[@id=\"_eventId_search\"]");
-if (matchingElement.size() == 0)
-  fail("Faild to find element //*[@id=\"_eventId_search\"]");
-page = matchingElement.get(0).click();
-
 webClient.waitForBackgroundJavaScriptStartingBefore(10000);
 
 step = "State5";
