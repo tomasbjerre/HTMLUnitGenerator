@@ -95,6 +95,8 @@ public void testHomePage() throws Exception {
  webClient.setJavaScriptEnabled(true);
  webClient.setThrowExceptionOnFailingStatusCode(false);
  webClient.setThrowExceptionOnScriptError(false);
+ webClient.setTimeout(180000);
+ webClient.setJavaScriptTimeout(180000);
  HtmlPage page = null;
  String step = null;
  boolean successfull = false;

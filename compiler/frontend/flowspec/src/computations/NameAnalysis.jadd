@@ -1,0 +1,56 @@
+import semanticlib.SymbolTable;
+import java.util.TreeMap;
+import java.util.Map.Entry;
+
+aspect NameAnalysis {  
+  public SymbolTable Start.nameAnalysis(TreeMap<Integer,String> errors) {
+    SymbolTable table = new SymbolTable();
+    getTestType().nameAnalysis(table,errors);
+    return table;
+  }
+  
+  void ASTNode.nameAnalysis(SymbolTable table, TreeMap<Integer,String> errors) {
+    for (int k=0; k<getNumChild(); k++) {
+        getChild(k).nameAnalysis(table,errors);
+    }
+  }
+  
+  void ASTNode.addDecl(SymbolTable table, TreeMap<Integer,String> errors) {
+    for (int k=0; k<getNumChild(); k++) {
+        getChild(k).addDecl(table,errors);
+    }
+  }
+  
+  void TestType.nameAnalysis(SymbolTable table, TreeMap<Integer, String> errors) {
+    table.enterBlock();
+    super.nameAnalysis(table, errors);
+    table.exitBlock();
+  }
+  
+  IdDecl IdDecl.attribute;
+
+  public void IdDecl.addDecl(SymbolTable table, TreeMap<Integer,String> errors) {
+    if (table.alreadyDeclared(getVALUE())) {
+            errors.put(first.beginLine, "Duplicate declaration: " + getVALUE() + " "
+                    + startLineCol() + " first declared on "
+                    + ((IdDecl)table.lookup(getVALUE())).startLineCol() + ", declaration found on "
+                    + startLineCol());
+    } else {
+        table.add(getVALUE(),this);
+    }
+  }
+  
+  IdDecl IdUse.declaration;
+  
+  public void IdUse.nameAnalysis(SymbolTable table, TreeMap<Integer,String> errors) {
+    declaration = (IdDecl)table.lookup(getVALUE());
+    if (declaration == null) {
+        errors.put(first.beginLine, 
+          "Missing declaration: "+getVALUE()+" "+startLineCol());
+    }
+  }
+  
+  public IdDecl IdUse.getDecl() {
+    return declaration;
+  }
+}

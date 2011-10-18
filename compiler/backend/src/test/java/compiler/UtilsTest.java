@@ -55,4 +55,74 @@ public class UtilsTest {
 		assertEquals("/one", Utils.getInputPath(string8));
 		assertEquals("testspec/data", Utils.getInputPath(string9));
 	}
+
+	@Test
+	public void testGetNear() {
+		String sourceCode = new String("");
+		assertEquals("",Utils.getNear(null, null));
+		assertEquals("",Utils.getNear(null, sourceCode));
+		assertEquals("",Utils.getNear(new Integer(0), null));
+		assertEquals("1: \n",Utils.getNear(new Integer(0), sourceCode));
+
+		sourceCode = new String("line1");
+		assertEquals("1: line1\n",Utils.getNear(new Integer(0), sourceCode));
+		assertEquals("1: line1\n",Utils.getNear(new Integer(1), sourceCode));
+		assertEquals("1: line1\n",Utils.getNear(new Integer(2), sourceCode));
+		assertEquals("1: line1\n",Utils.getNear(new Integer(3), sourceCode));
+		assertEquals("1: line1\n",Utils.getNear(new Integer(4), sourceCode));
+		assertEquals("1: line1\n",Utils.getNear(new Integer(5), sourceCode));
+
+		sourceCode = new String("line1\n");
+		assertEquals("1: line1\n",Utils.getNear(new Integer(0), sourceCode));
+		assertEquals("1: line1\n",Utils.getNear(new Integer(1), sourceCode));
+		assertEquals("1: line1\n",Utils.getNear(new Integer(2), sourceCode));
+		assertEquals("1: line1\n",Utils.getNear(new Integer(3), sourceCode));
+		assertEquals("1: line1\n",Utils.getNear(new Integer(4), sourceCode));
+		assertEquals("1: line1\n",Utils.getNear(new Integer(5), sourceCode));
+
+		sourceCode = new String("line1\nline2\n");
+		assertEquals("1: line1\n",Utils.getNear(new Integer(0), sourceCode));
+		assertEquals("1: line1\n2: line2\n",Utils.getNear(new Integer(1), sourceCode));
+		assertEquals("1: line1\n2: line2\n",Utils.getNear(new Integer(2), sourceCode));
+		assertEquals("1: line1\n2: line2\n",Utils.getNear(new Integer(3), sourceCode));
+		assertEquals("1: line1\n2: line2\n",Utils.getNear(new Integer(4), sourceCode));
+		assertEquals("1: line1\n2: line2\n",Utils.getNear(new Integer(5), sourceCode));
+
+		sourceCode = new String("line1\nline2\nline3\n");
+		assertEquals("1: line1\n",Utils.getNear(new Integer(0), sourceCode));
+		assertEquals("1: line1\n2: line2\n",Utils.getNear(new Integer(1), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n",Utils.getNear(new Integer(2), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n",Utils.getNear(new Integer(3), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n",Utils.getNear(new Integer(4), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n",Utils.getNear(new Integer(5), sourceCode));
+
+		sourceCode = new String("line1\nline2\nline3\nline4\n");
+		assertEquals("1: line1\n",Utils.getNear(new Integer(0), sourceCode));
+		assertEquals("1: line1\n2: line2\n",Utils.getNear(new Integer(1), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n",Utils.getNear(new Integer(2), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n4: line4\n",Utils.getNear(new Integer(3), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n4: line4\n",Utils.getNear(new Integer(4), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n4: line4\n",Utils.getNear(new Integer(5), sourceCode));
+
+		sourceCode = new String("line1\nline2\nline3\nline4\nline5\n");
+		assertEquals("1: line1\n",Utils.getNear(new Integer(0), sourceCode));
+		assertEquals("1: line1\n2: line2\n",Utils.getNear(new Integer(1), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n",Utils.getNear(new Integer(2), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n4: line4\n",Utils.getNear(new Integer(3), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n4: line4\n5: line5\n",Utils.getNear(new Integer(4), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n4: line4\n5: line5\n",Utils.getNear(new Integer(5), sourceCode));
+
+		sourceCode = new String("line1\nline2\nline3\nline4\nline5\nline6\n");
+		assertEquals("1: line1\n",Utils.getNear(new Integer(0), sourceCode));
+		assertEquals("1: line1\n2: line2\n",Utils.getNear(new Integer(1), sourceCode));
+		assertEquals("1: line1\n2: line2\n3: line3\n4: line4\n5: line5\n",Utils.getNear(new Integer(2), sourceCode));
+		assertEquals("2: line2\n3: line3\n4: line4\n5: line5\n6: line6\n",Utils.getNear(new Integer(3), sourceCode));
+		assertEquals("3: line3\n4: line4\n5: line5\n6: line6\n",Utils.getNear(new Integer(4), sourceCode));
+		assertEquals("4: line4\n5: line5\n6: line6\n",Utils.getNear(new Integer(5), sourceCode));
+	}
+
+	@Test
+	public void testNormalizedEquals() {
+
+	}
 }

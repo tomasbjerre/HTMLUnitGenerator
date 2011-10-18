@@ -1,0 +1,103 @@
+package webtest;
+import org.junit.Test;
+
+import org.w3c.dom.Node;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.*;
+import com.gargoylesoftware.htmlunit.*;
+
+import java.util.ArrayList;
+
+import junit.framework.TestCase;
+
+/**
+// Generated Using HTMLUnitGenerator
+Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
+Path searchpopup is //*[@id="modalbox-inner"]
+Path _eventId_search is //*[@id="_eventId_search"]
+Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
+Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
+Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
+Path website is /html/body
+Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
+Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
+Path searchpopup is //*[@id="modalbox-inner"]
+Path _eventId_search is //*[@id="_eventId_search"]
+Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
+Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
+Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
+Path website is /html/body
+Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
+
+Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+
+Go to http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html and wait 2 seconds
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
+*/
+
+@SuppressWarnings("unchecked")
+public class BBBTestGotoAndFind extends TestCase {
+@Test
+public void testHomePage() throws Exception {
+ WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
+ webClient.setCssEnabled(true);
+ webClient.setJavaScriptEnabled(true);
+ webClient.setThrowExceptionOnFailingStatusCode(false);
+ webClient.setThrowExceptionOnScriptError(false);
+ webClient.setTimeout(180000);
+ webClient.setJavaScriptTimeout(180000);
+ HtmlPage page = null;
+ String step = null;
+ boolean successfull = false;
+ HtmlForm form = null;
+ HtmlInput input = null;
+ HtmlSelect select = null;
+ ArrayList<HtmlElement> matchingElement = null;
+
+
+System.out.println(System.currentTimeMillis()+") Entering state 1 of 2 0% complete \"start\"");
+page = webClient.getPage("http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+webClient.waitForBackgroundJavaScriptStartingBefore(2000);
+
+step = "State9";
+System.out.println(System.currentTimeMillis()+") Entering state 2 of 2 50% complete \"State9\"");
+//Find attributes inside /html/body/div[2]/div/div[2]/div[2]/div/div[3]
+successfull = find(page, "/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371");
+if (!successfull) {
+ System.out.println(page.asXml());
+ fail(step+") Failed finding tag \"a\" with attribute \"href\" and value \"/servlet/orderflow/search/search-flow?Id=tcm:142-23371\" in \"/html/body/div[2]/div/div[2]/div[2]/div/div[3]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
+
+}
+ webClient.closeAllWindows();
+}
+
+private boolean find(HtmlPage page, String xpath, String tag, String attribute, String value) {
+ ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ for (HtmlElement div : matchingDivs) {
+  if (recursiveFind(div.getChildNodes(), tag, attribute, value))
+   return true;
+ }
+ return false;
+}
+
+private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
+ String attribute, String value) {
+ for (DomNode node : nodeList) {
+  String nodeName = node.getNodeName();
+  if (tag.equals(nodeName)) {
+   Node nodeAttribute = node.getAttributes().getNamedItem(
+     attribute);
+   if (nodeAttribute != null) {    String nodeAttributeValue = nodeAttribute.getNodeValue();
+    if (value.equals(nodeAttributeValue)) {
+     return true;
+    }
+   }
+  }
+  if (recursiveFind(node.getChildNodes(), tag, attribute, value))
+   return true;
+ }
+ return false;
+}
+
+}

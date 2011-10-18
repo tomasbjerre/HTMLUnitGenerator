@@ -1,0 +1,17 @@
+abstract Value ::= <VALUE:String>;
+IdUse: Value;
+IdDecl: Value;
+
+Content ::= <CONTENT:String>;
+
+ActionType ::= ;
+GoToType: ActionType ::= IdUse Content;
+ClickOnType: ActionType ::= IdUse Content;
+FindType: ActionType ::= Type:Content Attribute:Content Value:Content IdUse;
+FillInAndClick ::= IdDecl FormContent* ClickOnType;
+FormContent ::= Attribute:Content Value:Content;
+
+Start ::= TestType;
+TestType ::= PathType* UrlType* ActionType*;
+PathType ::= IdDecl Content;
+UrlType ::= IdDecl Content;

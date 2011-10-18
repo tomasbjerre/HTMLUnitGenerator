@@ -15,6 +15,15 @@ cd ..
 cd ..
 cd ..
 
+#Clean Flow Front end
+cd compiler/frontend/flowspec/src
+ant clean
+cd ..
+mvn clean
+cd ..
+cd ..
+cd ..
+
 #Clean sample Eclipse project
 cd eclipse
 mvn clean

@@ -1,0 +1,123 @@
+
+options {
+  NODE_DEFAULT_VOID = true; // don't generate nodes by default
+  NODE_PREFIX = ""; // No prefix for generated AST classes
+  MULTI = true;   // many class names
+  NODE_SCOPE_HOOK = true; // hook methods are called when building AST nodes
+}
+
+PARSER_BEGIN(Parser)
+package parser;public class Parser {
+  /*
+    The first and last tokens corresponding to an AST node are saved in that AST node.
+    This requires that there is a .jadd-specification which declares the 
+    first and last variables for ASTNode.
+  */
+   public void jjtreeOpenNodeScope(Node n) {
+     ((ASTNode)n).first = getToken(1);
+   }
+   public void jjtreeCloseNodeScope(Node n) {
+     ((ASTNode)n).last = getToken(0);
+   }
+}
+PARSER_END(Parser)
+
+SKIP : { "\t" | "\n" | "\r" | "\n\t" }
+
+TOKEN [IGNORE_CASE]: {
+  < GOTO: "Go to ">
+| < ANDWAIT: " and wait ">
+| < WITHATTRIBUTE: " with attribute ">
+| < CLICKON: "Click on ">
+| < FILLIN: "Fill in ">
+| < SETTO: " set to ">
+| < SECONDS: " seconds">
+| < PATH: "Path ">
+| < URL: "Url ">
+| < WITH: " with ">
+| < FIND: "Find ">
+| < AND: " and ">
+| < IN: " in ">
+| < AS: " as ">
+| < IS: " is ">
+}
+
+/* Attributes */
+TOKEN : {
+  < STRING_LITERAL: (~[" ", "\t", "\r", "\n"])* >
+}
+
+public Start start() #Start : {}
+{
+  test()
+  { return jjtThis; }
+}
+
+void test() #TestType : {}
+{
+  (pathDef())* #List(true) (urlDef())* #List(true) (action())* #List(true) <EOF>
+}
+
+void action() #ActionType : {}
+{
+	goTo() | find() | clickOn() | fillInAndClick()
+}
+
+void fillInAndClick() #FillInAndClick : {}
+{
+	 <FILLIN> idDecl() <WITH> ((<AND> formContent()) | (formContent()) )* #List(true) clickOn()
+}
+
+void formContent() #FormContent: {}
+{
+	contentAttribute() <AS> contentAttribute()
+}
+
+void delay() : {}
+{
+	 contentAttribute()
+}
+
+void goTo() #GoToType : {}
+{
+ <GOTO> idUse() <ANDWAIT> contentAttribute() <SECONDS>
+}
+
+void clickOn() #ClickOnType : {}
+{
+ <CLICKON> idUse() <ANDWAIT> contentAttribute() <SECONDS>
+}
+
+void find() #FindType : {}
+{
+ <FIND> contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute() <IN> idUse() 
+}
+
+void pathDef() #PathType : {}
+{
+ <PATH> idDecl() <IS> contentAttribute() 
+}
+
+void urlDef() #UrlType : {}
+{
+ <URL> idDecl() <IS> contentAttribute() 
+}
+
+void idDecl() #IdDecl : {Token t;}
+{
+ t = <STRING_LITERAL>
+ {jjtThis.setVALUE(t.image.substring(0,t.image.length()).trim()); }
+}
+
+void idUse() #IdUse : {Token t;}
+{
+ t = <STRING_LITERAL>
+ {jjtThis.setVALUE(t.image.substring(0,t.image.length()).trim()); }
+}
+
+void contentAttribute() #Content : {Token t;}
+{
+ t = <STRING_LITERAL>
+ { jjtThis.setCONTENT(t.image.substring(0,t.image.length()).trim()); }
+}
+

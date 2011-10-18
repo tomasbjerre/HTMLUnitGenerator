@@ -21,6 +21,17 @@ cd ..
 cd ..
 mv compiler/frontend/xmlspec/target/*.jar dist
 
+#Compile Flow Front end
+cd compiler/frontend/flowspec/src
+ant
+cd ..
+mvn -DdownloadSources=true eclipse:eclipse
+mvn package
+cd ..
+cd ..
+cd ..
+mv compiler/frontend/flowspec/target/*.jar dist
+
 #Compile sample Eclipse project
 cd eclipse
 mvn eclipse:eclipse

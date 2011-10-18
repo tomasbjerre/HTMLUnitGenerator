@@ -248,6 +248,8 @@ public class HTMLJunitGenerator extends Generator {
 		result += " webClient.setJavaScriptEnabled(true);\n";
 		result += " webClient.setThrowExceptionOnFailingStatusCode(false);\n";
 		result += " webClient.setThrowExceptionOnScriptError(false);\n";
+		result += " webClient.setTimeout(180000);\n";
+		result += " webClient.setJavaScriptTimeout(180000);\n";
 		result += " HtmlPage page = null;\n";
 		result += " String step = null;\n";
 		result += " boolean successfull = false;\n";

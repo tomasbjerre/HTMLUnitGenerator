@@ -1,0 +1,98 @@
+import semanticlib.SymbolTable;
+import java.util.TreeMap;
+import java.util.Map.Entry;
+import compiler.data.flow.*;
+
+aspect Populate
+ { 
+  protected static int ASTNode.stateCounter = 1;
+  protected static State ASTNode.currentState = null;
+  
+  public void Start.populate(Flow flow, SymbolTable table) {
+    for (int k=0; k<getNumChild(); k++) {
+      getChild(k).populate(flow, table);
+    }
+  }
+  
+  public void ASTNode.populate(Flow flow, SymbolTable table) {
+    for (int k=0; k<getNumChild(); k++) {
+      getChild(k).populate(flow, table);
+    }
+  }
+  
+  public void UrlType.populate(Flow flow, SymbolTable table) {
+	Url url = new Url(getIdDecl().getVALUE(), getContent().getCONTENT());
+    table.addReferencable(getIdDecl().getVALUE(),url);
+    flow.addUrl(url);
+    super.populate(flow, table);
+  }
+  
+  public void PathType.populate(Flow flow, SymbolTable table) {
+	Path path = new Path(getIdDecl().getVALUE(), getContent().getCONTENT());
+    table.addReferencable(getIdDecl().getVALUE(),path);
+    flow.addPath(path);
+    super.populate(flow, table);
+  }
+  
+  public void TestType.populate(Flow flow, SymbolTable table) {
+    table.enterBlock();
+    currentState = new State("start");
+    flow.setStart(currentState);
+    super.populate(flow, table);
+    table.exitBlock();
+  }
+  
+  public void ActionType.populate(Flow flow, SymbolTable table) {
+  	this.getChild(0).populate(flow, table);
+  	super.populate(flow, table);
+  }
+  
+  public void GoToType.populate(Flow flow, SymbolTable table) {
+	State newState = new State("State"+stateCounter++);
+	compiler.data.Referencable referencable = (compiler.data.Referencable)table.lookupReferencable(getIdUse().getVALUE());
+	String delayStr = ""+Integer.parseInt(getContent().getCONTENT())*1000;
+	Transition transition = new Transition(newState, referencable , delayStr );
+	currentState.setTransition(transition);
+	currentState = newState;
+	super.populate(flow, table);
+  }
+  
+  public void ClickOnType.populate(Flow flow, SymbolTable table) {
+	State newState = new State("State"+stateCounter++);
+	compiler.data.Referencable referencable = (compiler.data.Referencable)table.lookupReferencable(getIdUse().getVALUE());
+	String delayStr = ""+Integer.parseInt(getContent().getCONTENT())*1000;
+	Transition transition = new Transition(newState, referencable , delayStr);
+	currentState.setTransition(transition);
+	currentState = newState;
+	super.populate(flow, table);
+  }
+  
+  public void FindType.populate(Flow flow, SymbolTable table) {
+	  Path path = (Path)table.lookupReferencable(getIdUse().getVALUE());
+	  Find find = new Find(path);
+	  Tag tag = new Tag(getType().getCONTENT());
+	  Attribute attribute = new Attribute(getAttribute().getCONTENT(),getValue().getCONTENT());
+	  tag.addAttribute(attribute);
+	  find.addTag(tag);
+	  currentState.addFind(find);
+	  super.populate(flow, table);
+  }
+  
+  public void FillInAndClick.populate(Flow flow, SymbolTable table) {
+	  	Path submit = (Path)table.lookupReferencable(getClickOnType().getIdUse().getVALUE());
+	    Form form = new Form(this.getIdDecl().getVALUE(),submit);
+	    table.addReferencable(this.getIdDecl().getVALUE(),form);
+	    for (FormContent formContent : getFormContentList()) {
+	        Tag tag = new Tag("input");
+	        tag.addAttribute(new Attribute(formContent.getAttribute().getCONTENT(), formContent.getValue().getCONTENT()));
+	        form.addTag(tag);
+	    }
+	    currentState.addForm(form);
+		State newState = new State("State"+stateCounter++);
+		String delayStr = ""+Integer.parseInt(getClickOnType().getContent().getCONTENT())*1000;
+		Transition transition = new Transition(newState, form, delayStr);
+		currentState.setTransition(transition);
+		currentState = newState;
+		super.populate(flow, table);
+  }
+}

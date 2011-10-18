@@ -46,6 +46,33 @@ public class Utils {
 		return "";
 	}
 
+	public static String getNear(Integer line, String source) {
+		if (source == null || line == null)
+			return "";
+
+		int l = line.intValue();
+
+		String[] lines = source.split("\n");
+		if (lines.length <= 5) {
+			String linesStr = "";
+			for (int i = 0; i <= l && i < lines.length ; i++)
+				linesStr += (i+1) + ": " + lines[i] + "\n";
+			return linesStr;
+		}
+
+		if (line <= 1) {
+			String linesStr = "";
+			for (int i = 0; i <= line.intValue() ; i++)
+				linesStr += (i+1) + ": " + lines[i] + "\n";
+			return linesStr;
+		}
+
+		String linesStr = "";
+		for (int i = 0; i < 5 && (l-1+i-1) < lines.length ; i++)
+			linesStr += (l-1+i) + ": " + lines[l-1+i-1] + "\n";
+		return linesStr;
+	}
+
 	protected ArrayList<File> getFiles(String path, String endian) {
 		ArrayList<File> matches = new ArrayList<File>();
 		File folder = new File(path);
@@ -58,6 +85,8 @@ public class Utils {
 
 	private boolean normalizedEquals(String expectedTestResultContent,
 			String actualTestResultContent) {
+		expectedTestResultContent = splitUnsplit(expectedTestResultContent);
+		actualTestResultContent = splitUnsplit(actualTestResultContent);
 		return expectedTestResultContent.equals(actualTestResultContent);
 	}
 
@@ -105,6 +134,16 @@ public class Utils {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private String splitUnsplit(String expectedTestResultContent) {
+		String[] expectedTestResultContentSplit = expectedTestResultContent.split("\n");
+		expectedTestResultContent = "";
+		for (int i = 0; i < expectedTestResultContentSplit.length; i++) {
+			if (!expectedTestResultContentSplit[i].trim().isEmpty())
+				expectedTestResultContent += expectedTestResultContentSplit[i].trim() + "\n";
+		}
+		return expectedTestResultContent;
 	}
 
 	protected void writeFile(String filename, String content) {
