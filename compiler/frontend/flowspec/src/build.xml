@@ -1,21 +1,14 @@
 <project name="xmltestparser" default="build" basedir=".">
     <property name="parser.name" value="Parser" />
-    <property name="package" value="parser" />
-    <property name="tools" value="tools" />
-    <property name="data.directory" value="data/" />
-    <property name="file.extension" value=".xml" />
-    <property name="result.extension" value=".res" />
-    <taskdef classname="jastadd.JastAddTask"
-             name="jastadd"
-             classpath="${tools}/jastadd2.jar" />
+    <taskdef classname="jastadd.JastAddTask" name="jastadd" classpath="tools/jastadd2.jar" />
 
     <target name="compile" depends="build">
         <javac srcdir="." classpath="../target/classes" />
     </target>
 
     <target name="build">
-        <mkdir dir="${package}" />
-        <jastadd package="${package}" jjtree="true" grammar="${parser.name}">
+        <mkdir dir="flow/parser" />
+        <jastadd package="flow.parser" jjtree="true" grammar="${parser.name}">
             <fileset dir=".">
                 <include name="**/*.ast" />
                 <include name="**/*.jrag" />
@@ -23,18 +16,18 @@
             </fileset>
         </jastadd>
         <jjtree target="${parser.name}.jjt"
-                outputdirectory="${package}"
-                javacchome="${tools}"
+                outputdirectory="flow/parser"
+                javacchome="tools"
                 buildnodefiles="true"
                 static="false"
                 multi="true"
                 visitor="true"
                 nodedefaultvoid="true"
                 nodeprefix='""'
-                nodepackage="${package}" />
-        <javacc target="${package}/${parser.name}.jj"
-                outputdirectory="${package}"
-                javacchome="${tools}"
+                nodepackage="flow.parser" />
+        <javacc target="flow/parser/${parser.name}.jj"
+                outputdirectory="flow/parser"
+                javacchome="tools"
                 buildparser="true"
                 buildtokenmanager="true"
                 static="false" />
@@ -44,11 +37,11 @@
     </target>
 
     <target name="doc" depends="build" description="Generate the grammar as html">
-        <jjdoc target="${package}/${parser.name}.jj" javacchome="${tools}" />
+        <jjdoc target="flow/parser/${parser.name}.jj" javacchome="tools" />
     </target>
 
     <target name="clean" description="Delete generated files.">
-        <delete dir="${package}" />
+        <delete dir="flow/parser" />
         <delete file="${parser.name}.html" />
         <delete>
             <fileset dir="." includes="**/*.class" />

@@ -1,4 +1,4 @@
-package semanticlib;
+package compiler;
 
 import java.util.HashMap;
 

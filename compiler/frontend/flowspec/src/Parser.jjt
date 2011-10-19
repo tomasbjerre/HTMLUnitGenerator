@@ -7,7 +7,7 @@ options {
 }
 
 PARSER_BEGIN(Parser)
-package parser;public class Parser {
+package flow.parser;public class Parser {
   /*
     The first and last tokens corresponding to an AST node are saved in that AST node.
     This requires that there is a .jadd-specification which declares the 

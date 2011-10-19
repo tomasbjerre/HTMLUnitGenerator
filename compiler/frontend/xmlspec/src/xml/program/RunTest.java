@@ -1,4 +1,4 @@
-package program;
+package xml.program;
 
 import static org.junit.Assert.assertEquals;
 

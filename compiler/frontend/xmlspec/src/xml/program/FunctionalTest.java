@@ -1,4 +1,4 @@
-package program;
+package xml.program;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,9 +12,9 @@ import org.junit.Test;
 import compiler.Utils;
 import compiler.data.xml.TargetFactory;
 
-public class FunctionalTest{
+public class FunctionalTest extends Utils {
 	private ArrayList<File> testCases;
-	private static String testEndian = "flow";
+	private static String testEndian = "xml";
 	private static String testFolderPath = "testcases";
 	private static String resultEndian = "javaresult";
 
@@ -26,7 +26,7 @@ public class FunctionalTest{
 				String expectedResultFilename = testCase.getAbsoluteFile() + "." + resultEndian ;
 				String expectedTestResultContent = Utils.readFile(expectedResultFilename);
 				StringWriter stringWriter = new StringWriter();
-				new FlowParser().compile(
+				new XMLFlowParser().compile(
 						new FileReader(testCase),
 						stringWriter,
 						Utils.getInputName(testCase.getName()),new TargetFactory());
@@ -40,6 +40,6 @@ public class FunctionalTest{
 
 	@Before
 	public void setUp() throws Exception {
-		testCases = Utils.getFiles(testFolderPath, testEndian);
+		testCases = getFiles(testFolderPath, testEndian);
 	}
 }

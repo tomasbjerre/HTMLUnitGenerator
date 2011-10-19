@@ -1,4 +1,4 @@
-package program;
+package flow.program;
 
 import static org.junit.Assert.assertEquals;
 

@@ -8,7 +8,7 @@ mvn package
 mvn install
 cd ..
 cd ..
-mv compiler/backend/target/*.jar dist
+mv compiler/backend/target/*.jar webapp/lib
 
 #Compile XML Front end
 cd compiler/frontend/xmlspec/src
@@ -19,7 +19,7 @@ mvn package
 cd ..
 cd ..
 cd ..
-mv compiler/frontend/xmlspec/target/*.jar dist
+mv compiler/frontend/xmlspec/target/*.jar webapp/lib
 
 #Compile Flow Front end
 cd compiler/frontend/flowspec/src
@@ -30,7 +30,7 @@ mvn package
 cd ..
 cd ..
 cd ..
-mv compiler/frontend/flowspec/target/*.jar dist
+mv compiler/frontend/flowspec/target/*.jar webapp/lib
 
 #Compile sample Eclipse project
 cd eclipse
@@ -41,5 +41,5 @@ cd ..
 cd webapp
 grails prod war
 cd ..
-mv webapp/target/*.war dist
+
 

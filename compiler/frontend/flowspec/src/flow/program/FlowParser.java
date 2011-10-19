@@ -1,4 +1,4 @@
-package program;
+package flow.program;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,16 +8,16 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import parser.ParseException;
-import parser.Parser;
-import parser.Start;
-import semanticlib.SymbolTable;
-
 import compiler.Frontend;
+import compiler.SymbolTable;
 import compiler.Utils;
 import compiler.data.TargetFactory;
 import compiler.data.flow.Flow;
 import compiler.generator.htmljunit.HTMLJunitGenerator;
+
+import flow.parser.ParseException;
+import flow.parser.Parser;
+import flow.parser.Start;
 
 public class FlowParser extends Flow implements Frontend {
 
@@ -52,7 +52,7 @@ public class FlowParser extends Flow implements Frontend {
 
 			if (errors.size() > 0) {
 				for (Integer key : errors.keySet()) {
-					messages += Utils.getNear(key,reader.toString());
+					messages += Utils.getNear(key,Utils.readReader(reader));
 					messages += key + ") " + errors.get(key) + "\n";
 				}
 				write(output,messages);
@@ -100,7 +100,7 @@ public class FlowParser extends Flow implements Frontend {
 				reader = new StringReader(content);
 			}
 		}
-		return new StringReader(content);
+		return new StringReader(Utils.fixLineEndings(content)+"\n");
 	}
 
 	private String processSee(String line, TreeMap<Integer, String> errors, HashMap<String,Boolean> isIncluded) {

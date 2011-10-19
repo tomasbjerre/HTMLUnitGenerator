@@ -1,16 +1,16 @@
-package program;
+package xml.program;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.TreeMap;
 
-import parser.ParseException;
-import parser.Parser;
-import parser.Start;
-import semanticlib.SymbolTable;
+import xml.parser.ParseException;
+import xml.parser.Parser;
+import xml.parser.Start;
 
 import compiler.Frontend;
+import compiler.SymbolTable;
 import compiler.data.TargetFactory;
 import compiler.data.xml.Flow;
 import compiler.generator.htmljunit.HTMLJunitGenerator;

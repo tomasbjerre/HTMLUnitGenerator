@@ -15,6 +15,12 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 public class Utils {
+	public static String fixLineEndings(String expectedTestResultContent) {
+		expectedTestResultContent = splitUnsplit(expectedTestResultContent,"\n\r");
+		expectedTestResultContent = splitUnsplit(expectedTestResultContent,"\n");
+		return expectedTestResultContent;
+	}
+
 	public static String getAbsolutePath(String filename) {
 		return new File("").getAbsolutePath() + "/" + filename;
 	}
@@ -60,7 +66,7 @@ public class Utils {
 	}
 
 	public static String getNear(Integer line, String source) {
-		if (source == null || line == null || line == 0)
+		if (source == null || line == null)
 			return "";
 
 		int l = line.intValue();
@@ -88,10 +94,8 @@ public class Utils {
 
 	public static boolean normalizedEquals(String expectedTestResultContent,
 			String actualTestResultContent) {
-		expectedTestResultContent = splitUnsplit(expectedTestResultContent,"\n\r");
-		actualTestResultContent = splitUnsplit(actualTestResultContent,"\n\r");
-		expectedTestResultContent = splitUnsplit(expectedTestResultContent,"\n");
-		actualTestResultContent = splitUnsplit(actualTestResultContent,"\n");
+		expectedTestResultContent = fixLineEndings(expectedTestResultContent);
+		actualTestResultContent = fixLineEndings(actualTestResultContent);
 		return expectedTestResultContent.equals(actualTestResultContent);
 	}
 

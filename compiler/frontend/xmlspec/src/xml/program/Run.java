@@ -1,4 +1,4 @@
-package program;
+package xml.program;
 
 import java.io.File;
 import java.io.FileReader;

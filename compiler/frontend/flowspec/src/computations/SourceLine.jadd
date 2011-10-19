@@ -1,5 +1,5 @@
-import parser.Token;
-import parser.ASTNode;
+import flow.parser.Token;
+import flow.parser.ASTNode;
 
 aspect SourceLine {
 

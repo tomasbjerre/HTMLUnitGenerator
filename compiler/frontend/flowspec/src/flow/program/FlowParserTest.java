@@ -1,4 +1,4 @@
-package program;
+package flow.program;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -33,6 +33,9 @@ public class FlowParserTest {
 		PowerMockito.mockStatic(Utils.class);
 		PowerMockito.when(Utils.readReader(any(Reader.class))).thenCallRealMethod();
 		PowerMockito.when(Utils.getAbsolutePath(any(String.class))).thenCallRealMethod();
+		PowerMockito.when(Utils.fixLineEndings(any(String.class))).thenCallRealMethod();
+		PowerMockito.when(Utils.normalizedEquals(any(String.class),any(String.class))).thenCallRealMethod();
+		PowerMockito.when(Utils.splitUnsplit(any(String.class),any(String.class))).thenCallRealMethod();
 		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("MyOtherTestFile.flow"))).thenReturn("OtherTestContent");
 		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("MyOtherTestFileError.flow"))).thenReturn(null);
 		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("MyOtherTestFile2.flow"))).thenReturn("OtherTestContent2");
