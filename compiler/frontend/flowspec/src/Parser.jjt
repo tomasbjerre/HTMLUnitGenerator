@@ -65,7 +65,7 @@ void action() #ActionType : {}
 
 void fillInAndClick() #FillInAndClick : {}
 {
-	 <FILLIN> idDecl() <WITH> ((<AND> formContent()) | (formContent()) )* #List(true) clickOn()
+     <FILLIN> idDecl() <WITH> ((<AND> formContent()) | (formContent()) )* #List(true) clickOn()
 }
 
 void formContent() #FormContent: {}

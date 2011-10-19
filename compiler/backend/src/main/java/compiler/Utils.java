@@ -5,14 +5,20 @@ import static org.junit.Assert.assertEquals;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 
 public class Utils {
+	public static String getAbsolutePath(String filename) {
+		return new File("").getAbsolutePath() + "/" + filename;
+	}
+
 	public static ArrayList<File> getFiles(String path, String endian) {
 		ArrayList<File> matches = new ArrayList<File>();
 		File folder = new File(path);
@@ -54,7 +60,7 @@ public class Utils {
 	}
 
 	public static String getNear(Integer line, String source) {
-		if (source == null || line == null)
+		if (source == null || line == null || line == 0)
 			return "";
 
 		int l = line.intValue();
@@ -82,8 +88,10 @@ public class Utils {
 
 	public static boolean normalizedEquals(String expectedTestResultContent,
 			String actualTestResultContent) {
-		expectedTestResultContent = splitUnsplit(expectedTestResultContent);
-		actualTestResultContent = splitUnsplit(actualTestResultContent);
+		expectedTestResultContent = splitUnsplit(expectedTestResultContent,"\n\r");
+		actualTestResultContent = splitUnsplit(actualTestResultContent,"\n\r");
+		expectedTestResultContent = splitUnsplit(expectedTestResultContent,"\n");
+		actualTestResultContent = splitUnsplit(actualTestResultContent,"\n");
 		return expectedTestResultContent.equals(actualTestResultContent);
 	}
 
@@ -102,27 +110,36 @@ public class Utils {
 
 	public static String readFile(File file) {
 		try {
-			String content = "";
-			FileReader fileReader = new FileReader(file);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			while (true) {
-				String line = bufferedReader.readLine();
-				if (line == null)
-					return content;
-				content += line + "\n";
-			}
-		} catch (Exception e) {
-
+			return readReader(new FileReader(file));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public static String readFile(String expectedResultFilename) {
-		return readFile(new File(expectedResultFilename));
+	public static String readFile(String filename) {
+		return readFile(new File(filename));
 	}
 
-	public static String splitUnsplit(String expectedTestResultContent) {
-		String[] expectedTestResultContentSplit = expectedTestResultContent.split("\n");
+	public static String readReader(Reader reader) {
+		String content = "";
+		try {
+			BufferedReader bufferedReader = new BufferedReader(reader);
+			while (true) {
+				String line;
+				line = bufferedReader.readLine();
+				if (line == null)
+					return content;
+				content += line + "\n";
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static String splitUnsplit(String expectedTestResultContent, String divider) {
+		String[] expectedTestResultContentSplit = expectedTestResultContent.split(divider);
 		expectedTestResultContent = "";
 		for (int i = 0; i < expectedTestResultContentSplit.length; i++) {
 			if (!expectedTestResultContentSplit[i].trim().isEmpty())

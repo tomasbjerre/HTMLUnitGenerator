@@ -1,0 +1,18 @@
+See testcases/BBBTestPaths.flow
+
+Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+
+Go to baspaket and wait 2 seconds
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
+Click on campaignModuleChoose and wait 10 seconds
+Find input with attribute id set to _eventId_search in searchpopup
+Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
+Click on _eventId_search and wait 10 seconds
+Find input with attribute id set to _eventId_search in searchpopup
+Fill in locationForm with address.floor as 3
+Click on _eventId_search and wait 10 seconds
+Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in searchpopup
+Click on searchPopupChooseFoundOffer and wait 10 seconds
+Find option with attribute value set to dsl24 in orderCartArea
+Click on checkoutOrder and wait 10 seconds
+Find input with attribute src set to /res/img/button/tillbaka.png in website

@@ -23,7 +23,7 @@ aspect Populate
   }
   
   public void UrlType.populate(Flow flow, SymbolTable table) {
-	Url url = new Url(getIdDecl().getVALUE(), getContent().getCONTENT());
+    Url url = new Url(getIdDecl().getVALUE(), getContent().getCONTENT());
     table.addReferencable(getIdDecl().getVALUE(),url);
     flow.addUrl(url);
     super.populate(flow, table);

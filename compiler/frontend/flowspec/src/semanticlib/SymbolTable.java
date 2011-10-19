@@ -50,6 +50,11 @@ public class SymbolTable {
 		top.putReferencable(key, referencable);
 	}
 
+	public void addTable(SymbolTable newSymbolTable) {
+		for (String key : newSymbolTable.top.keySet())
+			top.put(key, newSymbolTable.top.get(key));
+	}
+
 	public boolean alreadyDeclared(String symbol) {
 		if (top == null)
 			throw new RuntimeException(
