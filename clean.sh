@@ -14,6 +14,7 @@ mvn clean
 cd ..
 cd ..
 cd ..
+rm -rf compiler/frontend/xmlspec/bin
 
 #Clean Flow Front end
 cd compiler/frontend/flowspec/src
@@ -23,6 +24,7 @@ mvn clean
 cd ..
 cd ..
 cd ..
+rm -rf compiler/frontend/flowspec/bin
 
 #Clean sample Eclipse project
 cd eclipse

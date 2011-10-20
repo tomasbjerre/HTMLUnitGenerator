@@ -61,7 +61,7 @@ public class FlowParserTest {
 
 	@Test
 	public void testPreCompileMultiLinesSeeNotFound() {
-		assertEquals("line1\nline2\nline3\nSee MyOtherTestFileError.flow\nline4\nline5\nline6\n\n",preCompile("line1\nline2\nline3\nSee MyOtherTestFileError.flow\nline4\nline5\nline6\n",errors));
+		assertEquals("",preCompile("line1\nline2\nline3\nSee MyOtherTestFileError.flow\nline4\nline5\nline6\n",errors));
 		assertEquals(1,errors.size());
 		assertEquals(new Integer(0),errors.keySet().iterator().next());
 		assertEquals("Can not read file "+Utils.getAbsolutePath("MyOtherTestFileError.flow"),errors.values().iterator().next());
@@ -86,9 +86,43 @@ public class FlowParserTest {
 	}
 
 	@Test
+	public void testPreCompileThreeLinesSeeSame() {
+		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("line1"))).thenReturn("line1Content");
+		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("line2"))).thenReturn("line2Content");
+		assertEquals("line1Content\nline2Content\nline1Content\n\n",preCompile("See line1\nSee line2\nSee line1\n\n",errors));
+		assertEquals(0,errors.size());
+	}
+
+	@Test
+	public void testPreCompileThreeLinesSeeSameInSeeTwice() {
+		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("line1"))).thenReturn("line1Content");
+		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("line2"))).thenReturn("line2Content");
+		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("line3"))).thenReturn("See line2");
+		assertEquals("line1Content\nline2Content\nline2Content\n\n",preCompile("See line1\nSee line2\nSee line3\n\n",errors));
+		assertEquals(0,errors.size());
+	}
+
+	@Test
+	public void testPreCompileThreeLinesSeeSameInSeeTwice2() {
+		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("line1"))).thenReturn("See line2");
+		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("line2"))).thenReturn("line2Content");
+		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("line3"))).thenReturn("See line2");
+		assertEquals("line2Content\nline2Content\nline2Content\n\n",preCompile("See line1\nSee line2\nSee line3\n\n",errors));
+		assertEquals(0,errors.size());
+	}
+
+	@Test
+	public void testPreCompileThreeLinesTrippleSee() {
+		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("line1"))).thenReturn("See line2");
+		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("line2"))).thenReturn("See line3");
+		PowerMockito.when(Utils.readFile(Utils.getAbsolutePath("line3"))).thenReturn("line3Content");
+		assertEquals("line3Content\nline3Content\nline3Content\n\n",preCompile("See line1\nSee line2\nSee line3\n\n",errors));
+		assertEquals(0,errors.size());
+	}
+
+	@Test
 	public void testPreCompileTwoLines() {
 		assertEquals("line1\nline2\n\n",preCompile("line1\nline2\n",errors));
 		assertEquals(0,errors.size());
 	}
-
 }

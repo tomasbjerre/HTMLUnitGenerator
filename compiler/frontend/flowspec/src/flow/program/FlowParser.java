@@ -69,15 +69,21 @@ public class FlowParser extends Flow implements Frontend {
 		} catch (Error e) {
 			messages += e.getMessage();
 			write(output,messages);
+		} catch (Exception e) {
+			messages += e.getMessage();
+			write(output,messages);
 		}
 
 		return messages;
 	}
 
 	protected Reader preProcess(Reader reader, TreeMap<Integer, String> errors) {
+		return preProcess(reader, errors, new HashMap<String,Boolean>());
+	}
+
+	protected Reader preProcess(Reader reader, TreeMap<Integer, String> errors, HashMap<String,Boolean> isInside) {
 		String previousContent = "";
 		String content = "";
-		HashMap<String,Boolean> isIncluded = new HashMap<String,Boolean>();
 		while (true) {
 			content = "";
 			try {
@@ -88,7 +94,9 @@ public class FlowParser extends Flow implements Frontend {
 						content += "\n";
 						break;
 					}
-					content += processSee(line, errors, isIncluded) + "\n\r";
+					content += processSee(line, errors, isInside) + "\n\r";
+					if (errors.size() > 0)
+						return reader;
 				}
 			} catch (IOException e) {
 				return reader;
@@ -103,24 +111,27 @@ public class FlowParser extends Flow implements Frontend {
 		return new StringReader(Utils.fixLineEndings(content)+"\n");
 	}
 
-	private String processSee(String line, TreeMap<Integer, String> errors, HashMap<String,Boolean> isIncluded) {
+	private String processSee(String line, TreeMap<Integer, String> errors, HashMap<String,Boolean> isInside) {
 		if (line.startsWith("See ")) {
 			String filename = line.substring(4);
 			String absoluteFile = Utils.getAbsolutePath(filename);
 			String newLine = null;
-			if (isIncluded.containsKey(filename)) {
+			if (isInside.containsKey(filename)) {
 				errors.put(new Integer(0), "File "+filename+" is included twice!");
 				return line;
 			}
-			isIncluded.put(filename, true);
+			isInside.put(filename, true);
 			if (filename.startsWith("/"))
 				newLine = Utils.readFile(filename);
 			else
 				newLine = Utils.readFile(absoluteFile);
-			if (newLine == null)
+			if (newLine == null) {
 				errors.put(new Integer(0), "Can not read file "+absoluteFile);
-			else
-				line = newLine;
+				return line;
+			} else {
+				line = Utils.readReader(preProcess(new StringReader(newLine), errors, isInside));
+			}
+			isInside.remove(filename);
 		}
 		return line;
 	}

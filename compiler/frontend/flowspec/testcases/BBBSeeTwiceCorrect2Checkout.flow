@@ -1,0 +1,4 @@
+Click on searchPopupChooseFoundOffer and wait 10 seconds
+Find option with attribute value set to dsl24 in orderCartArea
+Click on checkoutOrder and wait 10 seconds
+Find input with attribute src set to /res/img/button/tillbaka.png in website

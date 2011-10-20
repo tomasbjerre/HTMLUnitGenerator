@@ -116,7 +116,6 @@ public class Utils {
 		try {
 			return readReader(new FileReader(file));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
