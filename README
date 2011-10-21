@@ -5,7 +5,20 @@ Check out the wiki!
 http://github.com/tomasbjerre/HTMLUnitGenerator/wiki
 
 TODO
-- Extend flowspec: Fill in locationForm with address.floor as first available option
+- Extend flowspec:
+  - Fill in locationForm with address.floor as first available option
+  - Fill in personForm with login as a unique string
+  - Fill in personForm with address.floor as a unique string of length 6
+  - Fill in personForm with address.floor as a unique string of length 6 starting with My
+  - Use proxy myProxyHost port 8080
+  - Click on somePath and wait at most 10 seconds
+    Wait 10 seconds or untill dom is changed and then wait for DOM to be unchanged for 500ms.
+  - Click on somePath
+    Make it default to wait untill DOM changed and then wait for DOM to be unchanged for 500ms.
+  - Go to someUrl and wait at most 10 seconds
+    Wait 10 seconds or untill dom is changed and then wait for DOM to be unchanged for 500ms.
+  - Go to someUrl
+    Make it default to wait untill DOM changed and then wait for DOM to be unchanged for 500ms.
 
 - Extend Webapp
   - Store test cases
