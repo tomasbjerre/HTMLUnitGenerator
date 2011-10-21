@@ -3,3 +3,11 @@ HTMLUnitGenerator
 
 Check out the wiki!
 http://github.com/tomasbjerre/HTMLUnitGenerator/wiki
+
+TODO
+- Extend flowspec: Fill in locationForm with address.floor as first available option
+
+- Extend Webapp
+  - Store test cases
+  - Run test cases
+  - Schedule running test cases
