@@ -1,8 +1,10 @@
 package compiler.data.xml;
 
+import compiler.data.AttributeValue;
+
 public class Attribute extends compiler.data.Attribute {
 
-	public Attribute(String name, String value) {
+	public Attribute(String name, AttributeValue value) {
 		super(name, value);
 	}
 

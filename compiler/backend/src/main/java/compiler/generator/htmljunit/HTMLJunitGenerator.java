@@ -5,6 +5,9 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import compiler.data.Attribute;
+import compiler.data.AttributeValue;
+import compiler.data.AttributeValueByNumber;
+import compiler.data.AttributeValueString;
 import compiler.data.Find;
 import compiler.data.Flow;
 import compiler.data.Form;
@@ -164,14 +167,20 @@ public class HTMLJunitGenerator extends Generator {
 		for (Tag tag : using.getTags())
 			for (Attribute attribute : tag.getAttributes().values()) {
 				String name = attribute.getName();
-				String value = attribute.getValue();
-				result += "try {\n";
-				result += " input = form.getInputByName(\"" + escapeString(name) + "\");\n";
-				result += " input.setValueAttribute(\""+value+"\");\n";
-				result += "} catch (ElementNotFoundException e) {\n";
-				result += " select = form.getSelectByName(\"" + escapeString(name) + "\");\n";
-				result += " select.setSelectedAttribute(\""+value+"\", true);\n";
-				result += "}\n";
+				AttributeValue value = attribute.getValue();
+				if (value instanceof AttributeValueString) {
+					result += "try {\n";
+					result += " input = form.getInputByName(\"" + escapeString(name) + "\");\n";
+					result += " input.setValueAttribute(\""+value+"\");\n";
+					result += "} catch (ElementNotFoundException e) {\n";
+					result += " select = form.getSelectByName(\"" + escapeString(name) + "\");\n";
+					result += " select.setSelectedAttribute(\""+value+"\", true);\n";
+					result += "}\n";
+				} else if (value instanceof AttributeValueByNumber) {
+					AttributeValueByNumber attributeValueByNumber = (AttributeValueByNumber)value;
+					result += " select = form.getSelectByName(\"" + escapeString(name) + "\");\n";
+					result += " select.setSelectedAttribute(select.getOption(" + attributeValueByNumber.getIndex() + "), true);\n";
+				}
 			}
 
 		if (using.getSubmit() != null) {

@@ -1,10 +1,10 @@
 package compiler.data;
 
 public class Attribute {
-	protected String value;
+	protected AttributeValue value;
 	protected String name;
 
-	public Attribute(String name, String value) {
+	public Attribute(String name, AttributeValue value) {
 		this.name = name;
 		this.value = value;
 	}
@@ -13,7 +13,7 @@ public class Attribute {
 		return name;
 	}
 
-	public String getValue() {
+	public AttributeValue getValue() {
 		return value;
 	}
 }

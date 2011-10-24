@@ -1,6 +1,7 @@
 package compiler.data.xml;
 
 import compiler.data.Attribute;
+import compiler.data.AttributeValue;
 import compiler.data.Attributes;
 import compiler.data.Find;
 import compiler.data.Flow;
@@ -13,7 +14,7 @@ import compiler.data.Transition;
 
 public class TargetFactory extends compiler.data.TargetFactory {
 	@Override
-	public Attribute getAttribute(String name, String value) {
+	public Attribute getAttribute(String name, AttributeValue value) {
 		return new compiler.data.xml.Attribute(name, value);
 	}
 

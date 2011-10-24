@@ -1,7 +1,7 @@
 package compiler.data;
 
 public abstract class TargetFactory {
-	public abstract Attribute getAttribute(String name, String value);
+	public abstract Attribute getAttribute(String name, AttributeValue value);
 	public abstract Attributes getAttributes();
 	public abstract Find getFind(Path path);
 	public abstract Flow getFlow();
