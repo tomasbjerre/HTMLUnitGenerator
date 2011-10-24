@@ -6,7 +6,8 @@ http://github.com/tomasbjerre/HTMLUnitGenerator/wiki
 
 TODO
 - Extend flowspec:
-  - Fill in locationForm with address.floor as first available option
+  - Fill in personForm with address.floor as option number 1
+    - Partly implemented, not sure how to do this with HTMLUnit, parser is working
   - Fill in personForm with login as a unique string
   - Fill in personForm with address.floor as a unique string of length 6
   - Fill in personForm with address.floor as a unique string of length 6 starting with My
@@ -19,7 +20,6 @@ TODO
     Wait 10 seconds or untill dom is changed and then wait for DOM to be unchanged for 500ms.
   - Go to someUrl
     Make it default to wait untill DOM changed and then wait for DOM to be unchanged for 500ms.
-
 - Extend Webapp
   - Store test cases
   - Run test cases

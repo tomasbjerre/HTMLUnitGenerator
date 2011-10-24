@@ -29,7 +29,7 @@ aspect Populate
     table.addReferencable(this.getIdAttribute().getIdDecl().getVALUE(),form);
     for (InputTag inputTag : getInputTagList()) {
         Tag tag = new Tag("input");
-        tag.addAttribute(new Attribute(inputTag.getNameAttribute().getContent().getCONTENT(), inputTag.getValueAttribute().getContent().getCONTENT()));
+        tag.addAttribute(new Attribute(inputTag.getNameAttribute().getContent().getCONTENT(), new AttributeValueString(inputTag.getValueAttribute().getContent().getCONTENT())));
         form.addTag(tag);
     }
     state.addForm(form);
@@ -72,7 +72,7 @@ aspect Populate
         for (TagTag tagTag : getTagTagList()) {
             Tag tag = new Tag(tagTag.getTypeAttribute().getContent().getCONTENT());
             for (AttributeTag attributeTag : tagTag.getAttributeTagList()) {
-                Attribute attribute = new Attribute(attributeTag.getNameAttribute().getContent().getCONTENT(), attributeTag.getValueAttribute().getContent().getCONTENT());
+                Attribute attribute = new Attribute(attributeTag.getNameAttribute().getContent().getCONTENT(), new AttributeValueString(attributeTag.getValueAttribute().getContent().getCONTENT()));
                 tag.addAttribute(attribute);
             }
             find.addTag(tag);
