@@ -39,12 +39,13 @@ TOKEN [IGNORE_CASE]: {
 | < AND: " and ">
 | < IN: " in ">
 | < AS: " as ">
+| < OPTIONNUMBER: "option number ">
 | < IS: " is ">
 }
 
 /* Attributes */
 TOKEN : {
-  < STRING_LITERAL: (~[" ", "\t", "\r", "\n"])* >
+  < STRING_LITERAL: (~[" ", "\t", "\r", "\n"])+ >
 }
 
 public Start start() #Start : {}
@@ -65,12 +66,17 @@ void action() #ActionType : {}
 
 void fillInAndClick() #FillInAndClick : {}
 {
-     <FILLIN> idDecl() <WITH> ((<AND> formContent()) | (formContent()) )* #List(true) clickOn()
+     <FILLIN> idDecl() <WITH> ((<AND> formContent()) | (formContent()))* #List(true) clickOn()
 }
 
 void formContent() #FormContent: {}
 {
-	contentAttribute() <AS> contentAttribute()
+	contentAttribute() <AS> (optionNumber() | contentAttribute())
+}
+
+void optionNumber() #OptionNumber: {}
+{
+    <OPTIONNUMBER> contentAttribute()
 }
 
 void delay() : {}

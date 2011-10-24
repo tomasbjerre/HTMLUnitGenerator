@@ -22,6 +22,21 @@ aspect Populate
     }
   }
   
+  public void ASTNode.populate(Form form) {
+    for (int k=0; k<getNumChild(); k++) {
+      getChild(k).populate(form);
+    }
+  }
+  
+  public compiler.data.AttributeValue ASTNode.getAttributeValueFromChild() {
+    for (int k=0; k<getNumChild(); k++) {
+      compiler.data.AttributeValue attribute = getChild(k).getAttributeValueFromChild();
+      if (attribute != null)
+        return attribute;
+    }
+    return null;
+  }
+  
   public void UrlType.populate(Flow flow, SymbolTable table) {
     Url url = new Url(getIdDecl().getVALUE(), getContent().getCONTENT());
     table.addReferencable(getIdDecl().getVALUE(),url);
@@ -73,7 +88,7 @@ aspect Populate
 	  Path path = (Path)table.lookupReferencable(getIdUse().getVALUE());
 	  Find find = new Find(path);
 	  Tag tag = new Tag(getType().getCONTENT());
-	  Attribute attribute = new Attribute(getAttribute().getCONTENT(),getValue().getCONTENT());
+      Attribute attribute = new Attribute(getAttribute().getCONTENT(),new AttributeValueString(getValue().getCONTENT()));
 	  tag.addAttribute(attribute);
 	  find.addTag(tag);
 	  currentState.addFind(find);
@@ -81,20 +96,33 @@ aspect Populate
   }
   
   public void FillInAndClick.populate(Flow flow, SymbolTable table) {
-	    Form form = new Form(this.getIdDecl().getVALUE(),null);
-	    table.addReferencable(this.getIdDecl().getVALUE(),form);
+        Form form = new Form(this.getIdDecl().getVALUE(),null);
+        table.addReferencable(this.getIdDecl().getVALUE(),form);
 	    for (FormContent formContent : getFormContentList()) {
-	        Tag tag = new Tag("input");
-	        tag.addAttribute(new Attribute(formContent.getAttribute().getCONTENT(), formContent.getValue().getCONTENT()));
-	        form.addTag(tag);
+            Tag tag = new Tag("input");
+            compiler.data.AttributeValue attributeValue = getAttributeValueFromChild();
+            if (attributeValue == null) {
+                attributeValue = new AttributeValueString(formContent.getValue().getCONTENT());
+            }
+            Attribute attribute = new Attribute(formContent.getAttribute().getCONTENT(),attributeValue);
+            tag.addAttribute(attribute);
+            form.addTag(tag);
 	    }
-	    currentState.addForm(form);
-		State newState = new State("State"+stateCounter++);
-		String delayStr = ""+Integer.parseInt(getClickOnType().getContent().getCONTENT())*1000;
-		Transition transition = new Transition(newState, form, delayStr);
-		currentState.setTransition(transition);
-		currentState = newState;
+        currentState.addForm(form);
+        State newState = new State("State"+stateCounter++);
+        String delayStr = "0";
+        Transition transition = new Transition(newState, form, delayStr);
+        currentState.setTransition(transition);
+        currentState = newState;
 
-		getClickOnType().populate(flow, table);
+        getClickOnType().populate(flow, table);
+  }
+  
+  public compiler.data.AttributeValue OptionNumber.getAttributeValueFromChild() {
+    return new AttributeValueByNumber(getNumber().getCONTENT());
+  }
+  
+  public compiler.data.AttributeValue Content.getAttributeValueFromChild() {
+    return null;
   }
 }

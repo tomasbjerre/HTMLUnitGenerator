@@ -108,7 +108,7 @@ try {
  select = form.getSelectByName("phoneNumber.fullNumber");
  select.setSelectedAttribute("0768966787", true);
 }
-webClient.waitForBackgroundJavaScriptStartingBefore(10000);
+webClient.waitForBackgroundJavaScriptStartingBefore(0);
 
 step = "State3";
 System.out.println(System.currentTimeMillis()+") Entering state 4 of 11 27% complete \"State3\"");
@@ -137,7 +137,7 @@ try {
  select = form.getSelectByName("address.floor");
  select.setSelectedAttribute("3", true);
 }
-webClient.waitForBackgroundJavaScriptStartingBefore(10000);
+webClient.waitForBackgroundJavaScriptStartingBefore(0);
 
 step = "State5";
 System.out.println(System.currentTimeMillis()+") Entering state 6 of 11 45% complete \"State5\"");

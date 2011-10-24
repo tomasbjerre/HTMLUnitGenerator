@@ -3,6 +3,7 @@ IdUse: Value;
 IdDecl: Value;
 
 Content ::= <CONTENT:String>;
+OptionNumber: Content ::= Number:Content;
 
 ActionType ::= ;
 GoToType: ActionType ::= IdUse Content;
