@@ -6,6 +6,7 @@ Content ::= <CONTENT:String>;
 OptionNumber: Content ::= Number:Content;
 UniqueString: Content ::=;
 UniqueStringOfLength: Content ::= Length:Content;
+UniqueStringOfLengthStartingWith: Content ::= Length:Content StartingWith:Content;
 
 ActionType ::= ;
 GoToType: ActionType ::= IdUse Content;

@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class AttributeValueUniqueString extends AttributeValue {
 	protected String string;
+	protected String start;
 	protected static int defaultLength = 5;
 
 	public AttributeValueUniqueString() {
@@ -14,11 +15,18 @@ public class AttributeValueUniqueString extends AttributeValue {
 		string = createString(length);
 	}
 
+	public AttributeValueUniqueString(int length, String start) {
+		this.start = start;
+		string = createString(length);
+	}
+
 	private String createString(int length) {
-		string = "";
+		string = start;
+		if (start == null)
+			string = "";
 		Random generator = new Random(System.currentTimeMillis());
 		String candidates = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		for (int i = 0; i < length; i++) {
+		for (int i = string.length(); i < length; i++) {
 			string += candidates.charAt(generator.nextInt(candidates.length()));
 		}
 		return string;

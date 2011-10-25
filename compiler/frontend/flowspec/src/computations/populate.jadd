@@ -130,6 +130,10 @@ aspect Populate
     return new AttributeValueUniqueString(Integer.parseInt(getLength().getCONTENT()));
   }
   
+  public compiler.data.AttributeValue UniqueStringOfLengthStartingWith.getAttributeValueFromChild() {
+    return new AttributeValueUniqueString(Integer.parseInt(getLength().getCONTENT()),getStartingWith().getCONTENT());
+  }
+  
   public compiler.data.AttributeValue Content.getAttributeValueFromChild() {
     return null;
   }

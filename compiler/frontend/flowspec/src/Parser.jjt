@@ -42,6 +42,7 @@ TOKEN [IGNORE_CASE]: {
 | < OPTIONNUMBER: "option number ">
 | < UNIQUESTRING: "unique string">
 | < UNIQUESTRINGOFLENGTH: "unique string of length ">
+| < STARTINGWITH: " starting with ">
 | < IS: " is ">
 }
 
@@ -73,7 +74,7 @@ void fillInAndClick() #FillInAndClick : {}
 
 void formContent() #FormContent: {}
 {
-	contentAttribute() <AS> (optionNumber() | uniqueStringOfLength() | uniqueString() | contentAttribute())
+	contentAttribute() <AS> (optionNumber() | LOOKAHEAD(3) uniqueStringOfLengthStartingWith() | uniqueStringOfLength() | uniqueString() | contentAttribute())
 }
 
 void uniqueString() #UniqueString: {}
@@ -84,6 +85,11 @@ void uniqueString() #UniqueString: {}
 void uniqueStringOfLength() #UniqueStringOfLength: {}
 {
     <UNIQUESTRINGOFLENGTH> contentAttribute()
+}
+
+void uniqueStringOfLengthStartingWith() #UniqueStringOfLengthStartingWith: {}
+{
+    <UNIQUESTRINGOFLENGTH> contentAttribute() <STARTINGWITH> contentAttribute()
 }
 
 void optionNumber() #OptionNumber: {}
