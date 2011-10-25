@@ -1,5 +1,5 @@
 Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
-Path searchpopup is //*[@id="modalbox-inner"]
+Path searchpopup is /html/body/div[7]/div/div[9]
 Path _eventId_search is //*[@id="_eventId_search"]
 Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
 Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img

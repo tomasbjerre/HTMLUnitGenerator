@@ -37,9 +37,13 @@ Find input with attribute id set to _eventId_search in searchpopup
 Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
 Click on _eventId_search and wait 10 seconds
 Find input with attribute id set to _eventId_search in searchpopup
-Fill in locationForm with address.floor as option number 1
+Fill in locationForm with address.floor as 3
 Click on _eventId_search and wait 10 seconds
 Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in searchpopup
+Click on searchPopupChooseFoundOffer and wait 10 seconds
+Find option with attribute value set to dsl24 in orderCartArea
+Click on checkoutOrder and wait 10 seconds
+Find input with attribute src set to /res/img/button/tillbaka.png in website
  */
 
 @SuppressWarnings("unchecked")
@@ -98,12 +102,12 @@ public class BBBTestCorrect extends TestCase {
 		ArrayList<HtmlElement> matchingElement = null;
 
 
-		System.out.println(System.currentTimeMillis()+") Entering state 1 of 7 0% complete \"start\"");
+		System.out.println(System.currentTimeMillis()+") Entering state 1 of 9 0% complete \"start\"");
 		page = webClient.getPage("http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
 		webClient.waitForBackgroundJavaScriptStartingBefore(2000);
 
 		step = "State1";
-		System.out.println(System.currentTimeMillis()+") Entering state 2 of 7 14% complete \"State1\"");
+		System.out.println(System.currentTimeMillis()+") Entering state 2 of 9 11% complete \"State1\"");
 		//Find attributes inside /html/body/div[2]/div/div[2]/div[2]/div/div[3]
 		successfull = find(page, "/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false");
 		if (!successfull) {
@@ -120,7 +124,7 @@ public class BBBTestCorrect extends TestCase {
 		webClient.waitForBackgroundJavaScriptStartingBefore(10000);
 
 		step = "State2";
-		System.out.println(System.currentTimeMillis()+") Entering state 3 of 7 28% complete \"State2\"");
+		System.out.println(System.currentTimeMillis()+") Entering state 3 of 9 22% complete \"State2\"");
 		//Find attributes inside /html/body/div[7]/div/div[9]
 		successfull = find(page, "/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search");
 		if (!successfull) {
@@ -146,7 +150,7 @@ public class BBBTestCorrect extends TestCase {
 		webClient.waitForBackgroundJavaScriptStartingBefore(0);
 
 		step = "State3";
-		System.out.println(System.currentTimeMillis()+") Entering state 4 of 7 42% complete \"State3\"");
+		System.out.println(System.currentTimeMillis()+") Entering state 4 of 9 33% complete \"State3\"");
 		//Find and click element: //*[@id="_eventId_search"]
 		matchingElement = (ArrayList<HtmlElement>) page.getByXPath("//*[@id=\"_eventId_search\"]");
 		if (matchingElement.size() == 0)
@@ -156,7 +160,7 @@ public class BBBTestCorrect extends TestCase {
 		webClient.waitForBackgroundJavaScriptStartingBefore(10000);
 
 		step = "State4";
-		System.out.println(System.currentTimeMillis()+") Entering state 5 of 7 57% complete \"State4\"");
+		System.out.println(System.currentTimeMillis()+") Entering state 5 of 9 44% complete \"State4\"");
 		//Find attributes inside /html/body/div[7]/div/div[9]
 		successfull = find(page, "/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search");
 		if (!successfull) {
@@ -165,27 +169,68 @@ public class BBBTestCorrect extends TestCase {
 
 		}
 		form = getFormById(page,"locationForm");
-		select = form.getSelectByName("address.floor");
-		select.setSelectedAttribute(select.getOption(1), true);
-		webClient.waitForBackgroundJavaScriptStartingBefore(0);
+		try {
+			input = form.getInputByName("address.floor");
+			input.setValueAttribute("3");
+		} catch (ElementNotFoundException e) {
+			select = form.getSelectByName("address.floor");
+			select.setSelectedAttribute("3", true);
+		}
+		Thread.sleep(5000);
+		webClient.waitForBackgroundJavaScriptStartingBefore(5000);
 
 		step = "State5";
-		System.out.println(System.currentTimeMillis()+") Entering state 6 of 7 71% complete \"State5\"");
+		System.out.println(System.currentTimeMillis()+") Entering state 6 of 9 55% complete \"State5\"");
 		//Find and click element: //*[@id="_eventId_search"]
 		matchingElement = (ArrayList<HtmlElement>) page.getByXPath("//*[@id=\"_eventId_search\"]");
 		if (matchingElement.size() == 0)
 			fail("Faild to find element //*[@id=\"_eventId_search\"]");
 		page = matchingElement.get(0).click();
 
-		webClient.waitForBackgroundJavaScriptStartingBefore(15000);
+		Thread.sleep(5000);
+		webClient.waitForBackgroundJavaScriptStartingBefore(120000);
 
 		step = "State6";
-		System.out.println(System.currentTimeMillis()+") Entering state 7 of 7 85% complete \"State6\"");
+		System.out.println(System.currentTimeMillis()+") Entering state 7 of 9 66% complete \"State6\"");
 		//Find attributes inside /html/body/div[7]/div/div[9]
-		successfull = find(page, "/html/body/div[7]/div/div[9]", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new");
+		successfull = find(page, "/html/body", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new");
 		if (!successfull) {
 			System.out.println(page.asXml());
 			fail(step+") Failed finding tag \"a\" with attribute \"href\" and value \"/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new\" in \"/html/body/div[7]/div/div[9]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
+
+		}
+		//Find and click element: /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
+		matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img");
+		if (matchingElement.size() == 0)
+			fail("Faild to find element /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img");
+		page = matchingElement.get(0).click();
+
+		webClient.waitForBackgroundJavaScriptStartingBefore(10000);
+
+		step = "State7";
+		System.out.println(System.currentTimeMillis()+") Entering state 8 of 9 77% complete \"State7\"");
+		//Find attributes inside /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
+		successfull = find(page, "/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]", "option", "value", "dsl24");
+		if (!successfull) {
+			System.out.println(page.asXml());
+			fail(step+") Failed finding tag \"option\" with attribute \"value\" and value \"dsl24\" in \"/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
+
+		}
+		//Find and click element: /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
+		matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input");
+		if (matchingElement.size() == 0)
+			fail("Faild to find element /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input");
+		page = matchingElement.get(0).click();
+
+		webClient.waitForBackgroundJavaScriptStartingBefore(10000);
+
+		step = "State8";
+		System.out.println(System.currentTimeMillis()+") Entering state 9 of 9 88% complete \"State8\"");
+		//Find attributes inside /html/body
+		successfull = find(page, "/html/body", "input", "src", "/res/img/button/tillbaka.png");
+		if (!successfull) {
+			System.out.println(page.asXml());
+			fail(step+") Failed finding tag \"input\" with attribute \"src\" and value \"/res/img/button/tillbaka.png\" in \"/html/body\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
 
 		}
 		webClient.closeAllWindows();

@@ -16,6 +16,6 @@ Find input with attribute id set to _eventId_search in searchpopup
 Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
 Click on _eventId_search and wait 10 seconds
 Find input with attribute id set to _eventId_search in searchpopup
-Fill in locationForm with address.floor as option number 1 and address.dummy as 4
+Fill in locationForm with address.floor as option number 1 and address.dummy as something
 Click on _eventId_search and wait 10 seconds
 Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in searchpopup

@@ -21,7 +21,7 @@ aspect Populate
       getChild(k).populate(flow, table);
     }
   }
-  
+   
   public void ASTNode.populate(Form form) {
     for (int k=0; k<getNumChild(); k++) {
       getChild(k).populate(form);
