@@ -13,26 +13,28 @@ import junit.framework.TestCase;
 /**
 // Generated Using HTMLUnitGenerator
 Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
-Path searchpopup is //*[@id="modalbox-inner"]
+Path searchpopup is /html/body/div[7]/div/div[9]
 Path _eventId_search is //*[@id="_eventId_search"]
 Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
-Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
+Path bbCampaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[4]/a/span
+Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
 Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
 Path website is /html/body
-Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
+Path checkoutOrder is //*[@id="orderButton"]
 
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
 
 Go to baspaket and wait 2 seconds
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
-Click on campaignModuleChoose and wait 3 seconds
-Find input with attribute id set to _eventId_search in searchpopup
-Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false in campaignmodule
+Click on campaignModuleChoose and wait 10 seconds
+Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string of length 6 starting with My
 Click on _eventId_search and wait 10 seconds
+Find input with attribute id set to _eventId_search in searchpopup
 */
 
 @SuppressWarnings("unchecked")
-public class BBBTestGotoAndFindClickOnAndFillIn extends TestCase {
+public class BBBFillInUniqueStringOfLengthStartingWith extends TestCase {
 @Test
 public void testHomePage() throws Exception {
  WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
@@ -58,10 +60,10 @@ webClient.waitForBackgroundJavaScriptStartingBefore(2000);
 step = "State1";
 System.out.println(System.currentTimeMillis()+") Entering state 2 of 5 20% complete \"State1\"");
 //Find attributes inside /html/body/div[2]/div/div[2]/div[2]/div/div[3]
-successfull = find(page, "/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371");
+successfull = find(page, "/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false");
 if (!successfull) {
  System.out.println(page.asXml());
- fail(step+") Failed finding tag \"a\" with attribute \"href\" and value \"/servlet/orderflow/search/search-flow?Id=tcm:142-23371\" in \"/html/body/div[2]/div/div[2]/div[2]/div/div[3]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
+ fail(step+") Failed finding tag \"a\" with attribute \"href\" and value \"/servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false\" in \"/html/body/div[2]/div/div[2]/div[2]/div/div[3]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
 
 }
 //Find and click element: /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
@@ -70,17 +72,10 @@ if (matchingElement.size() == 0)
   fail("Faild to find element /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span");
 page = matchingElement.get(0).click();
 
-webClient.waitForBackgroundJavaScriptStartingBefore(3000);
+webClient.waitForBackgroundJavaScriptStartingBefore(10000);
 
 step = "State2";
 System.out.println(System.currentTimeMillis()+") Entering state 3 of 5 40% complete \"State2\"");
-//Find attributes inside //*[@id="modalbox-inner"]
-successfull = find(page, "//*[@id=\"modalbox-inner\"]", "input", "id", "_eventId_search");
-if (!successfull) {
- System.out.println(page.asXml());
- fail(step+") Failed finding tag \"input\" with attribute \"id\" and value \"_eventId_search\" in \"//*[@id=\"modalbox-inner\"]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
-
-}
 form = getFormById(page,"locationForm");
 try {
  input = form.getInputByName("_eventId");
@@ -89,13 +84,8 @@ try {
  select = form.getSelectByName("_eventId");
  select.setSelectedAttribute("search", true);
 }
-try {
  input = form.getInputByName("phoneNumber.fullNumber");
- input.setValueAttribute("0768966787");
-} catch (ElementNotFoundException e) {
- select = form.getSelectByName("phoneNumber.fullNumber");
- select.setSelectedAttribute("0768966787", true);
-}
+ input.setValueAttribute("MybGSA");
 webClient.waitForBackgroundJavaScriptStartingBefore(0);
 
 step = "State3";
@@ -110,6 +100,13 @@ webClient.waitForBackgroundJavaScriptStartingBefore(10000);
 
 step = "State4";
 System.out.println(System.currentTimeMillis()+") Entering state 5 of 5 80% complete \"State4\"");
+//Find attributes inside /html/body/div[7]/div/div[9]
+successfull = find(page, "/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search");
+if (!successfull) {
+ System.out.println(page.asXml());
+ fail(step+") Failed finding tag \"input\" with attribute \"id\" and value \"_eventId_search\" in \"/html/body/div[7]/div/div[9]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
+
+}
  webClient.closeAllWindows();
 }
 
@@ -131,6 +128,7 @@ private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
      attribute);
    if (nodeAttribute != null) {    String nodeAttributeValue = nodeAttribute.getNodeValue();
     if (value.equals(nodeAttributeValue)) {
+     System.out.println("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
      return true;
     }
    }

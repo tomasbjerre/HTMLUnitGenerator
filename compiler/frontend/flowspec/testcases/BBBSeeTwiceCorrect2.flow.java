@@ -16,12 +16,14 @@ Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
 Path searchpopup is /html/body/div[7]/div/div[9]
 Path _eventId_search is //*[@id="_eventId_search"]
 Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
-Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
+Path bbCampaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[4]/a/span
+Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
 Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
 Path website is /html/body
-Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
+Path checkoutOrder is //*[@id="orderButton"]
 
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
 
 Go to baspaket and wait 2 seconds
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
@@ -158,10 +160,10 @@ if (!successfull) {
  fail(step+") Failed finding tag \"a\" with attribute \"href\" and value \"/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new\" in \"/html/body/div[7]/div/div[9]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
 
 }
-//Find and click element: /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
-matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img");
+//Find and click element: /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
+matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]");
 if (matchingElement.size() == 0)
-  fail("Faild to find element /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img");
+  fail("Faild to find element /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]");
 page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(10000);
@@ -175,10 +177,10 @@ if (!successfull) {
  fail(step+") Failed finding tag \"option\" with attribute \"value\" and value \"dsl24\" in \"/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
 
 }
-//Find and click element: /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
-matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input");
+//Find and click element: //*[@id="orderButton"]
+matchingElement = (ArrayList<HtmlElement>) page.getByXPath("//*[@id=\"orderButton\"]");
 if (matchingElement.size() == 0)
-  fail("Faild to find element /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input");
+  fail("Faild to find element //*[@id=\"orderButton\"]");
 page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(10000);
@@ -192,10 +194,10 @@ if (!successfull) {
  fail(step+") Failed finding tag \"input\" with attribute \"src\" and value \"/res/img/button/tillbaka.png\" in \"/html/body\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
 
 }
-//Find and click element: /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
-matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img");
+//Find and click element: /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
+matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]");
 if (matchingElement.size() == 0)
-  fail("Faild to find element /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img");
+  fail("Faild to find element /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]");
 page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(10000);
@@ -209,10 +211,10 @@ if (!successfull) {
  fail(step+") Failed finding tag \"option\" with attribute \"value\" and value \"dsl24\" in \"/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
 
 }
-//Find and click element: /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
-matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input");
+//Find and click element: //*[@id="orderButton"]
+matchingElement = (ArrayList<HtmlElement>) page.getByXPath("//*[@id=\"orderButton\"]");
 if (matchingElement.size() == 0)
-  fail("Faild to find element /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input");
+  fail("Faild to find element //*[@id=\"orderButton\"]");
 page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(10000);
@@ -247,6 +249,7 @@ private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
      attribute);
    if (nodeAttribute != null) {    String nodeAttributeValue = nodeAttribute.getNodeValue();
     if (value.equals(nodeAttributeValue)) {
+     System.out.println("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
      return true;
     }
    }

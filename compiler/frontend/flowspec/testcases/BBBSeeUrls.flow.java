@@ -14,12 +14,12 @@ import junit.framework.TestCase;
 // Generated Using HTMLUnitGenerator
 
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
-Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
 
 */
 
 @SuppressWarnings("unchecked")
-public class BBBSeeTwiceCorrect1 extends TestCase {
+public class BBBSeeUrls extends TestCase {
 @Test
 public void testHomePage() throws Exception {
  WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);

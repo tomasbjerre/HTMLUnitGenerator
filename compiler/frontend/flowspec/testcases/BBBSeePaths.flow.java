@@ -12,13 +12,21 @@ import junit.framework.TestCase;
 
 /**
 // Generated Using HTMLUnitGenerator
+Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
+Path searchpopup is /html/body/div[7]/div/div[9]
+Path _eventId_search is //*[@id="_eventId_search"]
+Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
+Path bbCampaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[4]/a/span
+Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
+Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
+Path website is /html/body
+Path checkoutOrder is //*[@id="orderButton"]
 
-Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
 
 */
 
 @SuppressWarnings("unchecked")
-public class BBBSeeUrls extends TestCase {
+public class BBBSeePaths extends TestCase {
 @Test
 public void testHomePage() throws Exception {
  WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);

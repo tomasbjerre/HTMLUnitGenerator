@@ -40,7 +40,7 @@ Find input with attribute src set to /res/img/button/tillbaka.png in website
 */
 
 @SuppressWarnings("unchecked")
-public class BBBTestCorrectExtended extends TestCase {
+public class BBBTestOnlyFlow extends TestCase {
 @Test
 public void testHomePage() throws Exception {
  WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
@@ -209,6 +209,7 @@ private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
      attribute);
    if (nodeAttribute != null) {    String nodeAttributeValue = nodeAttribute.getNodeValue();
     if (value.equals(nodeAttributeValue)) {
+     System.out.println("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
      return true;
     }
    }

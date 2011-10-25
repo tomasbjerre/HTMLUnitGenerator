@@ -12,20 +12,16 @@ import junit.framework.TestCase;
 
 /**
 // Generated Using HTMLUnitGenerator
-Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
-Path searchpopup is /html/body/div[7]/div/div[9]
-Path _eventId_search is //*[@id="_eventId_search"]
-Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
-Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
-Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
-Path website is /html/body
-Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
 
+Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
+Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
 
 */
 
 @SuppressWarnings("unchecked")
-public class BBBSeePaths extends TestCase {
+public class BBBSeeTwiceCorrect1 extends TestCase {
 @Test
 public void testHomePage() throws Exception {
  WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);

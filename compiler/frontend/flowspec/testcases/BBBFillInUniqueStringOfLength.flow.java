@@ -16,23 +16,25 @@ Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
 Path searchpopup is /html/body/div[7]/div/div[9]
 Path _eventId_search is //*[@id="_eventId_search"]
 Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
-Path searchPopupChooseFoundOffer is /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
+Path bbCampaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[4]/a/span
+Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
 Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
 Path website is /html/body
-Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
+Path checkoutOrder is //*[@id="orderButton"]
 
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
 
 Go to baspaket and wait 2 seconds
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false in campaignmodule
 Click on campaignModuleChoose and wait 10 seconds
-Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string
+Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string of length 20
 Click on _eventId_search and wait 10 seconds
 Find input with attribute id set to _eventId_search in searchpopup
 */
 
 @SuppressWarnings("unchecked")
-public class BBBFillInUniqueString extends TestCase {
+public class BBBFillInUniqueStringOfLength extends TestCase {
 @Test
 public void testHomePage() throws Exception {
  WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
@@ -83,7 +85,7 @@ try {
  select.setSelectedAttribute("search", true);
 }
  input = form.getInputByName("phoneNumber.fullNumber");
- input.setValueAttribute("BoeaN");
+ input.setValueAttribute("WFueGhevWdpeWDzgMQTs");
 webClient.waitForBackgroundJavaScriptStartingBefore(0);
 
 step = "State3";
@@ -126,6 +128,7 @@ private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
      attribute);
    if (nodeAttribute != null) {    String nodeAttributeValue = nodeAttribute.getNodeValue();
     if (value.equals(nodeAttributeValue)) {
+     System.out.println("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
      return true;
     }
    }
