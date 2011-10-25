@@ -44,6 +44,7 @@ public class HTMLJunitGenerator extends Generator {
 			+ "   if (nodeAttribute != null) {"
 			+ "    String nodeAttributeValue = nodeAttribute.getNodeValue();\n"
 			+ "    if (value.equals(nodeAttributeValue)) {\n"
+			+ "     System.out.println(\"Found element \"+tag+\" with attribute \"+attribute+\" and value \"+value+\" at \"+node.getCanonicalXPath());\n"
 			+ "     return true;\n"
 			+ "    }\n"
 			+ "   }\n"
