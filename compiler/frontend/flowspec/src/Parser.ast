@@ -4,6 +4,8 @@ IdDecl: Value;
 
 Content ::= <CONTENT:String>;
 OptionNumber: Content ::= Number:Content;
+UniqueString: Content ::=;
+UniqueStringOfLength: Content ::= Length:Content;
 
 ActionType ::= ;
 GoToType: ActionType ::= IdUse Content;

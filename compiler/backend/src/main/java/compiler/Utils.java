@@ -1,6 +1,7 @@
 package compiler;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -107,8 +108,26 @@ public class Utils {
 			System.out.println("Did not find expeced result file, writing result to"+expectedResultFilename);
 			writeFile(expectedResultFilename,actualTestResultContent);
 		}else{
-			if (!normalizedEquals(expectedTestResultContent,actualTestResultContent))
-				assertEquals(expectedTestResultContent,actualTestResultContent);
+			if (expectedResultFilename.toLowerCase().contains("unique")) {
+				if (normalizedEquals(expectedTestResultContent,actualTestResultContent))
+					fail("Unique test result did not differ!");
+			}else{
+				if (!normalizedEquals(expectedTestResultContent,actualTestResultContent))
+					assertEquals(expectedTestResultContent,actualTestResultContent);
+			}
+		}
+	}
+
+	public static void postCompileUnique(String expectedResultFilename,
+			String expectedTestResultContent,
+			StringWriter actualTestResultWriter) {
+		String actualTestResultContent = actualTestResultWriter.toString();
+		if (expectedTestResultContent == null) {
+			System.out.println("Did not find expeced result file, writing result to"+expectedResultFilename);
+			writeFile(expectedResultFilename,actualTestResultContent);
+		}else{
+			if (normalizedEquals(expectedTestResultContent,actualTestResultContent))
+				fail("Did not differ!");
 		}
 	}
 

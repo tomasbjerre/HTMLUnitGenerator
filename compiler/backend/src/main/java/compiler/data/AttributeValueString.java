@@ -11,6 +11,11 @@ public class AttributeValueString extends AttributeValue {
 		return content;
 	}
 
+	@Override
+	public String getValue() {
+		return content;
+	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}

@@ -40,6 +40,8 @@ TOKEN [IGNORE_CASE]: {
 | < IN: " in ">
 | < AS: " as ">
 | < OPTIONNUMBER: "option number ">
+| < UNIQUESTRING: "unique string">
+| < UNIQUESTRINGOFLENGTH: "unique string of length ">
 | < IS: " is ">
 }
 
@@ -71,7 +73,17 @@ void fillInAndClick() #FillInAndClick : {}
 
 void formContent() #FormContent: {}
 {
-	contentAttribute() <AS> (optionNumber() | contentAttribute())
+	contentAttribute() <AS> (optionNumber() | uniqueStringOfLength() | uniqueString() | contentAttribute())
+}
+
+void uniqueString() #UniqueString: {}
+{
+    <UNIQUESTRING>
+}
+
+void uniqueStringOfLength() #UniqueStringOfLength: {}
+{
+    <UNIQUESTRINGOFLENGTH> contentAttribute()
 }
 
 void optionNumber() #OptionNumber: {}

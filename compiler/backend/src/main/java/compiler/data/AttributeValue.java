@@ -1,5 +1,5 @@
 package compiler.data;
 
-public class AttributeValue {
-
+public abstract class AttributeValue {
+	public abstract String getValue();
 }

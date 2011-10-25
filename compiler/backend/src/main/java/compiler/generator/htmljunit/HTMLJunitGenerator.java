@@ -8,6 +8,7 @@ import compiler.data.Attribute;
 import compiler.data.AttributeValue;
 import compiler.data.AttributeValueByNumber;
 import compiler.data.AttributeValueString;
+import compiler.data.AttributeValueUniqueString;
 import compiler.data.Find;
 import compiler.data.Flow;
 import compiler.data.Form;
@@ -179,7 +180,11 @@ public class HTMLJunitGenerator extends Generator {
 				} else if (value instanceof AttributeValueByNumber) {
 					AttributeValueByNumber attributeValueByNumber = (AttributeValueByNumber)value;
 					result += " select = form.getSelectByName(\"" + escapeString(name) + "\");\n";
-					result += " select.setSelectedAttribute(select.getOption(" + attributeValueByNumber.getIndex() + "), true);\n";
+					result += " select.setSelectedAttribute(select.getOption(" + attributeValueByNumber.getValue() + "), true);\n";
+				} else if (value instanceof AttributeValueUniqueString) {
+					AttributeValueUniqueString attributeValueUniqueString = (AttributeValueUniqueString)value;
+					result += " input = form.getInputByName(\"" + escapeString(name) + "\");\n";
+					result += " input.setValueAttribute(\""+attributeValueUniqueString.getValue()+"\");\n";
 				}
 			}
 

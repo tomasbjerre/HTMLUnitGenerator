@@ -7,7 +7,8 @@ public class AttributeValueByNumber extends AttributeValue {
 		this.setIndex(index);
 	}
 
-	public String getIndex() {
+	@Override
+	public String getValue() {
 		return index;
 	}
 

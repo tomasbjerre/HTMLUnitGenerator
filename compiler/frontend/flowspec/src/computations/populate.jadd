@@ -100,7 +100,7 @@ aspect Populate
         table.addReferencable(this.getIdDecl().getVALUE(),form);
 	    for (FormContent formContent : getFormContentList()) {
             Tag tag = new Tag("input");
-            compiler.data.AttributeValue attributeValue = getAttributeValueFromChild();
+            compiler.data.AttributeValue attributeValue = formContent.getAttributeValueFromChild();
             if (attributeValue == null) {
                 attributeValue = new AttributeValueString(formContent.getValue().getCONTENT());
             }
@@ -120,6 +120,14 @@ aspect Populate
   
   public compiler.data.AttributeValue OptionNumber.getAttributeValueFromChild() {
     return new AttributeValueByNumber(getNumber().getCONTENT());
+  }
+  
+  public compiler.data.AttributeValue UniqueString.getAttributeValueFromChild() {
+    return new AttributeValueUniqueString();
+  }
+  
+  public compiler.data.AttributeValue UniqueStringOfLength.getAttributeValueFromChild() {
+    return new AttributeValueUniqueString(Integer.parseInt(getLength().getCONTENT()));
   }
   
   public compiler.data.AttributeValue Content.getAttributeValueFromChild() {

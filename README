@@ -6,10 +6,7 @@ http://github.com/tomasbjerre/HTMLUnitGenerator/wiki
 
 TODO
 - Extend flowspec:
-  - Fill in personForm with address.floor as option number 1
-    - Partly implemented, not sure how to do this with HTMLUnit, parser is working
-  - Fill in personForm with login as a unique string
-  - Fill in personForm with address.floor as a unique string of length 6
+  - Get BBB Orderflow test working
   - Fill in personForm with address.floor as a unique string of length 6 starting with My
   - Use proxy myProxyHost port 8080
   - Click on somePath and wait at most 10 seconds
