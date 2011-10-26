@@ -48,12 +48,18 @@ public void testHomePage() throws Exception {
 
 
 System.out.println(System.currentTimeMillis()+") Entering state 1 of 2 0% complete \"start\"");
+/*
+Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+Go to baspaket and wait 2 seconds
+*/
 page = webClient.getPage("http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
 webClient.waitForBackgroundJavaScriptStartingBefore(2000);
 
 step = "State1";
 System.out.println(System.currentTimeMillis()+") Entering state 2 of 2 50% complete \"State1\"");
-//Find attributes inside /html/body/div[2]/div/div[2]/div[2]/div/div[3]
+/*
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
+*/
 successfull = find(page, "/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371");
 if (!successfull) {
  System.out.println(page.asXml());

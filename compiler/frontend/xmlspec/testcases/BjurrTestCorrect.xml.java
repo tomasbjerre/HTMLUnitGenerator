@@ -80,39 +80,69 @@ public void testHomePage() throws Exception {
 
 
 System.out.println(System.currentTimeMillis()+") Entering state 1 of 4 0% complete \"start\"");
+/*
+ <url id="url1">
+  http://bjurr.se/
+ </url>
+  <transition to="startPage" using="url1" delay="0"/>
+*/
 page = webClient.getPage("http://bjurr.se/");
 webClient.waitForBackgroundJavaScriptStartingBefore(0);
 
 step = "startPage";
 System.out.println(System.currentTimeMillis()+") Entering state 2 of 4 25% complete \"startPage\"");
-//Find and click element: /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a
+/*
+ <path id="linksLink">
+  /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a
+ </path>
+  <transition to="links" using="linksLink" delay="0"/>
+*/
 matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a");
-if (matchingElement.size() == 0)
-  fail("Faild to find element /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a");
-page = matchingElement.get(0).click();
+if (matchingElement.size() == 0) {
+ fail("Faild to find element /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a");
+ System.out.println(page.asXml());
+}page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(0);
 
 step = "links";
 System.out.println(System.currentTimeMillis()+") Entering state 3 of 4 50% complete \"links\"");
-//Find attributes inside /html/body/center/table/tbody/tr[3]/td/table
+/*
+  <find path="mainArea">
+    <tag type="a">
+     <attribute name="href" value="/link/category/blandat"/>
+    </tag>
+  </find>
+*/
 successfull = find(page, "/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/link/category/blandat");
 if (!successfull) {
  System.out.println(page.asXml());
  fail(step+") Failed finding tag \"a\" with attribute \"href\" and value \"/link/category/blandat\" in \"/html/body/center/table/tbody/tr[3]/td/table\" at \"http://bjurr.se/\"");
 
 }
-//Find and click element: /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a
+/*
+ <path id="imagesLink">
+  /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a
+ </path>
+  <transition to="images" using="imagesLink" delay="0"/>
+*/
 matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a");
-if (matchingElement.size() == 0)
-  fail("Faild to find element /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a");
-page = matchingElement.get(0).click();
+if (matchingElement.size() == 0) {
+ fail("Faild to find element /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a");
+ System.out.println(page.asXml());
+}page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(0);
 
 step = "images";
 System.out.println(System.currentTimeMillis()+") Entering state 4 of 4 75% complete \"images\"");
-//Find attributes inside /html/body/center/table/tbody/tr[3]/td/table
+/*
+  <find path="mainArea">
+    <tag type="a">
+     <attribute name="href" value="/image/view/?i=/080112 Fiske/"/>
+    </tag>
+  </find>
+*/
 successfull = find(page, "/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/image/view/?i=/080112 Fiske/");
 if (!successfull) {
  System.out.println(page.asXml());
@@ -140,6 +170,7 @@ private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
      attribute);
    if (nodeAttribute != null) {    String nodeAttributeValue = nodeAttribute.getNodeValue();
     if (value.equals(nodeAttributeValue)) {
+     System.out.println("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
      return true;
     }
    }

@@ -121,9 +121,11 @@ public class HTMLJunitGenerator extends Generator {
 	}
 
 	private void handle(Find find) {
+		result += "/*\n";
+		result += find.toString();
+		result += "*/\n";
 		if (!find.getTexts().isEmpty()) {
 			addMethod(methodFindText);
-			result += "//Find text inside " + find.getPath().getValue() + "\n";
 			for (Text text : find.getTexts()) {
 				result += "successfull = find(page, \""
 						+ escapeString(find.getPath().getValue()) + "\", \""
@@ -139,8 +141,6 @@ public class HTMLJunitGenerator extends Generator {
 		if (!find.getTags().isEmpty()) {
 			addMethod(methodFind);
 			addMethod(methodFindRecursive);
-			result += "//Find attributes inside " + find.getPath().getValue()
-					+ "\n";
 			for (Tag tag : find.getTags()) {
 				String tagName = tag.getName();
 				for (Attribute attribute : tag.getAttributes().values()) {
@@ -180,29 +180,27 @@ public class HTMLJunitGenerator extends Generator {
 					result += "}\n";
 				} else if (value instanceof AttributeValueByNumber) {
 					AttributeValueByNumber attributeValueByNumber = (AttributeValueByNumber)value;
-					result += " select = form.getSelectByName(\"" + escapeString(name) + "\");\n";
-					result += " select.setSelectedAttribute(select.getOption(" + attributeValueByNumber.getValue() + "), true);\n";
+					result += "select = form.getSelectByName(\"" + escapeString(name) + "\");\n";
+					result += "select.setSelectedAttribute(select.getOption(" + attributeValueByNumber.getValue() + "), true);\n";
 				} else if (value instanceof AttributeValueUniqueString) {
 					AttributeValueUniqueString attributeValueUniqueString = (AttributeValueUniqueString)value;
-					result += " input = form.getInputByName(\"" + escapeString(name) + "\");\n";
-					result += " input.setValueAttribute(\""+attributeValueUniqueString.getValue()+"\");\n";
+					result += "input = form.getInputByName(\"" + escapeString(name) + "\");\n";
+					result += "input.setValueAttribute(\""+attributeValueUniqueString.getValue()+"\");\n";
 				}
 			}
 
 		if (using.getSubmit() != null) {
-			result += "//Submit form, by clicking " + using.getSubmit().getValue()
-					+ "\n";
 			handle(using.getSubmit());
 		}
 	}
 
 	private void handle(Path using) {
-		result += "//Find and click element: " + using.getValue() + "\n";
 		result += "matchingElement = (ArrayList<HtmlElement>) page.getByXPath(\""
 				+ escapeString(using.getValue()) + "\");\n";
-		result += "if (matchingElement.size() == 0)\n";
-		result += "  fail(\"Faild to find element "
-				+ escapeString(using.getValue()) + "\");\n";
+		result += "if (matchingElement.size() == 0) {\n";
+		result += " fail(\"Faild to find element " + escapeString(using.getValue()) + "\");\n";
+		result += " System.out.println(page.asXml());\n";
+		result += "}";
 		result += "page = matchingElement.get(0).click();\n";
 		result += "\n";
 	}
@@ -218,6 +216,10 @@ public class HTMLJunitGenerator extends Generator {
 	}
 
 	private State handle(Transition transition) {
+		result += "/*\n";
+		result += transition.getUsing().toString();
+		result += transition.toString();
+		result += "*/\n";
 		State to = transition.getTo();
 		if (transition.getUsing() instanceof Form)
 			handle((Form) transition.getUsing());

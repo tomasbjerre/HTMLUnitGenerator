@@ -50,29 +50,41 @@ public void testHomePage() throws Exception {
 
 
 System.out.println(System.currentTimeMillis()+") Entering state 1 of 3 0% complete \"start\"");
+/*
+Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
+Go to baspaket and wait 2 seconds
+*/
 page = webClient.getPage("http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
 webClient.waitForBackgroundJavaScriptStartingBefore(2000);
 
 step = "State1";
 System.out.println(System.currentTimeMillis()+") Entering state 2 of 3 33% complete \"State1\"");
-//Find attributes inside /html/body/div[2]/div/div[2]/div[2]/div/div[3]
+/*
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
+*/
 successfull = find(page, "/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371");
 if (!successfull) {
  System.out.println(page.asXml());
  fail(step+") Failed finding tag \"a\" with attribute \"href\" and value \"/servlet/orderflow/search/search-flow?Id=tcm:142-23371\" in \"/html/body/div[2]/div/div[2]/div[2]/div/div[3]\" at \"http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html\"");
 
 }
-//Find and click element: /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
+/*
+Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
+Click on campaignModuleChoose and wait 3 seconds
+*/
 matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span");
-if (matchingElement.size() == 0)
-  fail("Faild to find element /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span");
-page = matchingElement.get(0).click();
+if (matchingElement.size() == 0) {
+ fail("Faild to find element /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span");
+ System.out.println(page.asXml());
+}page = matchingElement.get(0).click();
 
 webClient.waitForBackgroundJavaScriptStartingBefore(3000);
 
 step = "State2";
 System.out.println(System.currentTimeMillis()+") Entering state 3 of 3 66% complete \"State2\"");
-//Find attributes inside //*[@id="modalbox-inner"]
+/*
+Find input with attribute id set to _eventId_search in searchpopup
+*/
 successfull = find(page, "//*[@id=\"modalbox-inner\"]", "input", "id", "_eventId_search");
 if (!successfull) {
  System.out.println(page.asXml());

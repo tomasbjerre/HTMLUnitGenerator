@@ -16,7 +16,7 @@ public class FunctionalTest extends Utils {
 	private ArrayList<File> testCases;
 	private static String testEndian = "xml";
 	private static String testFolderPath = "testcases";
-	private static String resultEndian = "javaresult";
+	private static String resultEndian = "java";
 
 	@Test
 	public void runAll() {
