@@ -42,6 +42,8 @@ TOKEN [IGNORE_CASE]: {
 | < OPTIONNUMBER: "option number ">
 | < UNIQUESTRING: "unique string">
 | < UNIQUESTRINGOFLENGTH: "unique string of length ">
+| < USEPROXY: "Use proxy ">
+| < WITHPORT: " with port ">
 | < STARTINGWITH: " starting with ">
 | < IS: " is ">
 }
@@ -64,7 +66,12 @@ void test() #TestType : {}
 
 void action() #ActionType : {}
 {
-	goTo() | find() | clickOn() | fillInAndClick()
+	goTo() | find() | clickOn() | fillInAndClick() | useProxy()
+}
+
+void useProxy() #UseProxy : {}
+{
+     <USEPROXY> contentAttribute() <WITHPORT> contentAttribute()
 }
 
 void fillInAndClick() #FillInAndClick : {}

@@ -98,7 +98,7 @@ aspect Populate
   public void FillInAndClick.populate(Flow flow, SymbolTable table) {
         Form form = new Form(this.getIdDecl().getVALUE(),null);
         table.addReferencable(this.getIdDecl().getVALUE(),form);
-	    for (FormContent formContent : getFormContentList()) {
+        for (FormContent formContent : getFormContentList()) {
             Tag tag = new Tag("input");
             compiler.data.AttributeValue attributeValue = formContent.getAttributeValueFromChild();
             if (attributeValue == null) {
@@ -107,7 +107,7 @@ aspect Populate
             Attribute attribute = new Attribute(formContent.getAttribute().getCONTENT(),attributeValue);
             tag.addAttribute(attribute);
             form.addTag(tag);
-	    }
+        }
         currentState.addForm(form);
         State newState = new State("State"+stateCounter++);
         String delayStr = "0";
@@ -116,6 +116,11 @@ aspect Populate
         currentState = newState;
 
         getClickOnType().populate(flow, table);
+  }
+  
+  public void UseProxy.populate(Flow flow, SymbolTable table) {
+    flow.setProxyHost(getHost().getCONTENT());
+    flow.setProxyPort(getPort().getCONTENT());
   }
   
   public compiler.data.AttributeValue OptionNumber.getAttributeValueFromChild() {

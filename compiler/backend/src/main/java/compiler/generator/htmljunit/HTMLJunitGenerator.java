@@ -270,6 +270,12 @@ public class HTMLJunitGenerator extends Generator {
 		result += " webClient.setThrowExceptionOnScriptError(false);\n";
 		result += " webClient.setTimeout(180000);\n";
 		result += " webClient.setJavaScriptTimeout(180000);\n";
+		if (flow.getProxyHost() != null && !flow.getProxyHost().isEmpty()) {
+			result += " Properties systemProperties = System.getProperties();\n";
+			result += " systemProperties.setProperty(\"http.proxyHost\",\""+flow.getProxyHost()+"\");\n";
+			result += " systemProperties.setProperty(\"http.proxyPort\",\""+flow.getProxyPort()+"\");\n";
+			result += " webClient.setProxyConfig(new ProxyConfig(\""+flow.getProxyHost()+"\", "+flow.getProxyPort()+"));\n";
+		}
 		result += " HtmlPage page = null;\n";
 		result += " String step = null;\n";
 		result += " boolean successfull = false;\n";

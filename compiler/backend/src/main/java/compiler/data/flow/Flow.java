@@ -11,6 +11,8 @@ public class Flow extends compiler.data.Flow {
 		for (compiler.data.Url url : urls)
 			result += url;
 		result += "\n";
+		if (getProxyHost() != null && !getProxyHost().isEmpty())
+			result += "Use proxy "+getProxyHost() + " with port "+getProxyPort() + "\n";
 		compiler.data.State state = start;
 		do {
 			result += state;

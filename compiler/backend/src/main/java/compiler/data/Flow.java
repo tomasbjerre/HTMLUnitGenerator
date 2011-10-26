@@ -7,6 +7,8 @@ public class Flow {
 	protected State start;
 	protected List<Path> paths = new ArrayList<Path>();
 	protected List<Url> urls = new ArrayList<Url>();
+	private String proxyHost;
+	private String proxyPort;
 
 	public void addPath(Path path) {
 		paths.add(path);
@@ -38,5 +40,21 @@ public class Flow {
 
 	public void setUrls(List<Url> urls) {
 		this.urls = urls;
+	}
+
+	public String getProxyPort() {
+		return proxyPort;
+	}
+
+	public void setProxyPort(String proxyPort) {
+		this.proxyPort = proxyPort;
+	}
+
+	public String getProxyHost() {
+		return proxyHost;
+	}
+
+	public void setProxyHost(String proxyHost) {
+		this.proxyHost = proxyHost;
 	}
 }

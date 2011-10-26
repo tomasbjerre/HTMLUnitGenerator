@@ -14,6 +14,7 @@ ClickOnType: ActionType ::= IdUse Content;
 FindType: ActionType ::= Type:Content Attribute:Content Value:Content IdUse;
 FillInAndClick ::= IdDecl FormContent* ClickOnType;
 FormContent ::= Attribute:Content Value:Content;
+UseProxy ::= Host:Content Port:Content;
 
 Start ::= TestType;
 TestType ::= PathType* UrlType* ActionType*;

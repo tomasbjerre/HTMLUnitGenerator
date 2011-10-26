@@ -6,7 +6,6 @@ http://github.com/tomasbjerre/HTMLUnitGenerator/wiki
 
 TODO
 - Extend flowspec:
-  - Use proxy myProxyHost port 8080
   - Click on somePath and wait at most 10 seconds
     Wait 10 seconds or untill dom is changed and then wait for DOM to be unchanged for 500ms.
   - Click on somePath
