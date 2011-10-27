@@ -27,84 +27,85 @@ Find a with attribute href set to /image/view/?i=/100213-kkrona-brand/ in mainAr
 
 @SuppressWarnings("unchecked")
 public class BjurrTestCorrect extends TestCase {
+WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
+HtmlPage page = null;
+String step = null;
+boolean successfull = false;
+HtmlForm form = null;
+HtmlInput input = null;
+HtmlSelect select = null;
+ArrayList<HtmlElement> matchingElement = null;
 @Test
 public void testHomePage() throws Exception {
- WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
- webClient.setCssEnabled(true);
- webClient.setJavaScriptEnabled(true);
- webClient.setThrowExceptionOnFailingStatusCode(false);
- webClient.setThrowExceptionOnScriptError(false);
- webClient.setTimeout(180000);
- webClient.setJavaScriptTimeout(180000);
- HtmlPage page = null;
- String step = null;
- boolean successfull = false;
- HtmlForm form = null;
- HtmlInput input = null;
- HtmlSelect select = null;
- ArrayList<HtmlElement> matchingElement = null;
+webClient.setCssEnabled(true);
+webClient.setJavaScriptEnabled(true);
+webClient.setThrowExceptionOnFailingStatusCode(false);
+webClient.setThrowExceptionOnScriptError(false);
+webClient.setTimeout(180000);
+webClient.setJavaScriptTimeout(180000);
 
 
-System.out.println(System.currentTimeMillis()+") Entering state 1 of 4 0% complete \"start\"");
-/*
+log(System.currentTimeMillis()+") Entering state 1 of 4 0% complete \"start\"");
+/**
 Url url1 is http://bjurr.se/
 Go to url1 and wait 0 seconds
 */
 page = webClient.getPage("http://bjurr.se/");
-webClient.waitForBackgroundJavaScriptStartingBefore(0);
 
 step = "State1";
-System.out.println(System.currentTimeMillis()+") Entering state 2 of 4 25% complete \"State1\"");
-/*
+log(System.currentTimeMillis()+") Entering state 2 of 4 25% complete \"State1\"");
+/**
 Path linksLink is /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a
 Click on linksLink and wait 0 seconds
 */
-matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a");
-if (matchingElement.size() == 0) {
- fail("Faild to find element /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a");
- System.out.println(page.asXml());
-}page = matchingElement.get(0).click();
-
-webClient.waitForBackgroundJavaScriptStartingBefore(0);
+findAndClick("/html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a");
 
 step = "State2";
-System.out.println(System.currentTimeMillis()+") Entering state 3 of 4 50% complete \"State2\"");
-/*
+log(System.currentTimeMillis()+") Entering state 3 of 4 50% complete \"State2\"");
+/**
 Find a with attribute href set to /link/category/blandat in mainArea
 */
-successfull = find(page, "/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/link/category/blandat");
-if (!successfull) {
- System.out.println(page.asXml());
- fail(step+") Failed finding tag \"a\" with attribute \"href\" and value \"/link/category/blandat\" in \"/html/body/center/table/tbody/tr[3]/td/table\" at \"http://bjurr.se/\"");
-
-}
-/*
+findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/link/category/blandat", "http://bjurr.se/");
+/**
 Path imagesLink is /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a
 Click on imagesLink and wait 0 seconds
 */
-matchingElement = (ArrayList<HtmlElement>) page.getByXPath("/html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a");
-if (matchingElement.size() == 0) {
- fail("Faild to find element /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a");
- System.out.println(page.asXml());
-}page = matchingElement.get(0).click();
-
-webClient.waitForBackgroundJavaScriptStartingBefore(0);
+findAndClick("/html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a");
 
 step = "State3";
-System.out.println(System.currentTimeMillis()+") Entering state 4 of 4 75% complete \"State3\"");
-/*
+log(System.currentTimeMillis()+") Entering state 4 of 4 75% complete \"State3\"");
+/**
 Find a with attribute href set to /image/view/?i=/100213-kkrona-brand/ in mainArea
 */
-successfull = find(page, "/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/image/view/?i=/100213-kkrona-brand/");
-if (!successfull) {
- System.out.println(page.asXml());
- fail(step+") Failed finding tag \"a\" with attribute \"href\" and value \"/image/view/?i=/100213-kkrona-brand/\" in \"/html/body/center/table/tbody/tr[3]/td/table\" at \"http://bjurr.se/\"");
-
-}
- webClient.closeAllWindows();
+findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/image/view/?i=/100213-kkrona-brand/", "http://bjurr.se/");
+webClient.closeAllWindows();
 }
 
-private boolean find(HtmlPage page, String xpath, String tag, String attribute, String value) {
+private void log(String string) {
+ System.out.println(string);
+}
+
+private void findAndClick(String xpath) throws Exception {
+ matchingElement = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ if (matchingElement.size() == 0) {
+  log(page.asXml());
+  findClosestXpath(xpath);
+  fail("Faild to find element " + xpath + "");
+ }
+ page = matchingElement.get(0).click();
+}
+
+private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl) {
+  boolean successfull;
+  successfull = find(xpath, tag, attribute, value);
+  if (!successfull) {
+   log(page.asXml());
+   findClosestXpath(xpath);
+   fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
+  }
+ }
+
+private boolean find(String xpath, String tag, String attribute, String value) {
  ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
  for (HtmlElement div : matchingDivs) {
   if (recursiveFind(div.getChildNodes(), tag, attribute, value))
@@ -122,7 +123,7 @@ private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
      attribute);
    if (nodeAttribute != null) {    String nodeAttributeValue = nodeAttribute.getNodeValue();
     if (value.equals(nodeAttributeValue)) {
-     System.out.println("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
+     log("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
      return true;
     }
    }

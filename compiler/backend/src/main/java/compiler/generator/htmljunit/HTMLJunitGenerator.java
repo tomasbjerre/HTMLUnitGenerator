@@ -25,7 +25,7 @@ public class HTMLJunitGenerator extends Generator {
 	private final ArrayList<String> methods = new ArrayList<String>();
 	private String result = "";
 
-	private final String methodFind = "private boolean find(HtmlPage page, String xpath, String tag, String attribute, String value) {\n"
+	private final String methodFind = "private boolean find(String xpath, String tag, String attribute, String value) {\n"
 			+ " ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);\n"
 			+ " for (HtmlElement div : matchingDivs) {\n"
 			+ "  if (recursiveFind(div.getChildNodes(), tag, attribute, value))\n"
@@ -44,7 +44,7 @@ public class HTMLJunitGenerator extends Generator {
 			+ "   if (nodeAttribute != null) {"
 			+ "    String nodeAttributeValue = nodeAttribute.getNodeValue();\n"
 			+ "    if (value.equals(nodeAttributeValue)) {\n"
-			+ "     System.out.println(\"Found element \"+tag+\" with attribute \"+attribute+\" and value \"+value+\" at \"+node.getCanonicalXPath());\n"
+			+ "     log(\"Found element \"+tag+\" with attribute \"+attribute+\" and value \"+value+\" at \"+node.getCanonicalXPath());\n"
 			+ "     return true;\n"
 			+ "    }\n"
 			+ "   }\n"
@@ -52,7 +52,7 @@ public class HTMLJunitGenerator extends Generator {
 			+ "  if (recursiveFind(node.getChildNodes(), tag, attribute, value))\n"
 			+ "   return true;\n" + " }\n" + " return false;\n" + "}";
 
-	private final String methodFindText = "private boolean find(HtmlPage page, String xpath, String text) {\n"
+	private final String methodFindText = "private boolean find(String xpath, String text) {\n"
 			+ " ArrayList<HtmlElement> matchingDivs;\n"
 			+ " boolean successfull;\n"
 			+ " matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);\n"
@@ -60,7 +60,7 @@ public class HTMLJunitGenerator extends Generator {
 			+ " for (HtmlElement div : matchingDivs) {\n"
 			+ "  String asXml;\n"
 			+ "  asXml = div.asXml();\n"
-			+ "  System.out.println(asXml);"
+			+ "  log(asXml);"
 			+ "  Pattern selectPattern = Pattern.compile(text,\n"
 			+ "          Pattern.CASE_INSENSITIVE);\n"
 			+ "  Matcher selectMatcher = selectPattern.matcher(asXml);\n"
@@ -70,11 +70,65 @@ public class HTMLJunitGenerator extends Generator {
 			+ " }\n"
 			+ " return false;\n" + "}\n";
 
-	private final String methodFindById = "private HtmlForm getFormById(HtmlPage page, String id) {\n"
+	private final String methodFindById = "private HtmlForm getFormById(String id) {\n"
 			+ " for (HtmlForm form : page.getForms())\n"
 			+ "  if (form.getAttributes().getNamedItem(\"id\") != null && form.getAttributes().getNamedItem(\"id\").getNodeValue().equals(id)\n"
 			+ "     || form.getAttributes().getNamedItem(\"name\") != null && form.getAttributes().getNamedItem(\"name\").getNodeValue().equals(id)\n"
 			+ "     )\n" + "   return form;\n" + " return null;\n" + "}\n";
+
+	private final String methodSetAttributeValue = "private void setAttributeValue(HtmlForm form, String attribute, String value) {\n"
+			+ " HtmlSelect select;\n"
+			+ " HtmlInput input;\n"
+			+ " try {\n"
+			+ " input = form.getInputByName(attribute);\n"
+			+ " input.setValueAttribute(value);\n"
+			+ " } catch (ElementNotFoundException e) {\n"
+			+ " select = form.getSelectByName(attribute);\n"
+			+ " select.setSelectedAttribute(value, true);\n"
+			+ " }\n"
+			+ "}\n";
+
+	private final String methodFindOrFail = "private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl) {\n"
+			+ "  boolean successfull;\n"
+			+ "  successfull = find(xpath, tag, attribute, value);\n"
+			+ "  if (!successfull) {\n"
+			+ "   log(page.asXml());\n"
+			+ "   findClosestXpath(xpath);\n"
+			+ "   fail(step+\") Failed finding tag \\\"\"+tag+\"\\\" with attribute \\\"\"+attribute+\"\\\" and value \\\"\"+value+\"\\\" in \\\"\"+xpath+\"\\\" at \\\"\"+currentUrl+\"\\\"\");\n"
+			+ "  }\n"
+			+ " }\n";
+
+	private final String methodFindClosestXpath = "private void findClosestXpath(String xpath) {\n"
+			+ "if (xpath.startsWith(\"//*\") || xpath.equals(\"/html\"))\n"
+			+ "	return;\n"
+			+ "log(\"Searching for xpath \"+xpath);\n"
+			+ "matchingElement = (ArrayList<HtmlElement>) page.getByXPath(xpath);\n"
+			+ "if (page.getByXPath(xpath).size() > 0) {\n"
+			+ "	log(\"\\nFound close elements at \"+xpath+\":\");\n"
+			+ "	for (HtmlElement element : matchingElement) {\n"
+			+ " if (element.asXml().length() > 100)\n"
+			+ "  log(element.asXml().substring(0, 100) + \" ...\");\n"
+			+ " else\n"
+			+ "  log(element.asXml());\n"
+			+ "	}\n"
+			+ "	return;\n"
+			+ "}\n"
+			+ "findClosestXpath(xpath.substring(0, xpath.lastIndexOf(\"/\")));\n"
+			+ "}\n";
+
+	private final String methodLog = "private void log(String string) {\n"
+			+ " System.out.println(string);\n"
+			+ "}\n";
+
+	private final String methodFindAndClick = "private void findAndClick(String xpath) throws Exception {\n"
+			+ " matchingElement = (ArrayList<HtmlElement>) page.getByXPath(xpath);\n"
+			+ " if (matchingElement.size() == 0) {\n"
+			+ "  log(page.asXml());\n"
+			+ "  findClosestXpath(xpath);\n"
+			+ "  fail(\"Faild to find element \" + xpath + \"\");\n"
+			+ " }\n"
+			+ " page = matchingElement.get(0).click();\n"
+			+ "}\n";
 
 	private String currentUrl;
 	private final String testFileName;
@@ -121,20 +175,14 @@ public class HTMLJunitGenerator extends Generator {
 	}
 
 	private void handle(Find find) {
-		result += "/*\n";
+		addMethod(methodFindOrFail);
+		result += "/**\n";
 		result += find.toString();
 		result += "*/\n";
 		if (!find.getTexts().isEmpty()) {
 			addMethod(methodFindText);
 			for (Text text : find.getTexts()) {
-				result += "successfull = find(page, \""
-						+ escapeString(find.getPath().getValue()) + "\", \""
-						+ text.getContent() + "\");\n";
-				result += "if (!successfull)\n";
-				result += " fail(step+\") Failed finding text \\\""
-						+ text.getContent() + "\\\" in \\\""
-						+ escapeString(find.getPath().getValue())
-						+ "\\\" at \\\"" + getCurrentUrl() + "\\\"\");\n\n";
+				result += "findOrFail(\""+find.getPath().getValue()+"\", \""+escapeString(find.getPath().getValue())+"\", \""+text.getContent()+"\", \""+getCurrentUrl()+"\");\n";
 			}
 		}
 
@@ -144,20 +192,7 @@ public class HTMLJunitGenerator extends Generator {
 			for (Tag tag : find.getTags()) {
 				String tagName = tag.getName();
 				for (Attribute attribute : tag.getAttributes().values()) {
-					result += "successfull = find(page, \""
-							+ escapeString(find.getPath().getValue())
-							+ "\", \"" + tagName + "\", \""
-							+ attribute.getName() + "\", \""
-							+ attribute.getValue() + "\");\n";
-					result += "if (!successfull) {\n";
-					result += " System.out.println(page.asXml());\n";
-					result += " fail(step+\") Failed finding tag \\\""
-							+ tagName + "\\\" with attribute \\\""
-							+ attribute.getName() + "\\\" and value \\\""
-							+ attribute.getValue() + "\\\" in \\\""
-							+ escapeString(find.getPath().getValue())
-							+ "\\\" at \\\"" + getCurrentUrl() + "\\\"\");\n\n";
-					result += "}\n";
+					result += "findOrFail(\""+escapeString(find.getPath().getValue())+"\", \""+tagName+"\", \""+attribute.getName()+"\", \""+attribute.getValue()+"\", \""+getCurrentUrl()+"\");\n";
 				}
 			}
 		}
@@ -165,19 +200,15 @@ public class HTMLJunitGenerator extends Generator {
 
 	private void handle(Form using) {
 		addMethod(methodFindById);
-		result += "form = getFormById(page,\"" + using.getName() + "\");\n";
+		addMethod(methodSetAttributeValue);
+		addMethod(methodFindClosestXpath);
+		result += "form = getFormById(\"" + using.getName() + "\");\n";
 		for (Tag tag : using.getTags())
 			for (Attribute attribute : tag.getAttributes().values()) {
 				String name = attribute.getName();
 				AttributeValue value = attribute.getValue();
 				if (value instanceof AttributeValueString) {
-					result += "try {\n";
-					result += " input = form.getInputByName(\"" + escapeString(name) + "\");\n";
-					result += " input.setValueAttribute(\""+value+"\");\n";
-					result += "} catch (ElementNotFoundException e) {\n";
-					result += " select = form.getSelectByName(\"" + escapeString(name) + "\");\n";
-					result += " select.setSelectedAttribute(\""+value+"\", true);\n";
-					result += "}\n";
+					result += "setAttributeValue(form, \"" + escapeString(name) + "\", \""+value+"\");\n";
 				} else if (value instanceof AttributeValueByNumber) {
 					AttributeValueByNumber attributeValueByNumber = (AttributeValueByNumber)value;
 					result += "select = form.getSelectByName(\"" + escapeString(name) + "\");\n";
@@ -195,14 +226,8 @@ public class HTMLJunitGenerator extends Generator {
 	}
 
 	private void handle(Path using) {
-		result += "matchingElement = (ArrayList<HtmlElement>) page.getByXPath(\""
-				+ escapeString(using.getValue()) + "\");\n";
-		result += "if (matchingElement.size() == 0) {\n";
-		result += " fail(\"Faild to find element " + escapeString(using.getValue()) + "\");\n";
-		result += " System.out.println(page.asXml());\n";
-		result += "}";
-		result += "page = matchingElement.get(0).click();\n";
-		result += "\n";
+		addMethod(methodFindAndClick);
+		result += "findAndClick(\"" + escapeString(using.getValue()) + "\");\n";
 	}
 
 	private State handle(State state) {
@@ -216,7 +241,7 @@ public class HTMLJunitGenerator extends Generator {
 	}
 
 	private State handle(Transition transition) {
-		result += "/*\n";
+		result += "/**\n";
 		result += transition.getUsing().toString();
 		result += transition.toString();
 		result += "*/\n";
@@ -227,7 +252,8 @@ public class HTMLJunitGenerator extends Generator {
 			handle((Path) transition.getUsing());
 		if (transition.getUsing() instanceof Url)
 			handle((Url) transition.getUsing());
-		result += "webClient.waitForBackgroundJavaScriptStartingBefore("+transition.getDelay()+");\n";
+		if (transition.getDelay() != null && !transition.getDelay().equals("0"))
+			result += "Thread.sleep("+transition.getDelay()+");\n";
 
 		result += "\n";
 		result += "step = \"" + to.getName() + "\";\n";
@@ -235,12 +261,13 @@ public class HTMLJunitGenerator extends Generator {
 	}
 
 	private void handle(Url using) {
-		result += "page = webClient.getPage(\""
-				+ getAbsoluteUrl(using.getValue()) + "\");\n";
+		result += "page = webClient.getPage(\"" + getAbsoluteUrl(using.getValue()) + "\");\n";
 	}
 
 	@Override
 	public String toString() {
+		addMethod(methodLog);
+
 		result = "package webtest;";
 		result += "\n";
 		result += "import org.junit.Test;\n";
@@ -261,28 +288,28 @@ public class HTMLJunitGenerator extends Generator {
 		result += "\n";
 		result += "@SuppressWarnings(\"unchecked\")\n";
 		result += "public class " + testFileName + " extends TestCase {\n";
+		result += "WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);\n";
+		result += "HtmlPage page = null;\n";
+		result += "String step = null;\n";
+		result += "boolean successfull = false;\n";
+		result += "HtmlForm form = null;\n";
+		result += "HtmlInput input = null;\n";
+		result += "HtmlSelect select = null;\n";
+		result += "ArrayList<HtmlElement> matchingElement = null;\n";
 		result += "@Test\n";
 		result += "public void testHomePage() throws Exception {\n";
-		result += " WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);\n";
-		result += " webClient.setCssEnabled(true);\n";
-		result += " webClient.setJavaScriptEnabled(true);\n";
-		result += " webClient.setThrowExceptionOnFailingStatusCode(false);\n";
-		result += " webClient.setThrowExceptionOnScriptError(false);\n";
-		result += " webClient.setTimeout(180000);\n";
-		result += " webClient.setJavaScriptTimeout(180000);\n";
+		result += "webClient.setCssEnabled(true);\n";
+		result += "webClient.setJavaScriptEnabled(true);\n";
+		result += "webClient.setThrowExceptionOnFailingStatusCode(false);\n";
+		result += "webClient.setThrowExceptionOnScriptError(false);\n";
+		result += "webClient.setTimeout(180000);\n";
+		result += "webClient.setJavaScriptTimeout(180000);\n";
 		if (flow.getProxyHost() != null && !flow.getProxyHost().isEmpty()) {
-			result += " Properties systemProperties = System.getProperties();\n";
-			result += " systemProperties.setProperty(\"http.proxyHost\",\""+flow.getProxyHost()+"\");\n";
-			result += " systemProperties.setProperty(\"http.proxyPort\",\""+flow.getProxyPort()+"\");\n";
-			result += " webClient.setProxyConfig(new ProxyConfig(\""+flow.getProxyHost()+"\", "+flow.getProxyPort()+"));\n";
+			result += "Properties systemProperties = System.getProperties();\n";
+			result += "systemProperties.setProperty(\"http.proxyHost\",\""+flow.getProxyHost()+"\");\n";
+			result += "systemProperties.setProperty(\"http.proxyPort\",\""+flow.getProxyPort()+"\");\n";
+			result += "webClient.setProxyConfig(new ProxyConfig(\""+flow.getProxyHost()+"\", "+flow.getProxyPort()+"));\n";
 		}
-		result += " HtmlPage page = null;\n";
-		result += " String step = null;\n";
-		result += " boolean successfull = false;\n";
-		result += " HtmlForm form = null;\n";
-		result += " HtmlInput input = null;\n";
-		result += " HtmlSelect select = null;\n";
-		result += " ArrayList<HtmlElement> matchingElement = null;\n";
 		result += "\n";
 		result += "\n";
 
@@ -301,12 +328,12 @@ public class HTMLJunitGenerator extends Generator {
 		long stateIndex = 0;
 		state = flow.getStart();
 		do {
-			result += "System.out.println(System.currentTimeMillis()+\") Entering state "+(stateIndex+1)+" of "+numStates+" "+((int)((float)stateIndex/numStates*100))+"% complete \\\""+state.getName()+"\\\"\");\n";
+			result += "log(System.currentTimeMillis()+\") Entering state "+(stateIndex+1)+" of "+numStates+" "+((int)((float)stateIndex/numStates*100))+"% complete \\\""+state.getName()+"\\\"\");\n";
 			stateIndex++;
 			state = handle(state);
 		} while (state != null);
 
-		result += " webClient.closeAllWindows();\n";
+		result += "webClient.closeAllWindows();\n";
 		result += "}\n";
 		result += "\n";
 
