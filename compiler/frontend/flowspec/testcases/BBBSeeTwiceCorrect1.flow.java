@@ -22,26 +22,30 @@ Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
 
 @SuppressWarnings("unchecked")
 public class BBBSeeTwiceCorrect1 extends TestCase {
+WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
+HtmlPage page = null;
+String step = null;
+boolean successfull = false;
+HtmlForm form = null;
+HtmlInput input = null;
+HtmlSelect select = null;
+ArrayList<HtmlElement> matchingElement = null;
 @Test
 public void testHomePage() throws Exception {
- WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
- webClient.setCssEnabled(true);
- webClient.setJavaScriptEnabled(true);
- webClient.setThrowExceptionOnFailingStatusCode(false);
- webClient.setThrowExceptionOnScriptError(false);
- webClient.setTimeout(180000);
- webClient.setJavaScriptTimeout(180000);
- HtmlPage page = null;
- String step = null;
- boolean successfull = false;
- HtmlForm form = null;
- HtmlInput input = null;
- HtmlSelect select = null;
- ArrayList<HtmlElement> matchingElement = null;
+webClient.setCssEnabled(true);
+webClient.setJavaScriptEnabled(true);
+webClient.setThrowExceptionOnFailingStatusCode(false);
+webClient.setThrowExceptionOnScriptError(false);
+webClient.setTimeout(180000);
+webClient.setJavaScriptTimeout(180000);
 
 
-System.out.println(System.currentTimeMillis()+") Entering state 1 of 1 0% complete \"start\"");
- webClient.closeAllWindows();
+log(System.currentTimeMillis()+") Entering state 1 of 1 0% complete \"start\"");
+webClient.closeAllWindows();
+}
+
+private void log(String string) {
+ System.out.println(string);
 }
 
 

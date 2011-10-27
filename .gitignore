@@ -1,0 +1,11 @@
+
+/compiler/backend/target/maven-archiver/pom.properties
+/compiler/backend/target/surefire-reports/TEST-compiler.UtilsTest.xml
+/compiler/backend/target/surefire-reports/TEST-compiler.data.AttributeValueUniqueStringTest.xml
+/compiler/backend/target/surefire-reports/TEST-program.HTMLJunitGeneratorTest.xml
+/compiler/backend/target/surefire-reports/compiler.UtilsTest.txt
+/compiler/backend/target/surefire-reports/compiler.data.AttributeValueUniqueStringTest.txt
+/compiler/backend/target/surefire-reports/program.HTMLJunitGeneratorTest.txt
+/compiler/frontend/flowspec/.settings/org.eclipse.jdt.core.prefs
+/compiler/frontend/flowspec/src/flow/parser/Parser.jj
+/compiler/frontend/xmlspec/.settings/org.eclipse.jdt.core.prefs
