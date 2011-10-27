@@ -17,10 +17,9 @@ public class AttributeValueUniqueString extends compiler.data.AttributeValueUniq
 	@Override
 	public String toString() {
 		String toString = "unique string";
-		if (string.length() != defaultLength)
-			toString += " of length " + string.length();
-		if (start != null && !start.isEmpty())
-			toString += " starting with " + start;
+		toString += " of length " + getLength();
+		if (string != null && !string.isEmpty())
+			toString += " starting with " + string;
 		return toString;
 	}
 }

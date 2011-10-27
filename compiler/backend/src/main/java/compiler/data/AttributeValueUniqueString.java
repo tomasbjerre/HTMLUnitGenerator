@@ -1,40 +1,40 @@
 package compiler.data;
 
-import java.util.Random;
 
 public class AttributeValueUniqueString extends AttributeValue {
 	protected String string;
-	protected String start;
+	private int length;
 	protected static int defaultLength = 5;
 
 	public AttributeValueUniqueString() {
-		string = createString(defaultLength);
+		this.string = "";
+		this.setLength(defaultLength);
 	}
 
 	public AttributeValueUniqueString(int length) {
-		string = createString(length);
+		this.string = "";
+		this.setLength(length);
 	}
 
-	public AttributeValueUniqueString(int length, String start) {
-		this.start = start;
-		string = createString(length);
+	public AttributeValueUniqueString(int length, String string) {
+		this.string = string;
+		this.setLength(length);
 	}
 
-	private String createString(int length) {
-		string = start;
-		if (start == null)
-			string = "";
-		Random generator = new Random(System.currentTimeMillis());
-		String candidates = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		for (int i = string.length(); i < length; i++) {
-			string += candidates.charAt(generator.nextInt(candidates.length()));
-		}
-		return string;
+	public int getLength() {
+		return length;
 	}
 
 	@Override
 	public String getValue() {
 		return string;
+	}
+
+	public void setLength(int length) {
+		if (length == 0)
+			this.length = defaultLength;
+		else
+			this.length = length;
 	}
 
 	@Override

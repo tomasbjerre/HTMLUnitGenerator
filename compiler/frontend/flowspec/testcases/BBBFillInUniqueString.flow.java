@@ -28,7 +28,7 @@ Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
 Go to baspaket and wait 2 seconds
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false in campaignmodule
 Click on campaignModuleChoose and wait 10 seconds
-Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string
+Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string of length 5
 Click on _eventId_search and wait 10 seconds
 Find input with attribute id set to _eventId_search in searchpopup
 */
@@ -77,12 +77,12 @@ Thread.sleep(10000);
 step = "State2";
 log(System.currentTimeMillis()+") Entering state 3 of 5 40% complete \"State2\"");
 /**
-Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string
+Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string of length 5
 */
 form = getFormById("locationForm");
 setAttributeValue(form, "_eventId", "search");
 input = form.getInputByName("phoneNumber.fullNumber");
-input.setValueAttribute("oETJS");
+input.setValueAttribute(createString("", 5);
 
 step = "State3";
 log(System.currentTimeMillis()+") Entering state 4 of 5 60% complete \"State3\"");
@@ -191,6 +191,17 @@ if (page.getByXPath(xpath).size() > 0) {
 	return;
 }
 findClosestXpath(xpath.substring(0, xpath.lastIndexOf("/")));
+}
+
+private String createString(String start, int length) {
+ if (start == null)
+  start = "";
+ Random generator = new Random(System.currentTimeMillis());
+ String candidates = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+ for (int i = start.length(); i < length; i++) {
+  start += candidates.charAt(generator.nextInt(candidates.length()));
+ }
+ return start;
 }
 
 

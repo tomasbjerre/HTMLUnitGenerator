@@ -129,6 +129,16 @@ public class HTMLJunitGenerator extends Generator {
 			+ " }\n"
 			+ " page = matchingElement.get(0).click();\n"
 			+ "}\n";
+	private final String methodCreateString = "private String createString(String start, int length) {\n"
+			+ " if (start == null)\n"
+			+ "  start = \"\";\n"
+			+ " Random generator = new Random(System.currentTimeMillis());\n"
+			+ " String candidates = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\";\n"
+			+ " for (int i = start.length(); i < length; i++) {\n"
+			+ "  start += candidates.charAt(generator.nextInt(candidates.length()));\n"
+			+ " }\n"
+			+ " return start;\n"
+			+ "}\n";
 
 	private String currentUrl;
 	private final String testFileName;
@@ -214,9 +224,10 @@ public class HTMLJunitGenerator extends Generator {
 					result += "select = form.getSelectByName(\"" + escapeString(name) + "\");\n";
 					result += "select.setSelectedAttribute(select.getOption(" + attributeValueByNumber.getValue() + "), true);\n";
 				} else if (value instanceof AttributeValueUniqueString) {
+					addMethod(methodCreateString);
 					AttributeValueUniqueString attributeValueUniqueString = (AttributeValueUniqueString)value;
 					result += "input = form.getInputByName(\"" + escapeString(name) + "\");\n";
-					result += "input.setValueAttribute(\""+attributeValueUniqueString.getValue()+"\");\n";
+					result += "input.setValueAttribute(createString(\""+attributeValueUniqueString.getValue()+"\", "+attributeValueUniqueString.getLength()+");\n";
 				}
 			}
 

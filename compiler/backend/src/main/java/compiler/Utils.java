@@ -108,13 +108,8 @@ public class Utils {
 			System.out.println("Did not find expeced result file, writing result to"+expectedResultFilename);
 			writeFile(expectedResultFilename,actualTestResultContent);
 		}else{
-			if (expectedResultFilename.toLowerCase().contains("unique")) {
-				if (normalizedEquals(expectedTestResultContent,actualTestResultContent))
-					fail("Unique test result did not differ!");
-			}else{
-				if (!normalizedEquals(expectedTestResultContent,actualTestResultContent))
-					assertEquals(expectedTestResultContent,actualTestResultContent);
-			}
+			if (!normalizedEquals(expectedTestResultContent,actualTestResultContent))
+				assertEquals(expectedTestResultContent,actualTestResultContent);
 		}
 	}
 

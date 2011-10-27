@@ -82,7 +82,7 @@ Fill in locationForm with _eventId as search and phoneNumber.fullNumber as uniqu
 form = getFormById("locationForm");
 setAttributeValue(form, "_eventId", "search");
 input = form.getInputByName("phoneNumber.fullNumber");
-input.setValueAttribute("MywOJG");
+input.setValueAttribute(createString("My", 6);
 
 step = "State3";
 log(System.currentTimeMillis()+") Entering state 4 of 5 60% complete \"State3\"");
@@ -191,6 +191,17 @@ if (page.getByXPath(xpath).size() > 0) {
 	return;
 }
 findClosestXpath(xpath.substring(0, xpath.lastIndexOf("/")));
+}
+
+private String createString(String start, int length) {
+ if (start == null)
+  start = "";
+ Random generator = new Random(System.currentTimeMillis());
+ String candidates = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+ for (int i = start.length(); i < length; i++) {
+  start += candidates.charAt(generator.nextInt(candidates.length()));
+ }
+ return start;
 }
 
 
