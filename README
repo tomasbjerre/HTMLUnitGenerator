@@ -6,8 +6,6 @@ http://github.com/tomasbjerre/HTMLUnitGenerator/wiki
 
 TODO
 - Extend flowspec:
-  - Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string
-    Create the unique string when running test, not compile-time.
   - Click on somePath and wait at most 10 seconds
     Wait 10 seconds or untill dom is changed and then wait for DOM to be unchanged for 500ms.
   - Click on somePath
