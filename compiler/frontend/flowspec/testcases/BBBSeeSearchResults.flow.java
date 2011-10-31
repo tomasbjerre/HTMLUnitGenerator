@@ -139,13 +139,13 @@ private void findOrFail(String xpath, String tag, String attribute, String value
  long endTime = System.currentTimeMillis() + waitAtMost*1000;
  log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
  while (!successfull && (endTime-System.currentTimeMillis()) > 0) {
+   webClient.waitForBackgroundJavaScriptStartingBefore(100);
    successfull = find(xpath, tag, attribute, value);
    if (!successfull)
     System.out.print(".");
-    webClient.waitForBackgroundJavaScriptStartingBefore(100);
    }
    if (successfull)
-    log(" took "+(System.currentTimeMillis() - endTime - waitAtMost*1000) + "ms");
+    log(" took "+(System.currentTimeMillis() - endTime + waitAtMost*1000) + "ms");
    if (!successfull) {
     log(page.asXml());
     findClosestXpath(xpath);
