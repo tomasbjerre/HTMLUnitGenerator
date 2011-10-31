@@ -2,9 +2,9 @@ package webtest;
 import org.junit.Test;
 
 import org.w3c.dom.Node;
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.gargoylesoftware.htmlunit.*;
+import java.util.*;
 
 import java.util.ArrayList;
 
@@ -25,16 +25,18 @@ Path checkoutOrder is //*[@id="orderButton"]
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
 Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
 
-Go to onegbit and wait 2 seconds
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false in website
-Click on bbCampaignModuleChoose and wait 10 seconds
-Find input with attribute id set to _eventId_search in website
+Go to onegbit
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false in website or wait at most 20000 seconds
+Click on bbCampaignModuleChoose
+Find input with attribute id set to _eventId_search in website or wait at most 20000 seconds
 Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
-Click on _eventId_search and wait 10 seconds
-Find input with attribute id set to _eventId_search in website
+
+Click on _eventId_search
+Find input with attribute id set to _eventId_search in website or wait at most 20000 seconds
 Fill in locationForm with address.floor as 3
-Click on _eventId_search and wait 10 seconds
-Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website
+
+Click on _eventId_search
+Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20000 seconds
 */
 
 @SuppressWarnings("unchecked")
@@ -60,32 +62,31 @@ webClient.setJavaScriptTimeout(180000);
 log(System.currentTimeMillis()+") Entering state 1 of 7 0% complete \"start\"");
 /**
 Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
-Go to onegbit and wait 2 seconds
+Go to onegbit
 */
 page = webClient.getPage("http://www.bredbandsbolaget.se/bredband/bredband1000/index.html");
-Thread.sleep(2000);
 
 step = "State1";
 log(System.currentTimeMillis()+") Entering state 2 of 7 14% complete \"State1\"");
 /**
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false in website
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false in website or wait at most 20000 seconds
 */
-findOrFail("/html/body", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html");
+findOrFail("/html/body", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
 /**
 Path bbCampaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[4]/a/span
-Click on bbCampaignModuleChoose and wait 10 seconds
+Click on bbCampaignModuleChoose
 */
 findAndClick("/html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[4]/a/span");
-Thread.sleep(10000);
 
 step = "State2";
 log(System.currentTimeMillis()+") Entering state 3 of 7 28% complete \"State2\"");
 /**
-Find input with attribute id set to _eventId_search in website
+Find input with attribute id set to _eventId_search in website or wait at most 20000 seconds
 */
-findOrFail("/html/body", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html");
+findOrFail("/html/body", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
 /**
 Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
+
 */
 form = getFormById("locationForm");
 setAttributeValue(form, "_eventId", "search");
@@ -95,19 +96,19 @@ step = "State3";
 log(System.currentTimeMillis()+") Entering state 4 of 7 42% complete \"State3\"");
 /**
 Path _eventId_search is //*[@id="_eventId_search"]
-Click on _eventId_search and wait 10 seconds
+Click on _eventId_search
 */
 findAndClick("//*[@id=\"_eventId_search\"]");
-Thread.sleep(10000);
 
 step = "State4";
 log(System.currentTimeMillis()+") Entering state 5 of 7 57% complete \"State4\"");
 /**
-Find input with attribute id set to _eventId_search in website
+Find input with attribute id set to _eventId_search in website or wait at most 20000 seconds
 */
-findOrFail("/html/body", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html");
+findOrFail("/html/body", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
 /**
 Fill in locationForm with address.floor as 3
+
 */
 form = getFormById("locationForm");
 setAttributeValue(form, "address.floor", "3");
@@ -116,17 +117,16 @@ step = "State5";
 log(System.currentTimeMillis()+") Entering state 6 of 7 71% complete \"State5\"");
 /**
 Path _eventId_search is //*[@id="_eventId_search"]
-Click on _eventId_search and wait 10 seconds
+Click on _eventId_search
 */
 findAndClick("//*[@id=\"_eventId_search\"]");
-Thread.sleep(10000);
 
 step = "State6";
 log(System.currentTimeMillis()+") Entering state 7 of 7 85% complete \"State6\"");
 /**
-Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website
+Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20000 seconds
 */
-findOrFail("/html/body", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html");
+findOrFail("/html/body", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
 webClient.closeAllWindows();
 }
 
@@ -134,14 +134,23 @@ private void log(String string) {
  System.out.println(string);
 }
 
-private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl) {
-  boolean successfull;
-  successfull = find(xpath, tag, attribute, value);
-  if (!successfull) {
-   log(page.asXml());
-   findClosestXpath(xpath);
-   fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
-  }
+private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {
+ boolean successfull = false;
+ long endTime = System.currentTimeMillis() + waitAtMost*1000;
+ log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
+ while (!successfull || (endTime-System.currentTimeMillis()) > 0) {
+   successfull = find(xpath, tag, attribute, value);
+   if (!successfull)
+    System.out.print(".");
+    webClient.waitForBackgroundJavaScriptStartingBefore(100);
+   }
+   if (successfull)
+    log(" took "+(System.currentTimeMillis() - endTime - waitAtMost*1000) + "ms");
+   if (!successfull) {
+    log(page.asXml());
+    findClosestXpath(xpath);
+    fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
+   }
  }
 
 private boolean find(String xpath, String tag, String attribute, String value) {

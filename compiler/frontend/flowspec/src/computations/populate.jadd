@@ -67,21 +67,23 @@ aspect Populate
   public void GoToType.populate(Flow flow, SymbolTable table) {
 	State newState = new State("State"+stateCounter++);
 	compiler.data.Referencable referencable = (compiler.data.Referencable)table.lookupReferencable(getIdUse().getVALUE());
-	String delayStr = ""+Integer.parseInt(getContent().getCONTENT())*1000;
+	String delayStr = null;
+    if (hasContent())
+      delayStr = ""+Integer.parseInt(getContent().getCONTENT())*1000;
 	Transition transition = new Transition(newState, referencable , delayStr );
 	currentState.setTransition(transition);
 	currentState = newState;
-	super.populate(flow, table);
   }
   
   public void ClickOnType.populate(Flow flow, SymbolTable table) {
 	State newState = new State("State"+stateCounter++);
 	compiler.data.Referencable referencable = (compiler.data.Referencable)table.lookupReferencable(getIdUse().getVALUE());
-	String delayStr = ""+Integer.parseInt(getContent().getCONTENT())*1000;
+    String delayStr = null;
+    if (hasContent())
+      delayStr = ""+Integer.parseInt(getContent().getCONTENT())*1000;
 	Transition transition = new Transition(newState, referencable , delayStr);
 	currentState.setTransition(transition);
 	currentState = newState;
-	super.populate(flow, table);
   }
   
   public void FindType.populate(Flow flow, SymbolTable table) {
@@ -91,8 +93,13 @@ aspect Populate
       Attribute attribute = new Attribute(getAttribute().getCONTENT(),new AttributeValueString(getValue().getCONTENT()));
 	  tag.addAttribute(attribute);
 	  find.addTag(tag);
+	  
+	  String delayStr = null;
+      if (hasWaitAtMost()) {
+        delayStr = ""+Integer.parseInt(getWaitAtMost().getCONTENT())*1000;
+        find.setWaitAtMost(delayStr);
+	  }
 	  currentState.addFind(find);
-	  super.populate(flow, table);
   }
   
   public void FillInAndClick.populate(Flow flow, SymbolTable table) {

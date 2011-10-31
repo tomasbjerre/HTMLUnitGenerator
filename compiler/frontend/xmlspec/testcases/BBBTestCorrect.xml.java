@@ -2,9 +2,9 @@ package webtest;
 import org.junit.Test;
 
 import org.w3c.dom.Node;
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.gargoylesoftware.htmlunit.*;
+import java.util.*;
 
 import java.util.ArrayList;
 
@@ -152,7 +152,7 @@ log(System.currentTimeMillis()+") Entering state 2 of 7 14% complete \"campaignm
     </tag>
   </find>
 */
-findOrFail("/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
  <path id="campaignModuleChoose">
   /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
@@ -171,7 +171,7 @@ log(System.currentTimeMillis()+") Entering state 3 of 7 28% complete \"searchflo
     </tag>
   </find>
 */
-findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
   <form id="locationForm" submit="_eventId_search">
    <input name="_eventId" value="search"/>
@@ -194,7 +194,7 @@ log(System.currentTimeMillis()+") Entering state 4 of 7 42% complete \"selectflo
     </tag>
   </find>
 */
-findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
   <form id="locationForm" submit="_eventId_search">
    <input name="address.floor" value="3"/>
@@ -215,7 +215,7 @@ log(System.currentTimeMillis()+") Entering state 5 of 7 57% complete \"searchres
     </tag>
   </find>
 */
-findOrFail("/html/body/div[7]/div/div[9]", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[7]/div/div[9]", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
  <path id="searchPopupChooseFoundOffer">
   /html/body/div[7]/div/div[9]/form[2]/div[2]/div/a[2]/img
@@ -234,7 +234,7 @@ log(System.currentTimeMillis()+") Entering state 6 of 7 71% complete \"ordercart
     </tag>
   </find>
 */
-findOrFail("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]", "option", "value", "dsl24", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]", "option", "value", "dsl24", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
  <path id="checkoutOrder">
   /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]/div[6]/div/input
@@ -253,7 +253,7 @@ log(System.currentTimeMillis()+") Entering state 7 of 7 85% complete \"tvDetails
     </tag>
   </find>
 */
-findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 webClient.closeAllWindows();
 }
 
@@ -261,14 +261,23 @@ private void log(String string) {
  System.out.println(string);
 }
 
-private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl) {
-  boolean successfull;
-  successfull = find(xpath, tag, attribute, value);
-  if (!successfull) {
-   log(page.asXml());
-   findClosestXpath(xpath);
-   fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
-  }
+private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {
+ boolean successfull = false;
+ long endTime = System.currentTimeMillis() + waitAtMost*1000;
+ log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
+ while (!successfull || (endTime-System.currentTimeMillis()) > 0) {
+   successfull = find(xpath, tag, attribute, value);
+   if (!successfull)
+    System.out.print(".");
+    webClient.waitForBackgroundJavaScriptStartingBefore(100);
+   }
+   if (successfull)
+    log(" took "+(System.currentTimeMillis() - endTime - waitAtMost*1000) + "ms");
+   if (!successfull) {
+    log(page.asXml());
+    findClosestXpath(xpath);
+    fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
+   }
  }
 
 private boolean find(String xpath, String tag, String attribute, String value) {

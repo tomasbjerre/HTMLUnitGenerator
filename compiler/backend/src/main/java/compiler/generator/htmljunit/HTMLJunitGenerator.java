@@ -88,14 +88,23 @@ public class HTMLJunitGenerator extends Generator {
 			+ " }\n"
 			+ "}\n";
 
-	private final String methodFindOrFail = "private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl) {\n"
-			+ "  boolean successfull;\n"
-			+ "  successfull = find(xpath, tag, attribute, value);\n"
-			+ "  if (!successfull) {\n"
-			+ "   log(page.asXml());\n"
-			+ "   findClosestXpath(xpath);\n"
-			+ "   fail(step+\") Failed finding tag \\\"\"+tag+\"\\\" with attribute \\\"\"+attribute+\"\\\" and value \\\"\"+value+\"\\\" in \\\"\"+xpath+\"\\\" at \\\"\"+currentUrl+\"\\\"\");\n"
-			+ "  }\n"
+	private final String methodFindOrFail = "private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {\n"
+			+ " boolean successfull = false;\n"
+			+ " long endTime = System.currentTimeMillis() + waitAtMost*1000;\n"
+			+ " log(\"Looking for \"+tag+\" with attribute \"+attribute+\" and value \"+value+\" in \"+xpath);\n"
+			+ " while (!successfull || (endTime-System.currentTimeMillis()) > 0) {\n"
+			+ "   successfull = find(xpath, tag, attribute, value);\n"
+			+ "   if (!successfull)\n"
+			+ "    System.out.print(\".\");\n"
+			+ "    webClient.waitForBackgroundJavaScriptStartingBefore(100);\n"
+			+ "   }\n"
+			+ "   if (successfull)\n"
+			+ "    log(\" took \"+(System.currentTimeMillis() - endTime - waitAtMost*1000) + \"ms\");\n"
+			+ "   if (!successfull) {\n"
+			+ "    log(page.asXml());\n"
+			+ "    findClosestXpath(xpath);\n"
+			+ "    fail(step+\") Failed finding tag \\\"\"+tag+\"\\\" with attribute \\\"\"+attribute+\"\\\" and value \\\"\"+value+\"\\\" in \\\"\"+xpath+\"\\\" at \\\"\"+currentUrl+\"\\\"\");\n"
+			+ "   }\n"
 			+ " }\n";
 
 	private final String methodFindClosestXpath = "private void findClosestXpath(String xpath) {\n"
@@ -192,7 +201,7 @@ public class HTMLJunitGenerator extends Generator {
 		if (!find.getTexts().isEmpty()) {
 			addMethod(methodFindText);
 			for (Text text : find.getTexts()) {
-				result += "findOrFail(\""+find.getPath().getValue()+"\", \""+escapeString(find.getPath().getValue())+"\", \""+text.getContent()+"\", \""+getCurrentUrl()+"\");\n";
+				result += "findOrFail(\""+find.getPath().getValue()+"\", \""+escapeString(find.getPath().getValue())+"\", \""+text.getContent()+"\", \""+getCurrentUrl()+"\", "+find.getWaitAtMost()+");\n";
 			}
 		}
 
@@ -202,7 +211,7 @@ public class HTMLJunitGenerator extends Generator {
 			for (Tag tag : find.getTags()) {
 				String tagName = tag.getName();
 				for (Attribute attribute : tag.getAttributes().values()) {
-					result += "findOrFail(\""+escapeString(find.getPath().getValue())+"\", \""+tagName+"\", \""+attribute.getName()+"\", \""+attribute.getValue()+"\", \""+getCurrentUrl()+"\");\n";
+					result += "findOrFail(\""+escapeString(find.getPath().getValue())+"\", \""+tagName+"\", \""+attribute.getName()+"\", \""+attribute.getValue()+"\", \""+getCurrentUrl()+"\", "+find.getWaitAtMost()+");\n";
 				}
 			}
 		}
@@ -227,7 +236,7 @@ public class HTMLJunitGenerator extends Generator {
 					addMethod(methodCreateString);
 					AttributeValueUniqueString attributeValueUniqueString = (AttributeValueUniqueString)value;
 					result += "input = form.getInputByName(\"" + escapeString(name) + "\");\n";
-					result += "input.setValueAttribute(createString(\""+attributeValueUniqueString.getValue()+"\", "+attributeValueUniqueString.getLength()+");\n";
+					result += "input.setValueAttribute(createString(\""+attributeValueUniqueString.getValue()+"\", "+attributeValueUniqueString.getLength()+"));\n";
 				}
 			}
 
@@ -284,9 +293,9 @@ public class HTMLJunitGenerator extends Generator {
 		result += "import org.junit.Test;\n";
 		result += "\n";
 		result += "import org.w3c.dom.Node;\n";
-		result += "import com.gargoylesoftware.htmlunit.WebClient;\n";
 		result += "import com.gargoylesoftware.htmlunit.html.*;\n";
 		result += "import com.gargoylesoftware.htmlunit.*;\n";
+		result += "import java.util.*;\n";
 		result += "\n";
 		result += "import java.util.ArrayList;\n";
 		result += "\n";

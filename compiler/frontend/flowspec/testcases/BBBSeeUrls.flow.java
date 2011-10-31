@@ -2,9 +2,9 @@ package webtest;
 import org.junit.Test;
 
 import org.w3c.dom.Node;
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.gargoylesoftware.htmlunit.*;
+import java.util.*;
 
 import java.util.ArrayList;
 

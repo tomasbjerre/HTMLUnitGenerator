@@ -2,9 +2,9 @@ package webtest;
 import org.junit.Test;
 
 import org.w3c.dom.Node;
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.gargoylesoftware.htmlunit.*;
+import java.util.*;
 
 import java.util.ArrayList;
 
@@ -30,9 +30,11 @@ Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:1
 Click on campaignModuleChoose and wait 10 seconds
 Find input with attribute id set to _eventId_search in searchpopup
 Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
+
 Click on _eventId_search and wait 10 seconds
 Find input with attribute id set to _eventId_search in searchpopup
 Fill in locationForm with address.floor as 3
+
 Click on _eventId_search and wait 10 seconds
 Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in searchpopup
 Click on searchPopupChooseFoundOffer and wait 10 seconds
@@ -82,7 +84,7 @@ log(System.currentTimeMillis()+") Entering state 2 of 13 7% complete \"State1\""
 /**
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
 */
-findOrFail("/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
 Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
 Click on campaignModuleChoose and wait 10 seconds
@@ -95,9 +97,10 @@ log(System.currentTimeMillis()+") Entering state 3 of 13 15% complete \"State2\"
 /**
 Find input with attribute id set to _eventId_search in searchpopup
 */
-findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
 Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
+
 */
 form = getFormById("locationForm");
 setAttributeValue(form, "_eventId", "search");
@@ -117,9 +120,10 @@ log(System.currentTimeMillis()+") Entering state 5 of 13 30% complete \"State4\"
 /**
 Find input with attribute id set to _eventId_search in searchpopup
 */
-findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
 Fill in locationForm with address.floor as 3
+
 */
 form = getFormById("locationForm");
 setAttributeValue(form, "address.floor", "3");
@@ -138,7 +142,7 @@ log(System.currentTimeMillis()+") Entering state 7 of 13 46% complete \"State6\"
 /**
 Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in searchpopup
 */
-findOrFail("/html/body/div[7]/div/div[9]", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[7]/div/div[9]", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
 Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
 Click on searchPopupChooseFoundOffer and wait 10 seconds
@@ -151,7 +155,7 @@ log(System.currentTimeMillis()+") Entering state 8 of 13 53% complete \"State7\"
 /**
 Find option with attribute value set to dsl24 in orderCartArea
 */
-findOrFail("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]", "option", "value", "dsl24", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]", "option", "value", "dsl24", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
 Path checkoutOrder is //*[@id="orderButton"]
 Click on checkoutOrder and wait 10 seconds
@@ -164,7 +168,7 @@ log(System.currentTimeMillis()+") Entering state 9 of 13 61% complete \"State8\"
 /**
 Find input with attribute src set to /res/img/button/tillbaka.png in website
 */
-findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
 Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
 Click on searchPopupChooseFoundOffer and wait 10 seconds
@@ -177,7 +181,7 @@ log(System.currentTimeMillis()+") Entering state 10 of 13 69% complete \"State9\
 /**
 Find option with attribute value set to dsl24 in orderCartArea
 */
-findOrFail("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]", "option", "value", "dsl24", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]", "option", "value", "dsl24", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
 Path checkoutOrder is //*[@id="orderButton"]
 Click on checkoutOrder and wait 10 seconds
@@ -190,7 +194,7 @@ log(System.currentTimeMillis()+") Entering state 11 of 13 76% complete \"State10
 /**
 Find input with attribute src set to /res/img/button/tillbaka.png in website
 */
-findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
 Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
 Click on searchPopupChooseFoundOffer and wait 10 seconds
@@ -203,7 +207,7 @@ log(System.currentTimeMillis()+") Entering state 12 of 13 84% complete \"State11
 /**
 Find option with attribute value set to dsl24 in orderCartArea
 */
-findOrFail("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]", "option", "value", "dsl24", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]", "option", "value", "dsl24", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
 Path checkoutOrder is //*[@id="orderButton"]
 Click on checkoutOrder and wait 10 seconds
@@ -216,7 +220,7 @@ log(System.currentTimeMillis()+") Entering state 13 of 13 92% complete \"State12
 /**
 Find input with attribute src set to /res/img/button/tillbaka.png in website
 */
-findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 webClient.closeAllWindows();
 }
 
@@ -224,14 +228,23 @@ private void log(String string) {
  System.out.println(string);
 }
 
-private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl) {
-  boolean successfull;
-  successfull = find(xpath, tag, attribute, value);
-  if (!successfull) {
-   log(page.asXml());
-   findClosestXpath(xpath);
-   fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
-  }
+private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {
+ boolean successfull = false;
+ long endTime = System.currentTimeMillis() + waitAtMost*1000;
+ log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
+ while (!successfull || (endTime-System.currentTimeMillis()) > 0) {
+   successfull = find(xpath, tag, attribute, value);
+   if (!successfull)
+    System.out.print(".");
+    webClient.waitForBackgroundJavaScriptStartingBefore(100);
+   }
+   if (successfull)
+    log(" took "+(System.currentTimeMillis() - endTime - waitAtMost*1000) + "ms");
+   if (!successfull) {
+    log(page.asXml());
+    findClosestXpath(xpath);
+    fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
+   }
  }
 
 private boolean find(String xpath, String tag, String attribute, String value) {

@@ -23,12 +23,12 @@ Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/di
 
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
 
-Go to baspaket and wait 2 seconds
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
+Go to baspaket
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule or wait at most 10000 seconds
 */
 
 @SuppressWarnings("unchecked")
-public class BBBTestGotoAndFind extends TestCase {
+public class BBBTestGotoAndFindAndWaitAtMost extends TestCase {
 WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
 HtmlPage page = null;
 String step = null;
@@ -50,17 +50,16 @@ webClient.setJavaScriptTimeout(180000);
 log(System.currentTimeMillis()+") Entering state 1 of 2 0% complete \"start\"");
 /**
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
-Go to baspaket and wait 2 seconds
+Go to baspaket
 */
 page = webClient.getPage("http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
-Thread.sleep(2000);
 
 step = "State1";
 log(System.currentTimeMillis()+") Entering state 2 of 2 50% complete \"State1\"");
 /**
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule or wait at most 10000 seconds
 */
-findOrFail("/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
+findOrFail("/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 10000);
 webClient.closeAllWindows();
 }
 

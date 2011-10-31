@@ -45,6 +45,7 @@ TOKEN [IGNORE_CASE]: {
 | < USEPROXY: "Use proxy ">
 | < WITHPORT: " with port ">
 | < STARTINGWITH: " starting with ">
+| < ORWAITATMOST: " or wait at most ">
 | < IS: " is ">
 }
 
@@ -111,17 +112,17 @@ void delay() : {}
 
 void goTo() #GoToType : {}
 {
- <GOTO> idUse() <ANDWAIT> contentAttribute() <SECONDS>
+ <GOTO> idUse() (<ANDWAIT> contentAttribute() <SECONDS>)? #Opt
 }
 
 void clickOn() #ClickOnType : {}
 {
- <CLICKON> idUse() <ANDWAIT> contentAttribute() <SECONDS>
+ <CLICKON> idUse() (<ANDWAIT> contentAttribute() <SECONDS>)? #Opt
 }
 
 void find() #FindType : {}
 {
- <FIND> contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute() <IN> idUse() 
+ <FIND> contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute() <IN> idUse() (<ORWAITATMOST> contentAttribute() <SECONDS>)? #Opt
 }
 
 void pathDef() #PathType : {}

@@ -10,11 +10,17 @@ public class Transition extends compiler.data.Transition {
 
 	@Override
 	public String toString() {
-		int delay = Integer.parseInt(getDelay())/1000;
+		int delay = 0;
+		if (getDelay() != null && !getDelay().equals("0"))
+			delay = Integer.parseInt(getDelay())/1000;
+		String result = "";
 		if (using instanceof Url)
-			return "Go to " + ((Url)using).getName() + " and wait "+ delay + " seconds\n";
+			result += "Go to " + ((Url)using).getName();
 		if (using instanceof Path)
-			return "Click on " + ((Path)using).getName() + " and wait "+ delay + " seconds\n";
-		return "";
+			result += "Click on " + ((Path)using).getName();
+		if (delay > 0)
+			result += " and wait "+ delay + " seconds";
+		result += "\n";
+		return result;
 	}
 }

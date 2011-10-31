@@ -2,9 +2,9 @@ package webtest;
 import org.junit.Test;
 
 import org.w3c.dom.Node;
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.gargoylesoftware.htmlunit.*;
+import java.util.*;
 
 import java.util.ArrayList;
 
@@ -29,6 +29,7 @@ Go to baspaket and wait 2 seconds
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false in campaignmodule
 Click on campaignModuleChoose and wait 10 seconds
 Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string of length 20
+
 Click on _eventId_search and wait 10 seconds
 Find input with attribute id set to _eventId_search in searchpopup
 */
@@ -66,7 +67,7 @@ log(System.currentTimeMillis()+") Entering state 2 of 5 20% complete \"State1\""
 /**
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false in campaignmodule
 */
-findOrFail("/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
 Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
 Click on campaignModuleChoose and wait 10 seconds
@@ -78,11 +79,12 @@ step = "State2";
 log(System.currentTimeMillis()+") Entering state 3 of 5 40% complete \"State2\"");
 /**
 Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string of length 20
+
 */
 form = getFormById("locationForm");
 setAttributeValue(form, "_eventId", "search");
 input = form.getInputByName("phoneNumber.fullNumber");
-input.setValueAttribute(createString("", 20);
+input.setValueAttribute(createString("", 20));
 
 step = "State3";
 log(System.currentTimeMillis()+") Entering state 4 of 5 60% complete \"State3\"");
@@ -98,7 +100,7 @@ log(System.currentTimeMillis()+") Entering state 5 of 5 80% complete \"State4\""
 /**
 Find input with attribute id set to _eventId_search in searchpopup
 */
-findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html");
+findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 webClient.closeAllWindows();
 }
 
@@ -106,14 +108,23 @@ private void log(String string) {
  System.out.println(string);
 }
 
-private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl) {
-  boolean successfull;
-  successfull = find(xpath, tag, attribute, value);
-  if (!successfull) {
-   log(page.asXml());
-   findClosestXpath(xpath);
-   fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
-  }
+private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {
+ boolean successfull = false;
+ long endTime = System.currentTimeMillis() + waitAtMost*1000;
+ log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
+ while (!successfull || (endTime-System.currentTimeMillis()) > 0) {
+   successfull = find(xpath, tag, attribute, value);
+   if (!successfull)
+    System.out.print(".");
+    webClient.waitForBackgroundJavaScriptStartingBefore(100);
+   }
+   if (successfull)
+    log(" took "+(System.currentTimeMillis() - endTime - waitAtMost*1000) + "ms");
+   if (!successfull) {
+    log(page.asXml());
+    findClosestXpath(xpath);
+    fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
+   }
  }
 
 private boolean find(String xpath, String tag, String attribute, String value) {

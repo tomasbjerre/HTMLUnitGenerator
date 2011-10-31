@@ -5,15 +5,7 @@ Check out the wiki!
 http://github.com/tomasbjerre/HTMLUnitGenerator/wiki
 
 TODO
-- Extend flowspec:
-  - Click on somePath and wait at most 10 seconds
-    Wait 10 seconds or untill dom is changed and then wait for DOM to be unchanged for 500ms.
-  - Click on somePath
-    Make it default to wait untill DOM changed and then wait for DOM to be unchanged for 500ms.
-  - Go to someUrl and wait at most 10 seconds
-    Wait 10 seconds or untill dom is changed and then wait for DOM to be unchanged for 500ms.
-  - Go to someUrl
-    Make it default to wait untill DOM changed and then wait for DOM to be unchanged for 500ms.
+- Documentation
 - Extend Webapp
   - Store test cases
   - Run test cases

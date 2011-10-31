@@ -2,9 +2,9 @@ package webtest;
 import org.junit.Test;
 
 import org.w3c.dom.Node;
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.gargoylesoftware.htmlunit.*;
+import java.util.*;
 
 import java.util.ArrayList;
 
@@ -18,10 +18,10 @@ Path imagesLink is /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a
 
 Url url1 is http://bjurr.se/
 
-Go to url1 and wait 0 seconds
-Click on linksLink and wait 0 seconds
+Go to url1
+Click on linksLink
 Find a with attribute href set to /link/category/blandat in mainArea
-Click on imagesLink and wait 0 seconds
+Click on imagesLink
 Find a with attribute href set to /image/view/?i=/100213-kkrona-brand/ in mainArea
 */
 
@@ -48,7 +48,7 @@ webClient.setJavaScriptTimeout(180000);
 log(System.currentTimeMillis()+") Entering state 1 of 4 0% complete \"start\"");
 /**
 Url url1 is http://bjurr.se/
-Go to url1 and wait 0 seconds
+Go to url1
 */
 page = webClient.getPage("http://bjurr.se/");
 
@@ -56,7 +56,7 @@ step = "State1";
 log(System.currentTimeMillis()+") Entering state 2 of 4 25% complete \"State1\"");
 /**
 Path linksLink is /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a
-Click on linksLink and wait 0 seconds
+Click on linksLink
 */
 findAndClick("/html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[2]/a");
 
@@ -65,10 +65,10 @@ log(System.currentTimeMillis()+") Entering state 3 of 4 50% complete \"State2\""
 /**
 Find a with attribute href set to /link/category/blandat in mainArea
 */
-findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/link/category/blandat", "http://bjurr.se/");
+findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/link/category/blandat", "http://bjurr.se/", 0);
 /**
 Path imagesLink is /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a
-Click on imagesLink and wait 0 seconds
+Click on imagesLink
 */
 findAndClick("/html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a");
 
@@ -77,7 +77,7 @@ log(System.currentTimeMillis()+") Entering state 4 of 4 75% complete \"State3\""
 /**
 Find a with attribute href set to /image/view/?i=/100213-kkrona-brand/ in mainArea
 */
-findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/image/view/?i=/100213-kkrona-brand/", "http://bjurr.se/");
+findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/image/view/?i=/100213-kkrona-brand/", "http://bjurr.se/", 0);
 webClient.closeAllWindows();
 }
 
@@ -95,14 +95,23 @@ private void findAndClick(String xpath) throws Exception {
  page = matchingElement.get(0).click();
 }
 
-private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl) {
-  boolean successfull;
-  successfull = find(xpath, tag, attribute, value);
-  if (!successfull) {
-   log(page.asXml());
-   findClosestXpath(xpath);
-   fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
-  }
+private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {
+ boolean successfull = false;
+ long endTime = System.currentTimeMillis() + waitAtMost*1000;
+ log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
+ while (!successfull || (endTime-System.currentTimeMillis()) > 0) {
+   successfull = find(xpath, tag, attribute, value);
+   if (!successfull)
+    System.out.print(".");
+    webClient.waitForBackgroundJavaScriptStartingBefore(100);
+   }
+   if (successfull)
+    log(" took "+(System.currentTimeMillis() - endTime - waitAtMost*1000) + "ms");
+   if (!successfull) {
+    log(page.asXml());
+    findClosestXpath(xpath);
+    fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
+   }
  }
 
 private boolean find(String xpath, String tag, String attribute, String value) {

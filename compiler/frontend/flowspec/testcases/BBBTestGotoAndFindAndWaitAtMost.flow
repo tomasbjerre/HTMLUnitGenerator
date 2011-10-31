@@ -9,7 +9,6 @@ Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/di
 
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
 
-Go to baspaket and wait 2 seconds
+Go to baspaket
 
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule
-Click on campaignModuleChoose
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule or wait at most 10 seconds

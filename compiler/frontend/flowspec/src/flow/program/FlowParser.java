@@ -15,9 +15,9 @@ import compiler.data.TargetFactory;
 import compiler.data.flow.Flow;
 import compiler.generator.htmljunit.HTMLJunitGenerator;
 
-import flow.parser.ParseException;
 import flow.parser.Parser;
 import flow.parser.Start;
+import flow.parser.TokenMgrError;
 
 public class FlowParser extends Flow implements Frontend {
 
@@ -63,13 +63,12 @@ public class FlowParser extends Flow implements Frontend {
 			start.populate(this,symbolTable);
 			HTMLJunitGenerator junitGenerator = new HTMLJunitGenerator(this,testFileName);
 			write(output, junitGenerator.toString());
-		} catch (ParseException e) {
-			messages += e.getMessage();
-			write(output,messages);
-		} catch (Error e) {
-			messages += e.getMessage();
-			write(output,messages);
 		} catch (Exception e) {
+			e.printStackTrace();
+			messages += e.getMessage();
+			write(output,messages);
+		} catch (TokenMgrError e) {
+			e.printStackTrace();
 			messages += e.getMessage();
 			write(output,messages);
 		}

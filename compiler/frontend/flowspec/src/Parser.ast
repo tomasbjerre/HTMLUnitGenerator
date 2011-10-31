@@ -9,9 +9,9 @@ UniqueStringOfLength: Content ::= Length:Content;
 UniqueStringOfLengthStartingWith: Content ::= Length:Content StartingWith:Content;
 
 ActionType ::= ;
-GoToType: ActionType ::= IdUse Content;
-ClickOnType: ActionType ::= IdUse Content;
-FindType: ActionType ::= Type:Content Attribute:Content Value:Content IdUse;
+GoToType: ActionType ::= IdUse [Content];
+ClickOnType: ActionType ::= IdUse [Content];
+FindType: ActionType ::= Type:Content Attribute:Content Value:Content IdUse [WaitAtMost:Content];
 FillInAndClick ::= IdDecl FormContent* ClickOnType;
 FormContent ::= Attribute:Content Value:Content;
 UseProxy ::= Host:Content Port:Content;

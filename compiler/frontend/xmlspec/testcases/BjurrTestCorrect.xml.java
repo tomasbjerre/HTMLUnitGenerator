@@ -2,9 +2,9 @@ package webtest;
 import org.junit.Test;
 
 import org.w3c.dom.Node;
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.gargoylesoftware.htmlunit.*;
+import java.util.*;
 
 import java.util.ArrayList;
 
@@ -107,7 +107,7 @@ log(System.currentTimeMillis()+") Entering state 3 of 4 50% complete \"links\"")
     </tag>
   </find>
 */
-findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/link/category/blandat", "http://bjurr.se/");
+findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/link/category/blandat", "http://bjurr.se/", 0);
 /**
  <path id="imagesLink">
   /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a
@@ -125,7 +125,7 @@ log(System.currentTimeMillis()+") Entering state 4 of 4 75% complete \"images\""
     </tag>
   </find>
 */
-findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/image/view/?i=/080112 Fiske/", "http://bjurr.se/");
+findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/image/view/?i=/080112 Fiske/", "http://bjurr.se/", 0);
 webClient.closeAllWindows();
 }
 
@@ -143,14 +143,23 @@ private void findAndClick(String xpath) throws Exception {
  page = matchingElement.get(0).click();
 }
 
-private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl) {
-  boolean successfull;
-  successfull = find(xpath, tag, attribute, value);
-  if (!successfull) {
-   log(page.asXml());
-   findClosestXpath(xpath);
-   fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
-  }
+private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {
+ boolean successfull = false;
+ long endTime = System.currentTimeMillis() + waitAtMost*1000;
+ log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
+ while (!successfull || (endTime-System.currentTimeMillis()) > 0) {
+   successfull = find(xpath, tag, attribute, value);
+   if (!successfull)
+    System.out.print(".");
+    webClient.waitForBackgroundJavaScriptStartingBefore(100);
+   }
+   if (successfull)
+    log(" took "+(System.currentTimeMillis() - endTime - waitAtMost*1000) + "ms");
+   if (!successfull) {
+    log(page.asXml());
+    findClosestXpath(xpath);
+    fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
+   }
  }
 
 private boolean find(String xpath, String tag, String attribute, String value) {

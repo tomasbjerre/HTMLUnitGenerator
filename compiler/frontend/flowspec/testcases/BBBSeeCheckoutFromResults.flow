@@ -1,5 +1,5 @@
 See testcases/BBBSeeSearchResults.flow
-Click on searchPopupChooseFoundOffer and wait 10 seconds
-Find input with attribute value set to tcm:142-23267 in website
-Click on checkoutOrder and wait 10 seconds
-Find input with attribute src set to /res/img/button/tillbaka.png in website
+Click on searchPopupChooseFoundOffer
+Find input with attribute value set to tcm:142-23267 in website or wait at most 20 seconds
+Click on checkoutOrder
+Find input with attribute src set to /res/img/button/tillbaka.png in website or wait at most 20 seconds
