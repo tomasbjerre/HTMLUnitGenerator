@@ -108,7 +108,7 @@ public class BBBTestCorrect extends TestCase {
 			webClient.waitForBackgroundJavaScriptStartingBefore(100);
 		}
 		if (successfull)
-			log(" took "+(System.currentTimeMillis() - endTime + waitAtMost*1000) + "ms");
+			log(" took "+(System.currentTimeMillis() - endTime - waitAtMost*1000) + "ms");
 		if (!successfull) {
 			log(page.asXml());
 			findClosestXpath(xpath);
@@ -262,7 +262,6 @@ Click on checkoutOrder
 Find input with attribute src set to /res/img/button/tillbaka.png in website or wait at most 20000 seconds
 		 */
 		findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
-		System.out.println(page.asXml());
 		webClient.closeAllWindows();
 	}
 

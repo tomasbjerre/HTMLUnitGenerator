@@ -92,7 +92,7 @@ public class HTMLJunitGenerator extends Generator {
 			+ " boolean successfull = false;\n"
 			+ " long endTime = System.currentTimeMillis() + waitAtMost*1000;\n"
 			+ " log(\"Looking for \"+tag+\" with attribute \"+attribute+\" and value \"+value+\" in \"+xpath);\n"
-			+ " while (!successfull || (endTime-System.currentTimeMillis()) > 0) {\n"
+			+ " while (!successfull && (endTime-System.currentTimeMillis()) > 0) {\n"
 			+ "   successfull = find(xpath, tag, attribute, value);\n"
 			+ "   if (!successfull)\n"
 			+ "    System.out.print(\".\");\n"

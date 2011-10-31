@@ -28,21 +28,21 @@ public class AttributeValueUniqueStringTest {
 	public void test10() {
 		System.out.println(valueUniqueStringDefault10.toString());
 		assertNotNull(valueUniqueStringDefault10.toString());
-		assertEquals(10,valueUniqueStringDefault10.toString().length());
+		assertEquals(0,valueUniqueStringDefault10.toString().length());
 	}
 
 	@Test
 	public void test100() {
 		System.out.println(valueUniqueStringDefault100.toString());
 		assertNotNull(valueUniqueStringDefault100.toString());
-		assertEquals(100,valueUniqueStringDefault100.toString().length());
+		assertEquals(0,valueUniqueStringDefault100.toString().length());
 	}
 
 	@Test
 	public void test100Start() {
 		System.out.println(valueUniqueStringDefault100Start.toString());
 		assertNotNull(valueUniqueStringDefault100Start.toString());
-		assertEquals(100,valueUniqueStringDefault100Start.toString().length());
+		assertEquals(7,valueUniqueStringDefault100Start.toString().length());
 		assertTrue(valueUniqueStringDefault100Start.toString().startsWith("enstart"));
 	}
 
@@ -50,7 +50,7 @@ public class AttributeValueUniqueStringTest {
 	public void test10Start() {
 		System.out.println(valueUniqueStringDefault10Start.toString());
 		assertNotNull(valueUniqueStringDefault10Start.toString());
-		assertEquals(10,valueUniqueStringDefault10Start.toString().length());
+		assertEquals(8,valueUniqueStringDefault10Start.toString().length());
 		assertTrue(valueUniqueStringDefault10Start.toString().startsWith("minstart"));
 	}
 
@@ -58,6 +58,6 @@ public class AttributeValueUniqueStringTest {
 	public void testDefault() {
 		System.out.println(valueUniqueStringDefault.toString());
 		assertNotNull(valueUniqueStringDefault.toString());
-		assertTrue(valueUniqueStringDefault.toString().length() == AttributeValueUniqueString.defaultLength);
+		assertTrue(valueUniqueStringDefault.getLength() == AttributeValueUniqueString.defaultLength);
 	}
 }

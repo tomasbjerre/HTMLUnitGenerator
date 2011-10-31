@@ -147,7 +147,7 @@ private void findOrFail(String xpath, String tag, String attribute, String value
  boolean successfull = false;
  long endTime = System.currentTimeMillis() + waitAtMost*1000;
  log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
- while (!successfull || (endTime-System.currentTimeMillis()) > 0) {
+ while (!successfull && (endTime-System.currentTimeMillis()) > 0) {
    successfull = find(xpath, tag, attribute, value);
    if (!successfull)
     System.out.print(".");
