@@ -90,7 +90,7 @@ public class HTMLJunitGenerator extends Generator {
 
 	private final String methodFindOrFail = "private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {\n"
 			+ " boolean successfull = false;\n"
-			+ " long endTime = System.currentTimeMillis() + waitAtMost*1000;\n"
+			+ " long endTime = System.currentTimeMillis() + waitAtMost;\n"
 			+ " log(\"Looking for \"+tag+\" with attribute \"+attribute+\" and value \"+value+\" in \"+xpath);\n"
 			+ " while (!successfull && (endTime-System.currentTimeMillis()) > 0) {\n"
 			+ "   webClient.waitForBackgroundJavaScriptStartingBefore(100);\n"
