@@ -263,7 +263,7 @@ private void log(String string) {
 
 private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {
  boolean successfull = false;
- long endTime = System.currentTimeMillis() + waitAtMost*1000;
+ long endTime = System.currentTimeMillis() + waitAtMost;
  log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
  while (!successfull && (endTime-System.currentTimeMillis()) > 0) {
    webClient.waitForBackgroundJavaScriptStartingBefore(100);
