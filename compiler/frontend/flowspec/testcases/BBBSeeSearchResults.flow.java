@@ -26,17 +26,17 @@ Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
 Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
 
 Go to onegbit
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false in website or wait at most 20000 seconds
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false in website or wait at most 20 seconds
 Click on bbCampaignModuleChoose
-Find input with attribute id set to _eventId_search in website or wait at most 20000 seconds
+Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
 Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
 
 Click on _eventId_search
-Find input with attribute id set to _eventId_search in website or wait at most 20000 seconds
+Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
 Fill in locationForm with address.floor as 3
 
 Click on _eventId_search
-Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20000 seconds
+Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20 seconds
 */
 
 @SuppressWarnings("unchecked")
@@ -69,7 +69,7 @@ page = webClient.getPage("http://www.bredbandsbolaget.se/bredband/bredband1000/i
 step = "State1";
 log(System.currentTimeMillis()+") Entering state 2 of 7 14% complete \"State1\"");
 /**
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false in website or wait at most 20000 seconds
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false in website or wait at most 20 seconds
 */
 findOrFail("/html/body", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
 /**
@@ -81,7 +81,7 @@ findAndClick("/html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[4]/
 step = "State2";
 log(System.currentTimeMillis()+") Entering state 3 of 7 28% complete \"State2\"");
 /**
-Find input with attribute id set to _eventId_search in website or wait at most 20000 seconds
+Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
 */
 findOrFail("/html/body", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
 /**
@@ -103,7 +103,7 @@ findAndClick("//*[@id=\"_eventId_search\"]");
 step = "State4";
 log(System.currentTimeMillis()+") Entering state 5 of 7 57% complete \"State4\"");
 /**
-Find input with attribute id set to _eventId_search in website or wait at most 20000 seconds
+Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
 */
 findOrFail("/html/body", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
 /**
@@ -124,7 +124,7 @@ findAndClick("//*[@id=\"_eventId_search\"]");
 step = "State6";
 log(System.currentTimeMillis()+") Entering state 7 of 7 85% complete \"State6\"");
 /**
-Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20000 seconds
+Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20 seconds
 */
 findOrFail("/html/body", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
 webClient.closeAllWindows();

@@ -24,7 +24,7 @@ Path checkoutOrder is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/di
 Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
 
 Go to baspaket
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule or wait at most 10000 seconds
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule or wait at most 10 seconds
 */
 
 @SuppressWarnings("unchecked")
@@ -57,7 +57,7 @@ page = webClient.getPage("http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.
 step = "State1";
 log(System.currentTimeMillis()+") Entering state 2 of 2 50% complete \"State1\"");
 /**
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule or wait at most 10000 seconds
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371 in campaignmodule or wait at most 10 seconds
 */
 findOrFail("/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 10000);
 webClient.closeAllWindows();
