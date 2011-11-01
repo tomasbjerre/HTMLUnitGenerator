@@ -99,7 +99,7 @@ public class HTMLJunitGenerator extends Generator {
 			+ "    System.out.print(\".\");\n"
 			+ "   }\n"
 			+ "   if (successfull)\n"
-			+ "    log(\" took \"+(System.currentTimeMillis() - endTime + waitAtMost*1000) + \"ms\");\n"
+			+ "    log(\" took \"+(System.currentTimeMillis() - endTime + waitAtMost) + \"ms\");\n"
 			+ "   if (!successfull) {\n"
 			+ "    log(page.asXml());\n"
 			+ "    findClosestXpath(xpath);\n"

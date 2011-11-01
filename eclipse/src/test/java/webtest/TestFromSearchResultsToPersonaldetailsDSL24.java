@@ -33,7 +33,7 @@ Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 07689
 
 Click on _eventId_search
 Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
-Fill in locationForm with address.floor as 3
+Fill in locationForm with address.floor as option number 1
 
 Click on _eventId_search
 Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20 seconds
@@ -44,7 +44,7 @@ Find input with attribute src set to /res/img/button/tillbaka.png in website or 
 */
 
 @SuppressWarnings("unchecked")
-public class BBBTestCorrect extends TestCase {
+public class TestFromSearchResultsToPersonaldetailsDSL24 extends TestCase {
 WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
 HtmlPage page = null;
 String step = null;
@@ -111,11 +111,12 @@ Find input with attribute id set to _eventId_search in website or wait at most 2
 */
 findOrFail("/html/body", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
 /**
-Fill in locationForm with address.floor as 3
+Fill in locationForm with address.floor as option number 1
 
 */
 form = getFormById("locationForm");
-setAttributeValue(form, "address.floor", "3");
+select = form.getSelectByName("address.floor");
+select.setSelectedAttribute(select.getOption(1), true);
 
 step = "State5";
 log(System.currentTimeMillis()+") Entering state 6 of 9 55% complete \"State5\"");
@@ -173,7 +174,7 @@ private void findOrFail(String xpath, String tag, String attribute, String value
     System.out.print(".");
    }
    if (successfull)
-    log(" took "+(System.currentTimeMillis() - endTime + waitAtMost*1000) + "ms");
+    log(" took "+(System.currentTimeMillis() - endTime + waitAtMost) + "ms");
    if (!successfull) {
     log(page.asXml());
     findClosestXpath(xpath);

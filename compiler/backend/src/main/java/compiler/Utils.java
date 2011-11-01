@@ -26,6 +26,15 @@ public class Utils {
 		return new File("").getAbsolutePath() + "/" + filename;
 	}
 
+	public static ArrayList<File> getFiles(String path) {
+		ArrayList<File> matches = new ArrayList<File>();
+		File folder = new File(path);
+		File files[] = folder.listFiles();
+		for (File f : files)
+			matches.add(f);
+		return matches;
+	}
+
 	public static ArrayList<File> getFiles(String path, String endian) {
 		ArrayList<File> matches = new ArrayList<File>();
 		File folder = new File(path);
@@ -50,7 +59,7 @@ public class Utils {
 		return firstDotPart;
 	}
 
-	protected static String getInputPath(String string) {
+	public static String getInputPath(String string) {
 		if (string.indexOf("/") != -1) {
 			String[] slashSplit = string.split("\\/");
 			String result = "";

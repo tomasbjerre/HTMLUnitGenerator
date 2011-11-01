@@ -177,7 +177,7 @@ private void findOrFail(String xpath, String tag, String attribute, String value
     System.out.print(".");
    }
    if (successfull)
-    log(" took "+(System.currentTimeMillis() - endTime + waitAtMost*1000) + "ms");
+    log(" took "+(System.currentTimeMillis() - endTime + waitAtMost) + "ms");
    if (!successfull) {
     log(page.asXml());
     findClosestXpath(xpath);
