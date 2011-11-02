@@ -15,10 +15,11 @@ import junit.framework.TestCase;
 Path website is /html/body
 Path _eventId_search is //*[@id="_eventId_search"]
 Path bbCampaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
-Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
+Path searchFlowChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
 Path ordercartCheckoutOrder is //*[@id="orderButton"]
 Path ordercartSelectBroadband is //*[@id="broadband-tcmUri"]
 Path orderCartSelectDSL8 is /html/body/div[6]/div/div/div[9]/div/div[2]/div/div[2]/table/tbody/tr/td/table/tbody/tr/td/div/span/input
+Path searchFlowUseAddress is //*[@id="checkboxIHaveNoPhoneLine"]
 
 Url broadbandLAN100 is http://www.bredbandsbolaget.se/bredband/hastighet/bredband100/index.html
 
@@ -30,7 +31,7 @@ Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 12345
 
 Click on _eventId_search
 Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
-Fill in locationForm with address.street as arklimäsategatan and address.streetNumberAndEntrance as 30 and address.zipCode as 37135
+Fill in locationForm with address.street as arklimästaregatan and address.streetNumberAndEntrance as 30 and address.zipCode as 37135
 
 Click on _eventId_search
 Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
@@ -38,7 +39,7 @@ Fill in locationForm with address.floor as option number 1
 
 Click on _eventId_search
 Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20 seconds
-Click on searchPopupChooseFoundOffer
+Click on searchFlowChooseFoundOffer
 Find input with attribute value set to tcm:142-23267 in website or wait at most 20 seconds
 Click on ordercartSelectBroadband
 Find input with attribute value set to tcm:142-23270 in website or wait at most 20 seconds
@@ -116,11 +117,11 @@ Find input with attribute id set to _eventId_search in website or wait at most 2
 */
 findOrFail("/html/body", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/bredband/hastighet/bredband100/index.html", 20000);
 /**
-Fill in locationForm with address.street as arklimäsategatan and address.streetNumberAndEntrance as 30 and address.zipCode as 37135
+Fill in locationForm with address.street as arklimästaregatan and address.streetNumberAndEntrance as 30 and address.zipCode as 37135
 
 */
 form = getFormById("locationForm");
-setAttributeValue(form, "address.street", "arklimäsategatan");
+setAttributeValue(form, "address.street", "arklimästaregatan");
 setAttributeValue(form, "address.streetNumberAndEntrance", "30");
 setAttributeValue(form, "address.zipCode", "37135");
 
@@ -161,8 +162,8 @@ Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSea
 */
 findOrFail("/html/body", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new", "http://www.bredbandsbolaget.se/bredband/hastighet/bredband100/index.html", 20000);
 /**
-Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
-Click on searchPopupChooseFoundOffer
+Path searchFlowChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
+Click on searchFlowChooseFoundOffer
 */
 findAndClick("/html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]");
 

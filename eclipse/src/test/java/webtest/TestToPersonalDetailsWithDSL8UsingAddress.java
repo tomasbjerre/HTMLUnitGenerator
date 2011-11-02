@@ -15,10 +15,11 @@ import junit.framework.TestCase;
 Path website is /html/body
 Path _eventId_search is //*[@id="_eventId_search"]
 Path bbCampaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
-Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
+Path searchFlowChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
 Path ordercartCheckoutOrder is //*[@id="orderButton"]
 Path ordercartSelectBroadband is //*[@id="broadband-tcmUri"]
 Path orderCartSelectDSL8 is /html/body/div[6]/div/div/div[9]/div/div[2]/div/div[2]/table/tbody/tr/td/table/tbody/tr/td/div/span/input
+Path searchFlowUseAddress is //*[@id="checkboxIHaveNoPhoneLine"]
 
 Url broadbandLAN100 is http://www.bredbandsbolaget.se/bredband/hastighet/bredband100/index.html
 
@@ -26,7 +27,8 @@ Go to broadbandLAN100
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23384&draggable=false in website or wait at most 20 seconds
 Click on bbCampaignModuleChoose
 Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
-Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
+Click on searchFlowUseAddress
+Fill in locationForm with address.street as arklimästaregatan and address.streetNumberAndEntrance as 30 and address.zipCode as 37135
 
 Click on _eventId_search
 Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
@@ -34,7 +36,7 @@ Fill in locationForm with address.floor as option number 1
 
 Click on _eventId_search
 Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20 seconds
-Click on searchPopupChooseFoundOffer
+Click on searchFlowChooseFoundOffer
 Find input with attribute value set to tcm:142-23267 in website or wait at most 20 seconds
 Click on ordercartSelectBroadband
 Find input with attribute value set to tcm:142-23270 in website or wait at most 20 seconds
@@ -64,7 +66,7 @@ webClient.setTimeout(180000);
 webClient.setJavaScriptTimeout(180000);
 
 
-log(System.currentTimeMillis()+") Entering state 1 of 11 0% complete \"start\"");
+log(System.currentTimeMillis()+") Entering state 1 of 12 0% complete \"start\"");
 /**
 Url broadbandLAN100 is http://www.bredbandsbolaget.se/bredband/hastighet/bredband100/index.html
 Go to broadbandLAN100
@@ -72,7 +74,7 @@ Go to broadbandLAN100
 page = webClient.getPage("http://www.bredbandsbolaget.se/bredband/hastighet/bredband100/index.html");
 
 step = "State1";
-log(System.currentTimeMillis()+") Entering state 2 of 11 9% complete \"State1\"");
+log(System.currentTimeMillis()+") Entering state 2 of 12 8% complete \"State1\"");
 /**
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23384&draggable=false in website or wait at most 20 seconds
 */
@@ -84,29 +86,38 @@ Click on bbCampaignModuleChoose
 findAndClick("/html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span");
 
 step = "State2";
-log(System.currentTimeMillis()+") Entering state 3 of 11 18% complete \"State2\"");
+log(System.currentTimeMillis()+") Entering state 3 of 12 16% complete \"State2\"");
 /**
 Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
 */
 findOrFail("/html/body", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/bredband/hastighet/bredband100/index.html", 20000);
 /**
-Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
+Path searchFlowUseAddress is //*[@id="checkboxIHaveNoPhoneLine"]
+Click on searchFlowUseAddress
+*/
+findAndClick("//*[@id=\"checkboxIHaveNoPhoneLine\"]");
+
+step = "State3";
+log(System.currentTimeMillis()+") Entering state 4 of 12 25% complete \"State3\"");
+/**
+Fill in locationForm with address.street as arklimästaregatan and address.streetNumberAndEntrance as 30 and address.zipCode as 37135
 
 */
 form = getFormById("locationForm");
-setAttributeValue(form, "_eventId", "search");
-setAttributeValue(form, "phoneNumber.fullNumber", "0768966787");
+setAttributeValue(form, "address.street", "arklimästaregatan");
+setAttributeValue(form, "address.streetNumberAndEntrance", "30");
+setAttributeValue(form, "address.zipCode", "37135");
 
-step = "State3";
-log(System.currentTimeMillis()+") Entering state 4 of 11 27% complete \"State3\"");
+step = "State4";
+log(System.currentTimeMillis()+") Entering state 5 of 12 33% complete \"State4\"");
 /**
 Path _eventId_search is //*[@id="_eventId_search"]
 Click on _eventId_search
 */
 findAndClick("//*[@id=\"_eventId_search\"]");
 
-step = "State4";
-log(System.currentTimeMillis()+") Entering state 5 of 11 36% complete \"State4\"");
+step = "State5";
+log(System.currentTimeMillis()+") Entering state 6 of 12 41% complete \"State5\"");
 /**
 Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
 */
@@ -119,28 +130,28 @@ form = getFormById("locationForm");
 select = form.getSelectByName("address.floor");
 select.setSelectedAttribute(select.getOption(1), true);
 
-step = "State5";
-log(System.currentTimeMillis()+") Entering state 6 of 11 45% complete \"State5\"");
+step = "State6";
+log(System.currentTimeMillis()+") Entering state 7 of 12 50% complete \"State6\"");
 /**
 Path _eventId_search is //*[@id="_eventId_search"]
 Click on _eventId_search
 */
 findAndClick("//*[@id=\"_eventId_search\"]");
 
-step = "State6";
-log(System.currentTimeMillis()+") Entering state 7 of 11 54% complete \"State6\"");
+step = "State7";
+log(System.currentTimeMillis()+") Entering state 8 of 12 58% complete \"State7\"");
 /**
 Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20 seconds
 */
 findOrFail("/html/body", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new", "http://www.bredbandsbolaget.se/bredband/hastighet/bredband100/index.html", 20000);
 /**
-Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
-Click on searchPopupChooseFoundOffer
+Path searchFlowChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
+Click on searchFlowChooseFoundOffer
 */
 findAndClick("/html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]");
 
-step = "State7";
-log(System.currentTimeMillis()+") Entering state 8 of 11 63% complete \"State7\"");
+step = "State8";
+log(System.currentTimeMillis()+") Entering state 9 of 12 66% complete \"State8\"");
 /**
 Find input with attribute value set to tcm:142-23267 in website or wait at most 20 seconds
 */
@@ -151,8 +162,8 @@ Click on ordercartSelectBroadband
 */
 findAndClick("//*[@id=\"broadband-tcmUri\"]");
 
-step = "State8";
-log(System.currentTimeMillis()+") Entering state 9 of 11 72% complete \"State8\"");
+step = "State9";
+log(System.currentTimeMillis()+") Entering state 10 of 12 75% complete \"State9\"");
 /**
 Find input with attribute value set to tcm:142-23270 in website or wait at most 20 seconds
 */
@@ -164,8 +175,8 @@ Click on orderCartSelectDSL8 and wait 1 seconds
 findAndClick("/html/body/div[6]/div/div/div[9]/div/div[2]/div/div[2]/table/tbody/tr/td/table/tbody/tr/td/div/span/input");
 Thread.sleep(1000);
 
-step = "State9";
-log(System.currentTimeMillis()+") Entering state 10 of 11 81% complete \"State9\"");
+step = "State10";
+log(System.currentTimeMillis()+") Entering state 11 of 12 83% complete \"State10\"");
 /**
 Find input with attribute value set to tcm:142-23270 in website or wait at most 20 seconds
 */
@@ -176,8 +187,8 @@ Click on ordercartCheckoutOrder
 */
 findAndClick("//*[@id=\"orderButton\"]");
 
-step = "State10";
-log(System.currentTimeMillis()+") Entering state 11 of 11 90% complete \"State10\"");
+step = "State11";
+log(System.currentTimeMillis()+") Entering state 12 of 12 91% complete \"State11\"");
 /**
 Find input with attribute src set to /res/img/button/tillbaka.png in website or wait at most 20 seconds
 */

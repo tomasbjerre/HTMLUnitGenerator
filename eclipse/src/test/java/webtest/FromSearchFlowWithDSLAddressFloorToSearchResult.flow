@@ -1,7 +1,4 @@
-Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 12345678901
-Click on _eventId_search
-Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
-
+Click on searchFlowUseAddress
 See SearchFlowUseAddressDSL.flow
 Click on _eventId_search
 Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
