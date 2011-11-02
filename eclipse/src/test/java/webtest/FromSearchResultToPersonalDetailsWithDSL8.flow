@@ -1,0 +1,8 @@
+Click on searchPopupChooseFoundOffer
+Find input with attribute value set to tcm:142-23267 in website or wait at most 20 seconds
+Click on ordercartSelectBroadband
+Find input with attribute value set to tcm:142-23270 in website or wait at most 20 seconds
+Click on orderCartSelectDSL8 and wait 1 seconds
+Find input with attribute value set to tcm:142-23270 in website or wait at most 20 seconds
+Click on ordercartCheckoutOrder
+Find input with attribute src set to /res/img/button/tillbaka.png in website or wait at most 20 seconds

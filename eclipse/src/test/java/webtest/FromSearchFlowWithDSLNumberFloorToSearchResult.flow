@@ -1,8 +1,3 @@
-See PathsAndUrls.flow
-Go to onegbit
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false in website or wait at most 20 seconds
-Click on bbCampaignModuleChoose
-Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
 Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
 Click on _eventId_search
 Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
