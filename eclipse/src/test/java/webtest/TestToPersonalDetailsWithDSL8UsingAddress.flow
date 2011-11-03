@@ -1,4 +1,5 @@
 See PathsAndUrls.flow
 See SearchFlowOpenWithLAN100.flow
-See FromSearchFlowWithDSLAddressFloorToSearchResult.flow
+See SearchFlowSearchDSLAddressFloor.flow
+See SearchFlowWaitForDSL24Result.flow
 See FromSearchResultToPersonalDetailsWithDSL8.flow

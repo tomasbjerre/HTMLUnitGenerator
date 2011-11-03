@@ -5,4 +5,3 @@ Find input with attribute id set to _eventId_search in website or wait at most 2
 
 Fill in locationForm with address.floor as option number 1
 Click on _eventId_search
-Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20 seconds
