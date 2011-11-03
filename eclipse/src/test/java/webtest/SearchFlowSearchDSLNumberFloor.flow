@@ -1,6 +1,0 @@
-See SearchFlowUsePhoneNumberDSL.flow
-Click on _eventId_search
-Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
-
-Fill in locationForm with address.floor as option number 1
-Click on _eventId_search

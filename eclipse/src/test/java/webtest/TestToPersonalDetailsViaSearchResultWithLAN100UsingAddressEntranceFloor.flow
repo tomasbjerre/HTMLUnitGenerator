@@ -1,0 +1,21 @@
+See PathsAndUrls.flow
+
+Go to BroadbandDSL24
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23381&draggable=false in Website or wait at most 200 seconds
+Click on BBCampaignModuleChoose
+Find input with attribute name set to address.street in Website or wait at most 200 seconds
+Click on SearchFlowUseAddress
+Find input with attribute name set to address.street in Website or wait at most 200 seconds
+Fill in locationForm with address.street as RINGVÄGEN and address.streetNumberAndEntrance as 27 and address.zipCode as 96136
+Click on _eventId_search
+Find select with attribute name set to address.entrance in Website or wait at most 200 seconds
+Fill in locationForm with address.entrance as option number 1
+Click on _eventId_search
+Find select with attribute name set to address.floor in Website or wait at most 200 seconds
+Fill in locationForm with address.floor as option number 1
+Click on _eventId_search
+Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23384&fromSearch&page=new in Website or wait at most 200 seconds
+Click on SearchFlowChooseFoundOffer
+Find input with attribute value set to tcm:142-23264 in Website or wait at most 200 seconds
+Click on OrderCartCheckoutOrder
+Find input with attribute id set to firstName in Website or wait at most 200 seconds
