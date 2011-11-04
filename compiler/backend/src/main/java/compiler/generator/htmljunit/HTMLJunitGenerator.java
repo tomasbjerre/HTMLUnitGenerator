@@ -95,17 +95,35 @@ public class HTMLJunitGenerator extends Generator {
 			+ " while (!successfull && (endTime-System.currentTimeMillis()) > 0) {\n"
 			+ "   webClient.waitForBackgroundJavaScriptStartingBefore(100);\n"
 			+ "   successfull = find(xpath, tag, attribute, value);\n"
-			+ "   if (!successfull)\n"
-			+ "    System.out.print(\".\");\n"
-			+ "   }\n"
-			+ "   if (successfull)\n"
-			+ "    log(\" took \"+(System.currentTimeMillis() - endTime + waitAtMost) + \"ms\");\n"
 			+ "   if (!successfull) {\n"
-			+ "    log(page.asXml());\n"
-			+ "    findClosestXpath(xpath);\n"
-			+ "    fail(step+\") Failed finding tag \\\"\"+tag+\"\\\" with attribute \\\"\"+attribute+\"\\\" and value \\\"\"+value+\"\\\" in \\\"\"+xpath+\"\\\" at \\\"\"+currentUrl+\"\\\"\");\n"
+			+ "    log(\"\\n\\nDid not find \"+tag+\" with given attributes, found these tags of same type:\");\n"
+			+ "    logAllTags((List<DomNode>)page.getByXPath(xpath),tag);\n"
 			+ "   }\n"
-			+ " }\n";
+			+ " }\n"
+			+ " if (successfull)\n"
+			+ "   log(\" took \"+(System.currentTimeMillis() - endTime + waitAtMost) + \"ms\");\n"
+			+ " if (!successfull) {\n"
+			+ "   log(page.asXml());\n"
+			+ "   findClosestXpath(xpath);\n"
+			+ "   fail(step+\") Failed finding tag \\\"\"+tag+\"\\\" with attribute \\\"\"+attribute+\"\\\" and value \\\"\"+value+\"\\\" in \\\"\"+xpath+\"\\\" at \\\"\"+currentUrl+\"\\\"\");\n"
+			+ " }\n"
+			+ "}\n";
+
+	private final String methodLogAllTags = "private void logAllTags(List<DomNode> elements, String tag) {\n"
+			+"for (DomNode element : elements) {\n"
+			+"if (element.getNodeName().equals(tag)) {\n"
+			+"String string = \"Found: \"+tag;\n"
+			+"NamedNodeMap attributes = ((HtmlElement)element).getAttributes();\n"
+			+"for (int i = 0; i < attributes.getLength(); i++)\n"
+			+"string += \" \"+attributes.item(i).getNodeName()+\"=\"+attributes.item(i).getNodeValue();\n"
+			+"string += \" at \"+element.getCanonicalXPath();\n"
+			+"log(string);\n"
+			+"}\n"
+			+"else {\n"
+			+"logAllTags(element.getChildNodes(),tag);\n"
+			+"}\n"
+			+"}\n"
+			+"}\n";
 
 	private final String methodFindClosestXpath = "private void findClosestXpath(String xpath) {\n"
 			+ "if (xpath.startsWith(\"//*\") || xpath.equals(\"/html\"))\n"
@@ -287,6 +305,7 @@ public class HTMLJunitGenerator extends Generator {
 	@Override
 	public String toString() {
 		addMethod(methodLog);
+		addMethod(methodLogAllTags);
 
 		result = "package webtest;";
 		result += "\n";
@@ -296,6 +315,7 @@ public class HTMLJunitGenerator extends Generator {
 		result += "import com.gargoylesoftware.htmlunit.html.*;\n";
 		result += "import com.gargoylesoftware.htmlunit.*;\n";
 		result += "import java.util.*;\n";
+		result += "import org.w3c.dom.NamedNodeMap;\n";
 		result += "\n";
 		result += "import java.util.ArrayList;\n";
 		result += "\n";

@@ -5,6 +5,7 @@ import org.w3c.dom.Node;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.gargoylesoftware.htmlunit.*;
 import java.util.*;
+import org.w3c.dom.NamedNodeMap;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,22 @@ webClient.closeAllWindows();
 
 private void log(String string) {
  System.out.println(string);
+}
+
+private void logAllTags(List<DomNode> elements, String tag) {
+for (DomNode element : elements) {
+if (element.getNodeName().equals(tag)) {
+String string = "Found: "+tag;
+NamedNodeMap attributes = ((HtmlElement)element).getAttributes();
+for (int i = 0; i < attributes.getLength(); i++)
+string += " "+attributes.item(i).getNodeName()+"="+attributes.item(i).getNodeValue();
+string += " at "+element.getCanonicalXPath();
+log(string);
+}
+else {
+logAllTags(element.getChildNodes(),tag);
+}
+}
 }
 
 
