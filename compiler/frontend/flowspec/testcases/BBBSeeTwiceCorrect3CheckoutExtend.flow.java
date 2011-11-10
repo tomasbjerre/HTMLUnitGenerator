@@ -249,14 +249,14 @@ private void findOrFail(String xpath, String tag, String attribute, String value
  boolean successfull = false;
  long endTime = System.currentTimeMillis() + waitAtMost;
  log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
- while (!successfull && (endTime-System.currentTimeMillis()) > 0) {
+ do {
    webClient.waitForBackgroundJavaScriptStartingBefore(100);
    successfull = find(xpath, tag, attribute, value);
    if (!successfull) {
     log("\n\nDid not find "+tag+" with given attributes, found these tags of same type:");
     logAllTags((List<DomNode>)page.getByXPath(xpath),tag);
    }
- }
+ } while (!successfull && (endTime-System.currentTimeMillis()) > 0);
  if (successfull)
    log(" took "+(System.currentTimeMillis() - endTime + waitAtMost) + "ms");
  if (!successfull) {

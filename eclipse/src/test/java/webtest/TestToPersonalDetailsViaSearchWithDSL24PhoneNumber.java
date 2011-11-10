@@ -13,39 +13,38 @@ import junit.framework.TestCase;
 
 /**
 // Generated Using HTMLUnitGenerator
-Path campaignmodule is /html/body/div[2]/div/div[2]/div[2]/div/div[3]
-Path searchpopup is /html/body/div[7]/div/div[9]
+Path Website is /html/body
 Path _eventId_search is //*[@id="_eventId_search"]
-Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
-Path bbCampaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[4]/a/span
-Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
-Path orderCartArea is /html/body/div[2]/div/div/div/div[3]/form/div[2]/div[2]/div[3]
-Path website is /html/body
-Path checkoutOrder is //*[@id="orderButton"]
+Path BBCampaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
+Path SearchFlowUseAddress is //*[@id="checkboxIHaveNoPhoneLine"]
+Path SearchFlowChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
+Path OrderCartCheckoutOrder is //*[@id="orderButton"]
+Path OrderCartSelectBroadband is //*[@id="broadband-tcmUri"]
+Path OrderCartSelectDSL8 is /html/body/div[6]/div/div/div[9]/div/div[2]/div/div[2]/table/tbody/tr/td/table/tbody/tr/td/div/span/input
 
-Url baspaket is http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html
-Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
+Url BroadbandLAN100 is http://www.bredbandsbolaget.se/bredband/hastighet/bredband100/index.html
+Url BroadbandDSL24 is http://www.bredbandsbolaget.se/bredband/hastighet/bredband24/index.html
 
-Go to onegbit
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false in website or wait at most 20 seconds
-Click on bbCampaignModuleChoose
-Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
-Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
-
-Click on _eventId_search
-Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
-Fill in locationForm with address.floor as 3
+Go to BroadbandDSL24
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23381&draggable=false in Website or wait at most 200 seconds
+Click on BBCampaignModuleChoose
+Find input with attribute name set to address.street in Website or wait at most 10 seconds
+Find input with attribute name set to _checkboxIHaveNoPhoneLine in Website
+Click on SearchFlowUseAddress
+Fill in locationForm with address.street as arklimästaregatan and address.streetNumberAndEntrance as 30 and address.zipCode as 37135
 
 Click on _eventId_search
-Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20 seconds
-Click on searchPopupChooseFoundOffer
-Find input with attribute value set to tcm:142-23267 in website or wait at most 20 seconds
-Click on checkoutOrder
-Find input with attribute src set to /res/img/button/tillbaka.png in website or wait at most 20 seconds
+Find select with attribute name set to address.floor in Website or wait at most 20 seconds
+Fill in locationForm with address.floor as option number 1
+
+Click on _eventId_search
+Find input with attribute value set to tcm:142-23267 in Website or wait at most 10 seconds
+Click on OrderCartCheckoutOrder
+Find input with attribute id set to firstName in Website or wait at most 10 seconds
 */
 
 @SuppressWarnings("unchecked")
-public class BBBSeeCheckoutFromResults extends TestCase {
+public class TestToPersonalDetailsViaSearchWithDSL24PhoneNumber extends TestCase {
 WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
 HtmlPage page = null;
 String step = null;
@@ -66,96 +65,98 @@ webClient.setJavaScriptTimeout(180000);
 
 log(System.currentTimeMillis()+") Entering state 1 of 9 0% complete \"start\"");
 /**
-Url onegbit is http://www.bredbandsbolaget.se/bredband/bredband1000/index.html
-Go to onegbit
+Url BroadbandDSL24 is http://www.bredbandsbolaget.se/bredband/hastighet/bredband24/index.html
+Go to BroadbandDSL24
 */
-page = webClient.getPage("http://www.bredbandsbolaget.se/bredband/bredband1000/index.html");
+page = webClient.getPage("http://www.bredbandsbolaget.se/bredband/hastighet/bredband24/index.html");
 
 step = "State1";
 log(System.currentTimeMillis()+") Entering state 2 of 9 11% complete \"State1\"");
 /**
-Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false in website or wait at most 20 seconds
+Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23381&draggable=false in Website or wait at most 200 seconds
 */
-findOrFail("/html/body", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-32724&draggable=false", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
+findOrFail("/html/body", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23381&draggable=false", "http://www.bredbandsbolaget.se/bredband/hastighet/bredband24/index.html", 200000);
 /**
-Path bbCampaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[4]/a/span
-Click on bbCampaignModuleChoose
+Path BBCampaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
+Click on BBCampaignModuleChoose
 */
-findAndClick("/html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/div[3]/span[4]/a/span");
+findAndClick("/html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span");
 
 step = "State2";
 log(System.currentTimeMillis()+") Entering state 3 of 9 22% complete \"State2\"");
 /**
-Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
+Find input with attribute name set to address.street in Website or wait at most 10 seconds
 */
-findOrFail("/html/body", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
+findOrFail("/html/body", "input", "name", "address.street", "http://www.bredbandsbolaget.se/bredband/hastighet/bredband24/index.html", 10000);
 /**
-Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
-
+Find input with attribute name set to _checkboxIHaveNoPhoneLine in Website
 */
-form = getFormById("locationForm");
-setAttributeValue(form, "_eventId", "search");
-setAttributeValue(form, "phoneNumber.fullNumber", "0768966787");
+findOrFail("/html/body", "input", "name", "_checkboxIHaveNoPhoneLine", "http://www.bredbandsbolaget.se/bredband/hastighet/bredband24/index.html", 0);
+/**
+Path SearchFlowUseAddress is //*[@id="checkboxIHaveNoPhoneLine"]
+Click on SearchFlowUseAddress
+*/
+findAndClick("//*[@id=\"checkboxIHaveNoPhoneLine\"]");
 
 step = "State3";
 log(System.currentTimeMillis()+") Entering state 4 of 9 33% complete \"State3\"");
 /**
-Path _eventId_search is //*[@id="_eventId_search"]
-Click on _eventId_search
+Fill in locationForm with address.street as arklimästaregatan and address.streetNumberAndEntrance as 30 and address.zipCode as 37135
+
 */
-findAndClick("//*[@id=\"_eventId_search\"]");
+form = getFormById("locationForm");
+setAttributeValue(form, "address.street", "arklimästaregatan");
+setAttributeValue(form, "address.streetNumberAndEntrance", "30");
+setAttributeValue(form, "address.zipCode", "37135");
 
 step = "State4";
 log(System.currentTimeMillis()+") Entering state 5 of 9 44% complete \"State4\"");
 /**
-Find input with attribute id set to _eventId_search in website or wait at most 20 seconds
+Path _eventId_search is //*[@id="_eventId_search"]
+Click on _eventId_search
 */
-findOrFail("/html/body", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
-/**
-Fill in locationForm with address.floor as 3
-
-*/
-form = getFormById("locationForm");
-setAttributeValue(form, "address.floor", "3");
+findAndClick("//*[@id=\"_eventId_search\"]");
 
 step = "State5";
 log(System.currentTimeMillis()+") Entering state 6 of 9 55% complete \"State5\"");
+/**
+Find select with attribute name set to address.floor in Website or wait at most 20 seconds
+*/
+findOrFail("/html/body", "select", "name", "address.floor", "http://www.bredbandsbolaget.se/bredband/hastighet/bredband24/index.html", 20000);
+/**
+Fill in locationForm with address.floor as option number 1
+
+*/
+form = getFormById("locationForm");
+select = form.getSelectByName("address.floor");
+select.setSelectedAttribute(select.getOption(1), true);
+
+step = "State6";
+log(System.currentTimeMillis()+") Entering state 7 of 9 66% complete \"State6\"");
 /**
 Path _eventId_search is //*[@id="_eventId_search"]
 Click on _eventId_search
 */
 findAndClick("//*[@id=\"_eventId_search\"]");
 
-step = "State6";
-log(System.currentTimeMillis()+") Entering state 7 of 9 66% complete \"State6\"");
-/**
-Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in website or wait at most 20 seconds
-*/
-findOrFail("/html/body", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
-/**
-Path searchPopupChooseFoundOffer is /html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]
-Click on searchPopupChooseFoundOffer
-*/
-findAndClick("/html/body/div[8]/div/div[9]/form[2]/div[2]/div[1]/div/div[2]/a[1]");
-
 step = "State7";
 log(System.currentTimeMillis()+") Entering state 8 of 9 77% complete \"State7\"");
 /**
-Find input with attribute value set to tcm:142-23267 in website or wait at most 20 seconds
+Find input with attribute value set to tcm:142-23267 in Website or wait at most 10 seconds
 */
-findOrFail("/html/body", "input", "value", "tcm:142-23267", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
+findOrFail("/html/body", "input", "value", "tcm:142-23267", "http://www.bredbandsbolaget.se/bredband/hastighet/bredband24/index.html", 10000);
 /**
-Path checkoutOrder is //*[@id="orderButton"]
-Click on checkoutOrder
+Path OrderCartCheckoutOrder is //*[@id="orderButton"]
+Click on OrderCartCheckoutOrder
 */
 findAndClick("//*[@id=\"orderButton\"]");
 
 step = "State8";
 log(System.currentTimeMillis()+") Entering state 9 of 9 88% complete \"State8\"");
 /**
-Find input with attribute src set to /res/img/button/tillbaka.png in website or wait at most 20 seconds
+Find input with attribute id set to firstName in Website or wait at most 10 seconds
 */
-findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/bredband/bredband1000/index.html", 20000);
+findOrFail("/html/body", "input", "id", "firstName", "http://www.bredbandsbolaget.se/bredband/hastighet/bredband24/index.html", 10000);
 webClient.closeAllWindows();
 }
 
