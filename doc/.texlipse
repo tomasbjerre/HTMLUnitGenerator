@@ -1,0 +1,14 @@
+#TeXlipse project settings
+#Mon Nov 28 18:45:08 CET 2011
+markTmpDer=true
+builderNum=2
+outputDir=
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=tmp
+mainTexFile=htmlunitgenerator.tex
+outputFile=htmlunitgenerator.pdf
+langSpell=en
+markDer=true
+srcDir=

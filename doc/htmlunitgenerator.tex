@@ -1,0 +1,51 @@
+\documentclass[a4paper,11pt]{kth-mag}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{lmodern}
+\usepackage[latin1]{inputenc}
+\usepackage[swedish,english]{babel}
+\usepackage{listings}
+\usepackage{modifications}
+\title{HTMLUnitGenerator}
+\subtitle{Enables user friendly and powerful front end testing of web applications with minimum required effort to implement.}
+\author{Author: Tomas Bjerre}
+\blurb{Updated \today}
+\begin{document}
+\frontmatter
+\pagestyle{empty}
+\removepagenumbers
+\maketitle
+
+\tableofcontents*
+\mainmatter
+
+\pagestyle{newchap}
+\chapter{Introduction}
+
+%
+\part{Front End}
+
+\chapter{Flow Language}
+
+\section{section}
+\lstset{basicstyle=\footnotesize, caption=Find href of an a tag, label=hrefofatag, numbers=left, frame=single, captionpos=b}
+\lstinputlisting{flow/simple.flow}
+As seen in Listing \ref{hrefofatag}.
+
+\subsection{subsection}
+
+\chapter{XML Language}
+
+\section{section}
+
+\subsection{subsection}
+
+\part{Back End}
+
+\chapter{HTMLUnit}
+
+\section{section}
+
+\subsection{subsection}
+
+\end{document}
