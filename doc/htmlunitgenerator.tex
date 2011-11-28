@@ -8,7 +8,7 @@
 \usepackage{modifications}
 \title{HTMLUnitGenerator}
 \subtitle{Enables user friendly and powerful front end testing of web applications with minimum required effort to implement.}
-\author{Author: Tomas Bjerre}
+\author{Author: Tomas Bjerre, tomasbjerre [AT] yahoo.com}
 \blurb{Updated \today}
 \begin{document}
 \frontmatter
@@ -21,30 +21,56 @@
 
 \pagestyle{newchap}
 \chapter{Introduction}
+This is the official documentation of HTMLUnitGenerator. This introduction includes three questions and three answers. They are intended to quickly get you into the context of this document.
 
-%
-\part{Front End}
+\section{What is HTMLUnitGenerator?}
+%A DSL
+It is a compiler. It translates a user friendly DSL\footnote{Domain Specific Language} into a more advanced test case. That way you get clear test cases that are easily maintained while at the same time powerful and easily introduced in your current test suit.
 
-\chapter{Flow Language}
+\section{Why should I use HTMLUnitGenerator?}
+\begin{enumerate}
+\item \textbf{Easy to learn and fast to work with}\\
+%Easy to understand
+The time you need to spend reading up on HTMLUnitGenerator before being able to produce qualitative test cases using it, is very short.
 
-\section{section}
+%The alternative is to create raw code.
+If you write your test cases using, for example, raw Java and HTMLUnit you will need to come up with some hierarchy of classes to be able to re use code. XPath:s and URL:s should typically be defined once and then referenced in all your test cases. Developing such a structure takes time as well as explaining and documenting it to your colleges.
+
+\item \textbf{No need to document test cases}\\
+%Self documenting
+The Flow language (see Section \ref{flowlanguage}) is simple enaugh to, itself, qualify as documentation. Anyone, even people with no previous programming experience, will understand what your test cases do. The Flow language has been design with the intention to provide only an absolute minimum number of choices to the developer, in order to keep all test cases clean and neutral.
+
+\item \textbf{Future safe}\\
+%Open Source, will be able to stop using it at any time
+HTMLUnitGenerator is an open source software. You can write your own generator if you don't want to user HTMLUnit anymore or if you just prefer another head less browser, see Section \ref{backendimpl}. Or maybe you want to test your code using several different head less browsers. The idea is to provide several different generators with HTMLUnitGenerator\footnote{Yes, the name will change!}.
+
+\end{enumerate}
+
+\chapter{Front End}
+\label{frontend}
+
+\section{Flow Language}
+\label{flowlanguage}
 \lstset{basicstyle=\footnotesize, caption=Find href of an a tag, label=hrefofatag, numbers=left, frame=single, captionpos=b}
 \lstinputlisting{flow/simple.flow}
 As seen in Listing \ref{hrefofatag}.
 
 \subsection{subsection}
 
-\chapter{XML Language}
+\chapter{Back End}
 
-\section{section}
+\section{HTMLUnit}
 
 \subsection{subsection}
 
-\part{Back End}
+\chapter{Implementation}
 
-\chapter{HTMLUnit}
+\section{Front end}
 
-\section{section}
+\subsection{subsection}
+
+\section{Back end}
+\label{backendimpl}
 
 \subsection{subsection}
 
