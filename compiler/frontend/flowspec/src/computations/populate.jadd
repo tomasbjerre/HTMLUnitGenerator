@@ -87,19 +87,25 @@ aspect Populate
   }
   
   public void FindType.populate(Flow flow, SymbolTable table) {
-	  Path path = (Path)table.lookupReferencable(getIdUse().getVALUE());
-	  Find find = new Find(path);
-	  Tag tag = new Tag(getType().getCONTENT());
-      Attribute attribute = new Attribute(getAttribute().getCONTENT(),new AttributeValueString(getValue().getCONTENT()));
-	  tag.addAttribute(attribute);
-	  find.addTag(tag);
-	  
-	  String delayStr = null;
-      if (hasWaitAtMost()) {
-        delayStr = ""+Integer.parseInt(getWaitAtMost().getCONTENT())*1000;
+        Path path = new Path("","/html/body");
+        String delayStr = "0";
+        for (FindTypeOption findTypeOption : getFindTypeOptionList()) {
+            if (findTypeOption instanceof FindTypePath) {
+                FindTypePath findTypePath = ((FindTypePath)findTypeOption);
+                path = (Path)table.lookupReferencable(findTypePath.getPath().getVALUE());
+            }
+            if (findTypeOption instanceof FindTypeWaitAtMost) {
+                FindTypeWaitAtMost findTypeWaitAtMost = ((FindTypeWaitAtMost)findTypeOption);
+                delayStr = ""+Integer.parseInt(findTypeWaitAtMost.getWaitAtMost().getCONTENT())*1000;
+            }
+        }
+        Find find = new Find(path);
+        Tag tag = new Tag(getType().getCONTENT());
+        Attribute attribute = new Attribute(getAttribute().getCONTENT(),new AttributeValueString(getValue().getCONTENT()));
+        tag.addAttribute(attribute);
+        find.addTag(tag);
         find.setWaitAtMost(delayStr);
-	  }
-	  currentState.addFind(find);
+        currentState.addFind(find);
   }
   
   public void FillInAndClick.populate(Flow flow, SymbolTable table) {

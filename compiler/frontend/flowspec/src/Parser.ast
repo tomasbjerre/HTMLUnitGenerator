@@ -2,6 +2,10 @@ abstract Value ::= <VALUE:String>;
 IdUse: Value;
 IdDecl: Value;
 
+FindTypeOption ::= ;
+FindTypePath : FindTypeOption ::= Path:IdUse;
+FindTypeWaitAtMost : FindTypeOption ::= WaitAtMost:Content;
+
 Content ::= <CONTENT:String>;
 OptionNumber: Content ::= Number:Content;
 UniqueString: Content ::=;
@@ -11,7 +15,7 @@ UniqueStringOfLengthStartingWith: Content ::= Length:Content StartingWith:Conten
 ActionType ::= ;
 GoToType: ActionType ::= IdUse [Content];
 ClickOnType: ActionType ::= IdUse [Content];
-FindType: ActionType ::= Type:Content Attribute:Content Value:Content IdUse [WaitAtMost:Content];
+FindType: ActionType ::= Type:Content Attribute:Content Value:Content FindTypeOption*;
 FillInAndClick ::= IdDecl FormContent* ClickOnType;
 FormContent ::= Attribute:Content Value:Content;
 UseProxy ::= Host:Content Port:Content;

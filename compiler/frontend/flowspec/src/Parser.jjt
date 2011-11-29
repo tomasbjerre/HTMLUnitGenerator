@@ -122,7 +122,17 @@ void clickOn() #ClickOnType : {}
 
 void find() #FindType : {}
 {
- <FIND> contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute() <IN> idUse() (<ORWAITATMOST> contentAttribute() <SECONDS>)? #Opt
+ <FIND> contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute() (findTypePath() | findTypeWaitAtMost())* #List(true)
+}
+
+void findTypePath() #FindTypePath : {}
+{
+ <IN> idUse()
+}
+
+void findTypeWaitAtMost() #FindTypeWaitAtMost : {}
+{
+ <ORWAITATMOST> contentAttribute() <SECONDS>
 }
 
 void pathDef() #PathType : {}

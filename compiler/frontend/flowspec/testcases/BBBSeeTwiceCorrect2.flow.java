@@ -41,11 +41,11 @@ Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSea
 Click on searchPopupChooseFoundOffer and wait 10 seconds
 Find option with attribute value set to dsl24 in orderCartArea
 Click on checkoutOrder and wait 10 seconds
-Find input with attribute src set to /res/img/button/tillbaka.png in website
+Find input with attribute src set to /res/img/button/tillbaka.png
 Click on searchPopupChooseFoundOffer and wait 10 seconds
 Find option with attribute value set to dsl24 in orderCartArea
 Click on checkoutOrder and wait 10 seconds
-Find input with attribute src set to /res/img/button/tillbaka.png in website
+Find input with attribute src set to /res/img/button/tillbaka.png
 */
 
 @SuppressWarnings("unchecked")
@@ -163,7 +163,7 @@ Thread.sleep(10000);
 step = "State8";
 log(System.currentTimeMillis()+") Entering state 9 of 11 72% complete \"State8\"");
 /**
-Find input with attribute src set to /res/img/button/tillbaka.png in website
+Find input with attribute src set to /res/img/button/tillbaka.png
 */
 findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 /**
@@ -189,7 +189,7 @@ Thread.sleep(10000);
 step = "State10";
 log(System.currentTimeMillis()+") Entering state 11 of 11 90% complete \"State10\"");
 /**
-Find input with attribute src set to /res/img/button/tillbaka.png in website
+Find input with attribute src set to /res/img/button/tillbaka.png
 */
 findOrFail("/html/body", "input", "src", "/res/img/button/tillbaka.png", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
 webClient.closeAllWindows();

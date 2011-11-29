@@ -1,0 +1,6 @@
+Path Website is /html/body/
+Url url1 is http://bjurr.se/
+
+Go to url1
+Find a with attribute href set to /link/category/blandat
+Find a with attribute href set to /link/category/blandat or wait at most 10 seconds
