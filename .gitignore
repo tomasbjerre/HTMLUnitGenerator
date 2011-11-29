@@ -9,3 +9,9 @@
 /compiler/frontend/flowspec/.settings/org.eclipse.jdt.core.prefs
 /compiler/frontend/flowspec/src/flow/parser/Parser.jj
 /compiler/frontend/xmlspec/.settings/org.eclipse.jdt.core.prefs
+/doc/htmlunitgenerator.synctex.gz
+/doc/htmlunitgenerator.ps
+/doc/htmlunitgenerator.dvi
+/doc/tmp/htmlunitgenerator.aux
+/doc/tmp/htmlunitgenerator.log
+/doc/tmp/htmlunitgenerator.toc

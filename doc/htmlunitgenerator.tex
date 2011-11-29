@@ -42,35 +42,72 @@ The Flow language (see Section \ref{flowlanguage}) is simple enaugh to, itself, 
 
 \item \textbf{Future safe}\\
 %Open Source, will be able to stop using it at any time
-HTMLUnitGenerator is an open source software. You can write your own generator if you don't want to user HTMLUnit anymore or if you just prefer another head less browser, see Section \ref{backendimpl}. Or maybe you want to test your code using several different head less browsers. The idea is to provide several different generators with HTMLUnitGenerator\footnote{Yes, the name will change!}.
-
+HTMLUnitGenerator is an open source software. You can write your own generator if you don't want to user HTMLUnit anymore, see Section \ref{backendimpl}. Or maybe you want to test your code using several different head less browsers. The idea is to provide several different generators with HTMLUnitGenerator\footnote{Yes, the name will change!}.
 \end{enumerate}
 
-\chapter{Front End}
+\chapter{Flow language}
 \label{frontend}
 
-\section{Flow Language}
+\section{Introduction}
+% A small example
 \label{flowlanguage}
 \lstset{basicstyle=\footnotesize, caption=Find href of an a tag, label=hrefofatag, numbers=left, frame=single, captionpos=b}
 \lstinputlisting{flow/simple.flow}
 As seen in Listing \ref{hrefofatag}.
 
-\subsection{subsection}
+\section{Defining paths}
+%what is XPath?
+
+\section{Defining URL:s}
+%just show how to define them
+
+\section{Go to URL:s}
+%Go to
+
+%Go to and wait x seconds
+
+%Refer to Find, if you want timeout
+
+\section{Find elements}
+%without in statement, defaults to /html/body
+
+%several attributes
+
+%with in statement
+
+%Show time out example
+
+\section{Click on elements}
+%can be used for dynamic html or page navigation
+
+%and wait
+
+\section{Fill in forms}
+%Fill in one element
+
+%Fill in multiple element
+
+%Fill in with unique string
+
+%Fill in with unique string of length
+
+%Fill in with unique string of length starting with
+
+%Fill in locationForm with address.floor as 3
+
+%Fill in locationForm with address.floor as options number 1
+
+\section{Re-use test cases}
+%See PathsAndUrls.flow
 
 \chapter{Back End}
 
 \section{HTMLUnit}
 
-\subsection{subsection}
 
-\chapter{Implementation}
-
-\section{Front end}
-
-\subsection{subsection}
-
-\section{Back end}
+\section{Implementing your own generator}
 \label{backendimpl}
+%Just briefly describe it, as it will most likely change.
 
 \subsection{subsection}
 
