@@ -5,6 +5,8 @@ Check out the wiki!
 http://github.com/tomasbjerre/HTMLUnitGenerator/wiki
 
 TODO
+- Enable matching string between start and end tag
+- Enable matching content containing spaces
 - Enable multiple attributes in Find statement
 - Get TestToPersonalDetailsViaSearchWithDSL24PhoneNumber.flow in Eclipse project to run.
 - Moniture javascript events. Warn if an element is clicked and there are no events associated with it.
