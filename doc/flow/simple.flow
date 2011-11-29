@@ -1,5 +1,4 @@
-Path Website is /html/body
 Url SomeSite is http://www.somesite.domain/
 
-Go to baspaket and wait 2 seconds
-Find a with attribute href set to /some/target in Website
+Go to baspaket
+Find a with attribute href set to /some/target
