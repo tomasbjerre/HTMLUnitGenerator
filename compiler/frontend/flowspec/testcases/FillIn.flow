@@ -1,0 +1,13 @@
+Path _eventId_search is /html/body
+
+Url url1 is http://bjurr.se/
+
+Go to url1
+Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string of length 10 starting with My
+Click on _eventId_search and wait 10 seconds
+Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string of length 10 starting with "My"
+Click on _eventId_search and wait 10 seconds
+Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string of length 10 starting with " My "
+Click on _eventId_search and wait 10 seconds
+Fill in locationForm with _eventId as search and phoneNumber.fullNumber as unique string of length 10 starting with " M y "
+Click on _eventId_search and wait 10 seconds

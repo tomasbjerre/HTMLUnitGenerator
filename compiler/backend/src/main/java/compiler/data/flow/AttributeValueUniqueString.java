@@ -19,7 +19,10 @@ public class AttributeValueUniqueString extends compiler.data.AttributeValueUniq
 		String toString = "unique string";
 		toString += " of length " + getLength();
 		if (string != null && !string.isEmpty())
-			toString += " starting with " + string;
+			if (string.indexOf(" ") == -1)
+				toString += " starting with " + string;
+			else
+				toString += " starting with \"" + string + "\"";
 		return toString;
 	}
 }

@@ -13,7 +13,11 @@ public class Find extends compiler.data.Find {
 		if (tags.size() > 0) {
 			for (compiler.data.Tag tag : tags) {
 				for (compiler.data.Attribute atttribute : tag.getAttributes().values()) {
-					result += "Find "+tag.getType()+" with attribute "+atttribute.getName()+" set to "+atttribute.getValue();
+					result += "Find "+tag.getType()+" with attribute "+atttribute.getName()+" set to ";
+					if (atttribute.getValue().toString().indexOf(" ") == -1)
+						result += atttribute.getValue();
+					else
+						result += "\"" + atttribute.getValue() + "\"";
 					if (path != null && !path.getValue().isEmpty() && !path.getValue().equals("/html/body"))
 						result += " in "+path.getName();
 					if (getWaitAtMost() != null && !getWaitAtMost().equals("0"))

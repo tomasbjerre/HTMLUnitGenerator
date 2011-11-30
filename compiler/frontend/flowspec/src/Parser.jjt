@@ -51,7 +51,8 @@ TOKEN [IGNORE_CASE]: {
 
 /* Attributes */
 TOKEN : {
-  < STRING_LITERAL: (~[" ", "\t", "\r", "\n"])+ >
+  < STRING_LITERAL: (~["\"", " ", "\t", "\r", "\n"])+ (~[" ", "\t", "\r", "\n"])* >
+| < VALUE_LITERAL: "\"" ( ~["\"", "\\"] | "\\" ["\r", "\n", "\"", "\\"] | "\"" "\"" )* "\"" >
 }
 
 public Start start() #Start : {}
@@ -157,9 +158,20 @@ void idUse() #IdUse : {Token t;}
  {jjtThis.setVALUE(t.image.substring(0,t.image.length()).trim()); }
 }
 
-void contentAttribute() #Content : {Token t;}
+void contentAttribute() : {}
+{
+ contentAttributeValue() | contentAttributeString()
+}
+
+void contentAttributeString() #Content : {Token t;}
 {
  t = <STRING_LITERAL>
  { jjtThis.setCONTENT(t.image.substring(0,t.image.length()).trim()); }
+}
+
+void contentAttributeValue() #Content : {Token t;}
+{
+ t = <VALUE_LITERAL>
+ { jjtThis.setCONTENT(t.image.substring(1,t.image.length()-1)); }
 }
 
