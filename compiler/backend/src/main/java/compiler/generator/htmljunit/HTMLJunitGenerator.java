@@ -10,6 +10,7 @@ import compiler.data.AttributeValueByNumber;
 import compiler.data.AttributeValueString;
 import compiler.data.AttributeValueUniqueString;
 import compiler.data.Find;
+import compiler.data.Findable;
 import compiler.data.Flow;
 import compiler.data.Form;
 import compiler.data.Path;
@@ -28,8 +29,8 @@ public class HTMLJunitGenerator extends Generator {
 	private final String methodFind = "private boolean find(String xpath, String tag, String attribute, String value) {\n"
 			+ " ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);\n"
 			+ " for (HtmlElement div : matchingDivs) {\n"
-			+ "  if (recursiveFind(div.getChildNodes(), tag, attribute, value))\n"
-			+ "   return true;\n"
+			+ " if (recursiveFind(div.getChildNodes(), tag, attribute, value))\n"
+			+ " return true;\n"
 			+ " }\n"
 			+ " return false;\n"
 			+ "}\n";
@@ -37,38 +38,20 @@ public class HTMLJunitGenerator extends Generator {
 	private final String methodFindRecursive = "private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,\n"
 			+ " String attribute, String value) {\n"
 			+ " for (DomNode node : nodeList) {\n"
-			+ "  String nodeName = node.getNodeName();\n"
-			+ "  if (tag.equals(nodeName)) {\n"
-			+ "   Node nodeAttribute = node.getAttributes().getNamedItem(\n"
-			+ "     attribute);\n"
-			+ "   if (nodeAttribute != null) {"
-			+ "    String nodeAttributeValue = nodeAttribute.getNodeValue();\n"
-			+ "    if (value.equals(nodeAttributeValue)) {\n"
-			+ "     log(\"Found element \"+tag+\" with attribute \"+attribute+\" and value \"+value+\" at \"+node.getCanonicalXPath());\n"
-			+ "     return true;\n"
-			+ "    }\n"
-			+ "   }\n"
-			+ "  }\n"
-			+ "  if (recursiveFind(node.getChildNodes(), tag, attribute, value))\n"
-			+ "   return true;\n" + " }\n" + " return false;\n" + "}";
-
-	private final String methodFindText = "private boolean find(String xpath, String text) {\n"
-			+ " ArrayList<HtmlElement> matchingDivs;\n"
-			+ " boolean successfull;\n"
-			+ " matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);\n"
-			+ " successfull = false;\n"
-			+ " for (HtmlElement div : matchingDivs) {\n"
-			+ "  String asXml;\n"
-			+ "  asXml = div.asXml();\n"
-			+ "  log(asXml);"
-			+ "  Pattern selectPattern = Pattern.compile(text,\n"
-			+ "          Pattern.CASE_INSENSITIVE);\n"
-			+ "  Matcher selectMatcher = selectPattern.matcher(asXml);\n"
-			+ "  successfull = selectMatcher.find();\n"
-			+ "  if (successfull)\n"
-			+ "   return true;\n"
+			+ " String nodeName = node.getNodeName();\n"
+			+ " if (tag.equals(nodeName)) {\n"
+			+ " Node nodeAttribute = node.getAttributes().getNamedItem(\n"
+			+ " attribute);\n"
+			+ " if (nodeAttribute != null) {"
+			+ " String nodeAttributeValue = nodeAttribute.getNodeValue();\n"
+			+ " if (value.equals(nodeAttributeValue)) {\n"
+			+ " log(\"Found element \"+tag+\" with attribute \"+attribute+\" and value \"+value+\" at \"+node.getCanonicalXPath());\n"
+			+ " return true;\n"
 			+ " }\n"
-			+ " return false;\n" + "}\n";
+			+ " }\n"
+			+ " }\n"
+			+ " if (recursiveFind(node.getChildNodes(), tag, attribute, value))\n"
+			+ " return true;\n" + " }\n" + " return false;\n" + "}";
 
 	private final String methodFindById = "private HtmlForm getFormById(String id) {\n"
 			+ " for (HtmlForm form : page.getForms())\n"
@@ -167,6 +150,35 @@ public class HTMLJunitGenerator extends Generator {
 			+ " return start;\n"
 			+ "}\n";
 
+	private final String methodFindOrFailContent = "private void findOrFail(String xpath, String content, String currentUrl, int waitAtMost) throws InterruptedException {\n"
+			+ "boolean successfull = false;\n"
+			+ "long endTime = System.currentTimeMillis() + waitAtMost;\n"
+			+ "log(\"Looking for \"+content+\" in \"+xpath);\n"
+			+ "do {\n"
+			+ "webClient.waitForBackgroundJavaScriptStartingBefore(100);\n"
+			+ "successfull = find(xpath, content, value);\n"
+			+ "if (!successfull) {\n"
+			+ "log(\"\n\nDid not find \"+content);\n"
+			+ "}\n"
+			+ "} while (!successfull && (endTime-System.currentTimeMillis()) > 0);\n"
+			+ "if (successfull)\n"
+			+ "log(\" took \"+(System.currentTimeMillis() - endTime + waitAtMost) + \"ms\");\n"
+			+ "if (!successfull) {\n"
+			+ "log(page.asXml());\n"
+			+ "findClosestXpath(xpath);\n"
+			+ "}\n"
+			+ "return successfull;\n"
+			+ "}\n";
+
+	private final String methodFindContent = "private boolean find(String xpath, String content) {\n"
+			+ "ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);\n"
+			+ "for (HtmlElement div : matchingDivs) {\n"
+			+ "if (div.getTextContent().indexOf(content) != -1)\n"
+			+ "return true;\n"
+			+ "}\n"
+			+ "return false;\n"
+			+ "}\n";
+
 	private String currentUrl;
 	private final String testFileName;
 
@@ -211,22 +223,23 @@ public class HTMLJunitGenerator extends Generator {
 		return currentUrl;
 	}
 
+
 	private void handle(Find find) {
 		addMethod(methodFindOrFail);
+		addMethod(methodFindOrFailContent);
+		addMethod(methodFindContent);
+		addMethod(methodFind);
+		addMethod(methodFindRecursive);
 		result += "/**\n";
 		result += find.toString();
 		result += "*/\n";
-		if (!find.getTexts().isEmpty()) {
-			addMethod(methodFindText);
-			for (Text text : find.getTexts()) {
-				result += "findOrFail(\""+find.getPath().getValue()+"\", \""+escapeString(find.getPath().getValue())+"\", \""+text.getContent()+"\", \""+getCurrentUrl()+"\", "+find.getWaitAtMost()+");\n";
-			}
-		}
-
-		if (!find.getTags().isEmpty()) {
-			addMethod(methodFind);
-			addMethod(methodFindRecursive);
-			for (Tag tag : find.getTags()) {
+		//TODO: Use the findable.isAnd() boolean and rewrite find-methods... to do correct find!
+		for (Findable findable : find.getFindable()) {
+			if (findable instanceof Text) {
+				Text text = (Text)findable;
+				result += "findOrFailContent(\""+find.getPath().getValue()+"\", \""+escapeString(text.getContent())+"\", \""+getCurrentUrl()+"\", "+find.getWaitAtMost()+");\n";
+			} else if (findable instanceof Tag) {
+				Tag tag = (Tag)findable;
 				String tagName = tag.getName();
 				for (Attribute attribute : tag.getAttributes().values()) {
 					result += "findOrFail(\""+escapeString(find.getPath().getValue())+"\", \""+tagName+"\", \""+attribute.getName()+"\", \""+attribute.getValue()+"\", \""+getCurrentUrl()+"\", "+find.getWaitAtMost()+");\n";

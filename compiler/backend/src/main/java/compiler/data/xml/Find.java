@@ -10,8 +10,9 @@ public class Find extends compiler.data.Find {
 	@Override
 	public String toString() {
 		String result = "  <find path=\""+path.getName()+"\">\n";
-		if (tags.size() > 0) {
-			for (compiler.data.Tag tag : tags) {
+		if (getFindable().size() > 0) {
+			for (compiler.data.Findable findable : getFindable()) {
+				Tag tag = (Tag)findable;
 				result += tag.toString();
 			}
 		}

@@ -1,0 +1,5 @@
+Url url1 is http://bjurr.se/
+
+Go to url1
+Find a with attribute href set to something and a with attribute id set to someid
+Find a with attribute href set to something or a with attribute id set to someid

@@ -1,7 +1,6 @@
 package compiler.data;
 
-
-public class Tag {
+public class Tag extends Findable {
 	private String type = "";
 	protected Attributes attributes = null;
 

@@ -17,15 +17,14 @@ import junit.framework.TestCase;
 Url url1 is http://bjurr.se/
 
 Go to url1
-Find a with attribute href set to /link/category/blandat
-Find a with attribute href set to /link/category/blandat
-Find a with attribute href set to "/link category/blandat"
-Find a with attribute href set to "link category blandat"
-Find a with attribute href set to " link category blandat "
+Find containing somestringnospace
+Find containing somestringnospace2
+Find containing "some string"
+Find containing " some string spaces "
 */
 
 @SuppressWarnings("unchecked")
-public class Find extends TestCase {
+public class FindContaining extends TestCase {
 WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
 HtmlPage page = null;
 String step = null;
@@ -54,25 +53,21 @@ page = webClient.getPage("http://bjurr.se/");
 step = "State1";
 log(System.currentTimeMillis()+") Entering state 2 of 2 50% complete \"State1\"");
 /**
-Find a with attribute href set to /link/category/blandat
+Find containing somestringnospace
 */
-findOrFail("/html/body", "a", "href", "/link/category/blandat", "http://bjurr.se/", 0);
+findOrFailContent("/html/body", "somestringnospace", "http://bjurr.se/", 0);
 /**
-Find a with attribute href set to /link/category/blandat
+Find containing somestringnospace2
 */
-findOrFail("/html/body", "a", "href", "/link/category/blandat", "http://bjurr.se/", 0);
+findOrFailContent("/html/body", "somestringnospace2", "http://bjurr.se/", 0);
 /**
-Find a with attribute href set to "/link category/blandat"
+Find containing "some string"
 */
-findOrFail("/html/body", "a", "href", "/link category/blandat", "http://bjurr.se/", 0);
+findOrFailContent("/html/body", "some string", "http://bjurr.se/", 0);
 /**
-Find a with attribute href set to "link category blandat"
+Find containing " some string spaces "
 */
-findOrFail("/html/body", "a", "href", "link category blandat", "http://bjurr.se/", 0);
-/**
-Find a with attribute href set to " link category blandat "
-*/
-findOrFail("/html/body", "a", "href", " link category blandat ", "http://bjurr.se/", 0);
+findOrFailContent("/html/body", " some string spaces ", "http://bjurr.se/", 0);
 webClient.closeAllWindows();
 }
 

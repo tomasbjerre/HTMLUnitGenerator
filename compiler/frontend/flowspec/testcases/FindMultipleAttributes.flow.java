@@ -17,15 +17,12 @@ import junit.framework.TestCase;
 Url url1 is http://bjurr.se/
 
 Go to url1
-Find a with attribute href set to /link/category/blandat
-Find a with attribute href set to /link/category/blandat
-Find a with attribute href set to "/link category/blandat"
-Find a with attribute href set to "link category blandat"
-Find a with attribute href set to " link category blandat "
+Find a with attribute href set to something and a with attribute id set to someid
+Find a with attribute href set to something or a with attribute id set to someid
 */
 
 @SuppressWarnings("unchecked")
-public class Find extends TestCase {
+public class FindMultipleAttributes extends TestCase {
 WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_8);
 HtmlPage page = null;
 String step = null;
@@ -54,25 +51,15 @@ page = webClient.getPage("http://bjurr.se/");
 step = "State1";
 log(System.currentTimeMillis()+") Entering state 2 of 2 50% complete \"State1\"");
 /**
-Find a with attribute href set to /link/category/blandat
+Find a with attribute href set to something and a with attribute id set to someid
 */
-findOrFail("/html/body", "a", "href", "/link/category/blandat", "http://bjurr.se/", 0);
+findOrFail("/html/body", "a", "href", "something", "http://bjurr.se/", 0);
+findOrFail("/html/body", "a", "id", "someid", "http://bjurr.se/", 0);
 /**
-Find a with attribute href set to /link/category/blandat
+Find a with attribute href set to something or a with attribute id set to someid
 */
-findOrFail("/html/body", "a", "href", "/link/category/blandat", "http://bjurr.se/", 0);
-/**
-Find a with attribute href set to "/link category/blandat"
-*/
-findOrFail("/html/body", "a", "href", "/link category/blandat", "http://bjurr.se/", 0);
-/**
-Find a with attribute href set to "link category blandat"
-*/
-findOrFail("/html/body", "a", "href", "link category blandat", "http://bjurr.se/", 0);
-/**
-Find a with attribute href set to " link category blandat "
-*/
-findOrFail("/html/body", "a", "href", " link category blandat ", "http://bjurr.se/", 0);
+findOrFail("/html/body", "a", "href", "something", "http://bjurr.se/", 0);
+findOrFail("/html/body", "a", "id", "someid", "http://bjurr.se/", 0);
 webClient.closeAllWindows();
 }
 

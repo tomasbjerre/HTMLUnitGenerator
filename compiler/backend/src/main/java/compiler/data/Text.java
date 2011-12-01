@@ -1,13 +1,13 @@
 package compiler.data;
 
-public class Text {
-    private String content;
+public class Text extends Findable {
+	private final String content;
 
-    public Text(String content) {
-        this.content = content;
-    }
+	public Text(String content) {
+		this.content = content;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public String getContent() {
+		return content;
+	}
 }

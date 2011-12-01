@@ -5,31 +5,23 @@ import java.util.List;
 
 public class Find {
 	protected Path path = null;
-	protected List<Tag> tags = new ArrayList<Tag>();
-	private final List<Text> texts = new ArrayList<Text>();
+	protected List<Findable> findables = new ArrayList<Findable>();
 	protected String waitAtMost = "0";
 
 	public Find(Path path) {
 		this.path = path;
 	}
 
-	public void addTag(Tag tag) {
-		this.tags.add(tag);
+	public void addFindable(Findable findable) {
+		this.findables.add(findable);
 	}
 
-	public void addText(Text text) {
-		texts.add(text);
+	public List<Findable> getFindable() {
+		return findables;
 	}
 
 	public Path getPath() {
 		return path;
-	}
-
-	public List<Tag> getTags() {
-		return tags;
-	}
-	public List<Text> getTexts() {
-		return texts;
 	}
 
 	public String getWaitAtMost() {

@@ -146,11 +146,42 @@ private void findOrFail(String xpath, String tag, String attribute, String value
  }
 }
 
+private void findOrFail(String xpath, String content, String currentUrl, int waitAtMost) throws InterruptedException {
+boolean successfull = false;
+long endTime = System.currentTimeMillis() + waitAtMost;
+log("Looking for "+content+" in "+xpath);
+do {
+webClient.waitForBackgroundJavaScriptStartingBefore(100);
+successfull = find(xpath, content, value);
+if (!successfull) {
+log("
+
+Did not find "+content);
+}
+} while (!successfull && (endTime-System.currentTimeMillis()) > 0);
+if (successfull)
+log(" took "+(System.currentTimeMillis() - endTime + waitAtMost) + "ms");
+if (!successfull) {
+log(page.asXml());
+findClosestXpath(xpath);
+}
+return successfull;
+}
+
+private boolean find(String xpath, String content) {
+ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+for (HtmlElement div : matchingDivs) {
+if (div.getTextContent().indexOf(content) != -1)
+return true;
+}
+return false;
+}
+
 private boolean find(String xpath, String tag, String attribute, String value) {
  ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
  for (HtmlElement div : matchingDivs) {
-  if (recursiveFind(div.getChildNodes(), tag, attribute, value))
-   return true;
+ if (recursiveFind(div.getChildNodes(), tag, attribute, value))
+ return true;
  }
  return false;
 }
@@ -158,19 +189,19 @@ private boolean find(String xpath, String tag, String attribute, String value) {
 private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
  String attribute, String value) {
  for (DomNode node : nodeList) {
-  String nodeName = node.getNodeName();
-  if (tag.equals(nodeName)) {
-   Node nodeAttribute = node.getAttributes().getNamedItem(
-     attribute);
-   if (nodeAttribute != null) {    String nodeAttributeValue = nodeAttribute.getNodeValue();
-    if (value.equals(nodeAttributeValue)) {
-     log("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
-     return true;
-    }
-   }
-  }
-  if (recursiveFind(node.getChildNodes(), tag, attribute, value))
-   return true;
+ String nodeName = node.getNodeName();
+ if (tag.equals(nodeName)) {
+ Node nodeAttribute = node.getAttributes().getNamedItem(
+ attribute);
+ if (nodeAttribute != null) { String nodeAttributeValue = nodeAttribute.getNodeValue();
+ if (value.equals(nodeAttributeValue)) {
+ log("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
+ return true;
+ }
+ }
+ }
+ if (recursiveFind(node.getChildNodes(), tag, attribute, value))
+ return true;
  }
  return false;
 }

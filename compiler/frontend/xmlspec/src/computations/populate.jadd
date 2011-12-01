@@ -75,12 +75,12 @@ aspect Populate
                 Attribute attribute = new Attribute(attributeTag.getNameAttribute().getContent().getCONTENT(), new AttributeValueString(attributeTag.getValueAttribute().getContent().getCONTENT()));
                 tag.addAttribute(attribute);
             }
-            find.addTag(tag);
+            find.addFindable(tag);
         }
         
         for (TextTag textTag : getTextTagList()) {
             Text text = new Text(textTag.getContent().getCONTENT());
-            find.addText(text);
+            find.addFindable(text);
         }
         
         state.addFind(find);

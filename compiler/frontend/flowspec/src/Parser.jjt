@@ -28,6 +28,8 @@ TOKEN [IGNORE_CASE]: {
   < GOTO: "Go to ">
 | < ANDWAIT: " and wait ">
 | < WITHATTRIBUTE: " with attribute ">
+| < ANDWITHATTRIBUTE: " and with attribute ">
+| < ORWITHATTRIBUTE: " or with attribute ">
 | < CLICKON: "Click on ">
 | < FILLIN: "Fill in ">
 | < SETTO: " set to ">
@@ -37,6 +39,7 @@ TOKEN [IGNORE_CASE]: {
 | < WITH: " with ">
 | < FIND: "Find ">
 | < AND: " and ">
+| < OR: " or ">
 | < IN: " in ">
 | < AS: " as ">
 | < OPTIONNUMBER: "option number ">
@@ -47,6 +50,9 @@ TOKEN [IGNORE_CASE]: {
 | < STARTINGWITH: " starting with ">
 | < ORWAITATMOST: " or wait at most ">
 | < IS: " is ">
+| < CONTAINING: "containing " >
+| < ANDCONTAINING: " and containing " >
+| < ORCONTAINING: " or containing " >
 }
 
 /* Attributes */
@@ -123,7 +129,32 @@ void clickOn() #ClickOnType : {}
 
 void find() #FindType : {}
 {
- <FIND> contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute() (findTypePath() | findTypeWaitAtMost())* #List(true)
+ <FIND> (findTypeContaining() | findOneTypeAttribute())* #List(true) (findTypePath() | findTypeWaitAtMost())* #List(true)
+}
+
+void findOneTypeAttribute() : {}
+{
+ findTypeAttribute() | findTypeAndAttribute() | findTypeOrAttribute()
+}
+
+void findTypeAttribute() #FindTypeAndAttribute : {}
+{
+ contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute()
+}
+
+void findTypeAndAttribute() #FindTypeAndAttribute : {}
+{
+ <AND> contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute()
+}
+
+void findTypeOrAttribute() #FindTypeOrAttribute : {}
+{
+ <OR> contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute()
+}
+
+void findTypeContaining() : {}
+{
+ (<CONTAINING> contentAttribute() #FindTypeAndContaining) | (<ANDCONTAINING> contentAttribute() #FindTypeAndContaining) | (<ORCONTAINING> contentAttribute() #FindTypeOrContaining)
 }
 
 void findTypePath() #FindTypePath : {}

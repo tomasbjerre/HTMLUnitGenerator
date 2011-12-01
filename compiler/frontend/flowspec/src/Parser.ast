@@ -6,6 +6,14 @@ FindTypeOption ::= ;
 FindTypePath : FindTypeOption ::= Path:IdUse;
 FindTypeWaitAtMost : FindTypeOption ::= WaitAtMost:Content;
 
+FindTypeItem ::= ;
+FindTypeAttribute : FindTypeItem ::= Type:Content Attribute:Content Value:Content;
+FindTypeAndAttribute : FindTypeAttribute ::= ;
+FindTypeOrAttribute : FindTypeAttribute ::= ;
+FindTypeContaining : FindTypeItem ::= Value:Content;
+FindTypeAndContaining : FindTypeContaining ::= ;
+FindTypeOrContaining : FindTypeContaining ::= ;
+
 Content ::= <CONTENT:String>;
 OptionNumber: Content ::= Number:Content;
 UniqueString: Content ::=;
@@ -15,7 +23,7 @@ UniqueStringOfLengthStartingWith: Content ::= Length:Content StartingWith:Conten
 ActionType ::= ;
 GoToType: ActionType ::= IdUse [Content];
 ClickOnType: ActionType ::= IdUse [Content];
-FindType: ActionType ::= Type:Content Attribute:Content Value:Content FindTypeOption*;
+FindType: ActionType ::= Item:FindTypeItem* FindTypeOption*;
 FillInAndClick ::= IdDecl FormContent* ClickOnType;
 FormContent ::= Attribute:Content Value:Content;
 UseProxy ::= Host:Content Port:Content;

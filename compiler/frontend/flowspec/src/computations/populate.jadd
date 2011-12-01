@@ -100,10 +100,22 @@ aspect Populate
             }
         }
         Find find = new Find(path);
-        Tag tag = new Tag(getType().getCONTENT());
-        Attribute attribute = new Attribute(getAttribute().getCONTENT(),new AttributeValueString(getValue().getCONTENT()));
-        tag.addAttribute(attribute);
-        find.addTag(tag);
+
+        for (FindTypeItem findTypeItem : getItems())
+            if (findTypeItem instanceof FindTypeAttribute) {
+                FindTypeAttribute findTypeAttribute = (FindTypeAttribute)findTypeItem;
+                Tag tag = new Tag(findTypeAttribute.getType().getCONTENT());
+                Attribute attribute = new Attribute(findTypeAttribute.getAttribute().getCONTENT(),new AttributeValueString(findTypeAttribute.getValue().getCONTENT()));
+                tag.addAttribute(attribute);
+                tag.setIsAnd(findTypeItem instanceof FindTypeAndAttribute);
+                find.addFindable(tag);
+            } else if (findTypeItem instanceof FindTypeContaining) {
+                FindTypeContaining findTypeContaining = (FindTypeContaining)findTypeItem;
+                Text text = new Text(findTypeContaining.getValue().getCONTENT());
+                text.setIsAnd(findTypeItem instanceof FindTypeAndContaining);
+                find.addFindable(text);
+            }
+
         find.setWaitAtMost(delayStr);
         currentState.addFind(find);
   }

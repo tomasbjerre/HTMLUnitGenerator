@@ -1,0 +1,7 @@
+Url url1 is http://bjurr.se/
+
+Go to url1
+Find containing somestringnospace
+Find containing "somestringnospace2"
+Find containing "some string"
+Find containing " some string spaces "

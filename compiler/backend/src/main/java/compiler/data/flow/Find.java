@@ -1,5 +1,6 @@
 package compiler.data.flow;
 
+import compiler.data.Findable;
 import compiler.data.Path;
 
 public class Find extends compiler.data.Find {
@@ -10,21 +11,39 @@ public class Find extends compiler.data.Find {
 	@Override
 	public String toString() {
 		String result = "";
-		if (tags.size() > 0) {
-			for (compiler.data.Tag tag : tags) {
-				for (compiler.data.Attribute atttribute : tag.getAttributes().values()) {
-					result += "Find "+tag.getType()+" with attribute "+atttribute.getName()+" set to ";
-					if (atttribute.getValue().toString().indexOf(" ") == -1)
-						result += atttribute.getValue();
+		if (getFindable().size() > 0) {
+			result += "Find ";
+			for (Findable findable : getFindable()) {
+				if (!getFindable().get(0).equals(findable))
+					if (findable.isAnd())
+						result += " and ";
 					else
-						result += "\"" + atttribute.getValue() + "\"";
-					if (path != null && !path.getValue().isEmpty() && !path.getValue().equals("/html/body"))
-						result += " in "+path.getName();
-					if (getWaitAtMost() != null && !getWaitAtMost().equals("0"))
-						result += " or wait at most "+(Integer.parseInt(getWaitAtMost())/1000)+" seconds";
-					result += "\n";
+						result += " or ";
+				if (findable instanceof Tag) {
+					Tag tag = (Tag)findable;
+					for (compiler.data.Attribute atttribute : tag.getAttributes().values()) {
+						result += tag.getType();
+						result += " with attribute "+atttribute.getName()+" set to ";
+						if (atttribute.getValue().toString().indexOf(" ") == -1)
+							result += atttribute.getValue();
+						else
+							result += "\"" + atttribute.getValue() + "\"";
+					}
+				} else if (findable instanceof Text) {
+					Text text = (Text)findable;
+					result += "containing ";
+					if (text.getContent().indexOf(" ") == -1)
+						result += text.getContent();
+					else
+						result += "\"" + text.getContent() + "\"";
 				}
+
+				if (path != null && !path.getValue().isEmpty() && !path.getValue().equals("/html/body"))
+					result += " in "+path.getName();
+				if (getWaitAtMost() != null && !getWaitAtMost().equals("0"))
+					result += " or wait at most "+(Integer.parseInt(getWaitAtMost())/1000)+" seconds";
 			}
+			result += "\n";
 		}
 		return result;
 	}
