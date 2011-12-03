@@ -139,17 +139,22 @@ void findOneTypeAttribute() : {}
 
 void findTypeAttribute() #FindTypeAndAttribute : {}
 {
- contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute()
+ contentAttribute() <WITHATTRIBUTE> findTypeAttributeList()
 }
 
 void findTypeAndAttribute() #FindTypeAndAttribute : {}
 {
- <AND> contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute()
+ <AND> contentAttribute() <WITHATTRIBUTE> findTypeAttributeList()
 }
 
 void findTypeOrAttribute() #FindTypeOrAttribute : {}
 {
- <OR> contentAttribute() <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute()
+ <OR> contentAttribute() <WITHATTRIBUTE> findTypeAttributeList()
+}
+
+void findTypeAttributeList() : {}
+{
+ contentAttribute() <SETTO> contentAttribute()
 }
 
 void findTypeContaining() : {}
