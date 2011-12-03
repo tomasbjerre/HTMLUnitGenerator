@@ -1,0 +1,13 @@
+Path Website is /html/body/
+
+Url url1 is http://bjurr.se/
+
+Go to url1
+Find a with attribute href set to /link/category/blandat and attribute id set to somethingelse
+Find a with attribute href set to /link/category/blandat and attribute id set to "something else"
+Find a with attribute href set to /link/category/blandat or attribute id set to somethingelse
+Find a with attribute href set to /link/category/blandat or attribute id set to "something else"
+Find a with attribute href set to /link/category/blandat or attribute id set to somethingelse or attribute id set to somethingelse2
+Find a with attribute href set to /link/category/blandat or attribute id set to "something else" or attribute id set to "something else 2"
+Find a with attribute href set to /link/category/blandat or attribute id set to somethingelse and attribute id2 set to somethingelse2
+Find a with attribute href set to /link/category/blandat or attribute id set to "something else" and attribute id2 set to "something else 2"
