@@ -7,9 +7,15 @@ FindTypePath : FindTypeOption ::= Path:IdUse;
 FindTypeWaitAtMost : FindTypeOption ::= WaitAtMost:Content;
 
 FindTypeItem ::= ;
-FindTypeAttribute : FindTypeItem ::= Type:Content Attribute:Content Value:Content;
+
+FindTypeAttributeListItem ::= Attribute:Content Value:Content;
+FindTypeAttributeListItemAnd : FindTypeAttributeListItem ::= ;
+FindTypeAttributeListItemOr : FindTypeAttributeListItem ::= ;
+
+FindTypeAttribute : FindTypeItem ::= Type:Content Attributes:FindTypeAttributeListItem*;
 FindTypeAndAttribute : FindTypeAttribute ::= ;
 FindTypeOrAttribute : FindTypeAttribute ::= ;
+
 FindTypeContaining : FindTypeItem ::= Value:Content;
 FindTypeAndContaining : FindTypeContaining ::= ;
 FindTypeOrContaining : FindTypeContaining ::= ;

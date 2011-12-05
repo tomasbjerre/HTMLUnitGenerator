@@ -241,7 +241,7 @@ public class HTMLJunitGenerator extends Generator {
 			} else if (findable instanceof Tag) {
 				Tag tag = (Tag)findable;
 				String tagName = tag.getName();
-				for (Attribute attribute : tag.getAttributes().values()) {
+				for (Attribute attribute : tag.getAttributes()) {
 					result += "findOrFail(\""+escapeString(find.getPath().getValue())+"\", \""+tagName+"\", \""+attribute.getName()+"\", \""+attribute.getValue()+"\", \""+getCurrentUrl()+"\", "+find.getWaitAtMost()+");\n";
 				}
 			}
@@ -254,7 +254,7 @@ public class HTMLJunitGenerator extends Generator {
 		addMethod(methodFindClosestXpath);
 		result += "form = getFormById(\"" + using.getName() + "\");\n";
 		for (Tag tag : using.getTags())
-			for (Attribute attribute : tag.getAttributes().values()) {
+			for (Attribute attribute : tag.getAttributes()) {
 				String name = attribute.getName();
 				AttributeValue value = attribute.getValue();
 				if (value instanceof AttributeValueString) {

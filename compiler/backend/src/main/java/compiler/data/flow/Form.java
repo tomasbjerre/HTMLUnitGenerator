@@ -12,7 +12,7 @@ public class Form extends compiler.data.Form {
 		String result = "Fill in "+getName();
 		int i = 0;
 		for (compiler.data.Tag tag : getTags()) {
-			for (compiler.data.Attribute attribute : tag.getAttributes().values()) {
+			for (compiler.data.Attribute attribute : tag.getAttributes()) {
 				if (i > 0)
 					result += " and ";
 				else

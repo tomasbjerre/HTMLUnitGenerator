@@ -105,8 +105,11 @@ aspect Populate
             if (findTypeItem instanceof FindTypeAttribute) {
                 FindTypeAttribute findTypeAttribute = (FindTypeAttribute)findTypeItem;
                 Tag tag = new Tag(findTypeAttribute.getType().getCONTENT());
-                Attribute attribute = new Attribute(findTypeAttribute.getAttribute().getCONTENT(),new AttributeValueString(findTypeAttribute.getValue().getCONTENT()));
-                tag.addAttribute(attribute);
+                for (FindTypeAttributeListItem findTypeAttributeListItem : findTypeAttribute.getAttributesList()) {
+                    Attribute attribute = new Attribute(findTypeAttributeListItem.getAttribute().getCONTENT(),new AttributeValueString(findTypeAttributeListItem.getValue().getCONTENT()));
+                    attribute.setAnd(findTypeAttributeListItem instanceof FindTypeAttributeListItemAnd);
+                    tag.addAttribute(attribute);
+                }
                 tag.setIsAnd(findTypeItem instanceof FindTypeAndAttribute);
                 find.addFindable(tag);
             } else if (findTypeItem instanceof FindTypeContaining) {

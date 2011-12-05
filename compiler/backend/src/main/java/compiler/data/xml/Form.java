@@ -12,7 +12,7 @@ public class Form extends compiler.data.Form {
 		String result = "  <form id=\""+getName()+"\" submit=\""+getSubmit().getName()+"\">\n";
 		for (compiler.data.Tag tag : getTags()) {
 			result += "   <" + tag.getType();
-			for (compiler.data.Attribute attribute : tag.getAttributes().values()) {
+			for (compiler.data.Attribute attribute : tag.getAttributes()) {
 				result += " name=\"" + attribute.getName() + "\" value=\"" + attribute.getValue() + "\"";
 			}
 			result += "/>\n";

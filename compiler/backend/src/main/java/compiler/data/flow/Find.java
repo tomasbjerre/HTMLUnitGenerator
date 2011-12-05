@@ -21,9 +21,17 @@ public class Find extends compiler.data.Find {
 						result += " or ";
 				if (findable instanceof Tag) {
 					Tag tag = (Tag)findable;
-					for (compiler.data.Attribute atttribute : tag.getAttributes().values()) {
-						result += tag.getType();
-						result += " with attribute "+atttribute.getName()+" set to ";
+					result += tag.getType();
+					for (compiler.data.Attribute atttribute : tag.getAttributes()) {
+						if (!tag.getAttributes().get(0).equals(atttribute)) {
+							if (atttribute.isAnd())
+								result += " and";
+							else
+								result += " or";
+						} else {
+							result += " with";
+						}
+						result += " attribute "+atttribute.getName()+" set to ";
 						if (atttribute.getValue().toString().indexOf(" ") == -1)
 							result += atttribute.getValue();
 						else

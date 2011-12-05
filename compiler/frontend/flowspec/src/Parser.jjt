@@ -28,8 +28,8 @@ TOKEN [IGNORE_CASE]: {
   < GOTO: "Go to ">
 | < ANDWAIT: " and wait ">
 | < WITHATTRIBUTE: " with attribute ">
-| < ANDWITHATTRIBUTE: " and with attribute ">
-| < ORWITHATTRIBUTE: " or with attribute ">
+| < ANDATTRIBUTE: " and attribute ">
+| < ORATTRIBUTE: " or attribute ">
 | < CLICKON: "Click on ">
 | < FILLIN: "Fill in ">
 | < SETTO: " set to ">
@@ -139,22 +139,37 @@ void findOneTypeAttribute() : {}
 
 void findTypeAttribute() #FindTypeAndAttribute : {}
 {
- contentAttribute() <WITHATTRIBUTE> findTypeAttributeList()
+ contentAttribute() findTypeAttributeList()
 }
 
 void findTypeAndAttribute() #FindTypeAndAttribute : {}
 {
- <AND> contentAttribute() <WITHATTRIBUTE> findTypeAttributeList()
+ <AND> contentAttribute() findTypeAttributeList()
 }
 
 void findTypeOrAttribute() #FindTypeOrAttribute : {}
 {
- <OR> contentAttribute() <WITHATTRIBUTE> findTypeAttributeList()
+ <OR> contentAttribute() findTypeAttributeList()
 }
 
 void findTypeAttributeList() : {}
 {
- contentAttribute() <SETTO> contentAttribute()
+ (findTypeAttributeListItemWith() (findTypeAttributeListItemAnd() | findTypeAttributeListItemOr())*) #List(true)
+}
+
+void findTypeAttributeListItemWith() #FindTypeAttributeListItemAnd : {}
+{
+ <WITHATTRIBUTE> contentAttribute() <SETTO> contentAttribute()
+}
+
+void findTypeAttributeListItemAnd() #FindTypeAttributeListItemAnd : {}
+{
+ <ANDATTRIBUTE> contentAttribute() <SETTO> contentAttribute()
+}
+
+void findTypeAttributeListItemOr() #FindTypeAttributeListItemOr : {}
+{
+ <ORATTRIBUTE> contentAttribute() <SETTO> contentAttribute()
 }
 
 void findTypeContaining() : {}

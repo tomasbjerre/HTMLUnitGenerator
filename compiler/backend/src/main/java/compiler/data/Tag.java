@@ -1,19 +1,21 @@
 package compiler.data;
 
+import java.util.ArrayList;
+
 public class Tag extends Findable {
 	private String type = "";
-	protected Attributes attributes = null;
+	private final ArrayList<Attribute> attributes;
 
 	public Tag(String type) {
 		this.setType(type);
-		attributes = new Attributes();
+		attributes = new ArrayList<Attribute>();
 	}
 
 	public void addAttribute(Attribute attribute) {
-		attributes.put(attribute.getName(), attribute);
+		attributes.add(attribute);
 	}
 
-	public Attributes getAttributes() {
+	public ArrayList<Attribute> getAttributes() {
 		return attributes;
 	}
 

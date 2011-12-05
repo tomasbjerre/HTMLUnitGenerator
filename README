@@ -6,7 +6,6 @@ http://github.com/tomasbjerre/HTMLUnitGenerator/wiki
 
 TODO
 - Do correct find logics in generator
-- Multiple attributes in same tag in Find statement
 - For every [checkbox] [and radio button] in XPath[ and every XPATH]* [assert XPath changes] [[and] assert XPath exists]
 - Get TestToPersonalDetailsViaSearchWithDSL24PhoneNumber.flow in Eclipse project to run.
 - Moniture javascript events. Warn if an element is clicked and there are no events associated with it.

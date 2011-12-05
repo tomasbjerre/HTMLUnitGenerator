@@ -41,7 +41,7 @@ public class FunctionalTest{
 	@Before
 	public void setUp() throws Exception {
 		testCases = new ArrayList<File>();
-		testCases.addAll(Utils.getFiles(testFolderPath, testEndian));
 		testCases.addAll(Utils.getFiles(testFolderPath+"/todo", testEndian));
+		testCases.addAll(Utils.getFiles(testFolderPath, testEndian));
 	}
 }
