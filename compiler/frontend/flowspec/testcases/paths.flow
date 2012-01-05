@@ -1,0 +1,3 @@
+Path searchpopup is /html/body/div[7]/div/div[9]
+Path search is //*[@id="eventIdsearch"]
+Path website is /html/body

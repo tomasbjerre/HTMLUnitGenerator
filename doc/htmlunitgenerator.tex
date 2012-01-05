@@ -46,17 +46,27 @@ HTMLUnitGenerator is an open source software. You can write your own generator i
 \end{enumerate}
 
 \chapter{Flow language}
-\label{frontend}
+\label{flowlanguage}
+This chpater will describe the Flow language. It is the language used to express test cases.
+
+This chapter starts with a quick look at a test case written in Flow, see Section \ref{flowintro}, and continued with a complete walkthrough of the language. 
 
 \section{Introduction}
+\label{flowintro}
+A quick example of a test case written in Flow is presented in Listing \ref{hrefofatag}. The details of this test case is explained in this chapter.
+
 % A small example
-\label{flowlanguage}
 \lstset{basicstyle=\footnotesize, caption=Find href of an a tag, label=hrefofatag, numbers=left, frame=single, captionpos=b}
-\lstinputlisting{flow/simple.flow}
-As seen in Listing \ref{hrefofatag}.
+\lstinputlisting{../compiler/frontend/flowspec/testcases/simple.flow}
 
 \section{Defining paths}
 %what is XPath?
+Flow uses XPath to define containers, like div-tags for example.
+
+\lstset{basicstyle=\footnotesize, caption=Defining XPaths, label=flowpaths, numbers=left, frame=single, captionpos=b}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/paths.flow}
+
+In Listing \ref{flowpaths} a div is defined as \textit{searchpopup}, an element with an id is defined as \textit{search} and the entire website content is defined as \textit{website}.
 
 \section{Defining URL:s}
 %just show how to define them

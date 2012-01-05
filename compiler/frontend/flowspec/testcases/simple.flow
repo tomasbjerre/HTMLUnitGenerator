@@ -1,0 +1,4 @@
+Url SomeSite is http://www.somesite.domain/
+
+Go to SomeSite
+Find a with attribute href set to /some/target
