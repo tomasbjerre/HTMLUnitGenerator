@@ -203,6 +203,72 @@ if (page.getByXPath(xpath).size() > 0) {
 findClosestXpath(xpath.substring(0, xpath.lastIndexOf("/")));
 }
 
+private void findAndClick(String xpath) throws Exception {
+ matchingElement = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ if (matchingElement.size() == 0) {
+  log(page.asXml());
+  findClosestXpath(xpath);
+  fail("Faild to find element " + xpath + "");
+ }
+ page = matchingElement.get(0).click();
+}
+
+private boolean find(String xpath, String content) {
+ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+for (HtmlElement div : matchingDivs) {
+if (div.getTextContent().indexOf(content) != -1)
+return true;
+}
+return false;
+}
+
+private boolean find(String xpath, String tag, String attribute, String value) {
+ ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ for (HtmlElement div : matchingDivs) {
+ if (recursiveFind(div.getChildNodes(), tag, attribute, value))
+ return true;
+ }
+ return false;
+}
+
+private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
+ String attribute, String value) {
+ for (DomNode node : nodeList) {
+ String nodeName = node.getNodeName();
+ if (tag.equals(nodeName)) {
+ Node nodeAttribute = node.getAttributes().getNamedItem(
+ attribute);
+ if (nodeAttribute != null) { String nodeAttributeValue = nodeAttribute.getNodeValue();
+ if (value.equals(nodeAttributeValue)) {
+ log("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
+ return true;
+ }
+ }
+ }
+ if (recursiveFind(node.getChildNodes(), tag, attribute, value))
+ return true;
+ }
+ return false;
+}
+private HtmlElement findOneMathingElement(ArrayList<HtmlElement> elements, String[] attributeNames, String[] attributeValues) {
+for (HtmlElement domNode : elements) {
+for (int i = 0 ; i <attributeNames.length; i++) {
+if (domNode.getAttributes().getNamedItem(attributeNames[i]).equals(attributeValues[i]))
+return domNode;
+}
+}
+return null;
+}
+
+private ArrayList<HtmlElement> getElementsByTagName(String xpath, String name) {
+ ArrayList<HtmlElement> elements = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ ArrayList<HtmlElement> result = new ArrayList<HtmlElement>();
+ for (HtmlElement element : elements)
+  if (element.getNodeName().equals(name))
+   result.add(element);
+ return result;
+}
+
 private String createString(String start, int length) {
  if (start == null)
   start = "";
@@ -212,16 +278,6 @@ private String createString(String start, int length) {
   start += candidates.charAt(generator.nextInt(candidates.length()));
  }
  return start;
-}
-
-private void findAndClick(String xpath) throws Exception {
- matchingElement = (ArrayList<HtmlElement>) page.getByXPath(xpath);
- if (matchingElement.size() == 0) {
-  log(page.asXml());
-  findClosestXpath(xpath);
-  fail("Faild to find element " + xpath + "");
- }
- page = matchingElement.get(0).click();
 }
 
 

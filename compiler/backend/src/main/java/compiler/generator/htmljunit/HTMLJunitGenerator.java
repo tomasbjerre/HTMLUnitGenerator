@@ -3,6 +3,7 @@ package compiler.generator.htmljunit;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import compiler.data.Attribute;
 import compiler.data.AttributeValue;
@@ -71,27 +72,6 @@ public class HTMLJunitGenerator extends Generator {
 			+ " }\n"
 			+ "}\n";
 
-	private final String methodFindOrFail = "private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {\n"
-			+ " boolean successfull = false;\n"
-			+ " long endTime = System.currentTimeMillis() + waitAtMost;\n"
-			+ " log(\"Looking for \"+tag+\" with attribute \"+attribute+\" and value \"+value+\" in \"+xpath);\n"
-			+ " do {\n"
-			+ "   webClient.waitForBackgroundJavaScriptStartingBefore(100);\n"
-			+ "   successfull = find(xpath, tag, attribute, value);\n"
-			+ "   if (!successfull) {\n"
-			+ "    log(\"\\n\\nDid not find \"+tag+\" with given attributes, found these tags of same type:\");\n"
-			+ "    logAllTags((List<DomNode>)page.getByXPath(xpath),tag);\n"
-			+ "   }\n"
-			+ " } while (!successfull && (endTime-System.currentTimeMillis()) > 0);\n"
-			+ " if (successfull)\n"
-			+ "   log(\" took \"+(System.currentTimeMillis() - endTime + waitAtMost) + \"ms\");\n"
-			+ " if (!successfull) {\n"
-			+ "   log(page.asXml());\n"
-			+ "   findClosestXpath(xpath);\n"
-			+ "   fail(step+\") Failed finding tag \\\"\"+tag+\"\\\" with attribute \\\"\"+attribute+\"\\\" and value \\\"\"+value+\"\\\" in \\\"\"+xpath+\"\\\" at \\\"\"+currentUrl+\"\\\"\");\n"
-			+ " }\n"
-			+ "}\n";
-
 	private final String methodLogAllTags = "private void logAllTags(List<DomNode> elements, String tag) {\n"
 			+"for (DomNode element : elements) {\n"
 			+"if (element.getNodeName().equals(tag)) {\n"
@@ -150,26 +130,6 @@ public class HTMLJunitGenerator extends Generator {
 			+ " return start;\n"
 			+ "}\n";
 
-	private final String methodFindOrFailContent = "private void findOrFail(String xpath, String content, String currentUrl, int waitAtMost) throws InterruptedException {\n"
-			+ "boolean successfull = false;\n"
-			+ "long endTime = System.currentTimeMillis() + waitAtMost;\n"
-			+ "log(\"Looking for \"+content+\" in \"+xpath);\n"
-			+ "do {\n"
-			+ "webClient.waitForBackgroundJavaScriptStartingBefore(100);\n"
-			+ "successfull = find(xpath, content, value);\n"
-			+ "if (!successfull) {\n"
-			+ "log(\"\n\nDid not find \"+content);\n"
-			+ "}\n"
-			+ "} while (!successfull && (endTime-System.currentTimeMillis()) > 0);\n"
-			+ "if (successfull)\n"
-			+ "log(\" took \"+(System.currentTimeMillis() - endTime + waitAtMost) + \"ms\");\n"
-			+ "if (!successfull) {\n"
-			+ "log(page.asXml());\n"
-			+ "findClosestXpath(xpath);\n"
-			+ "}\n"
-			+ "return successfull;\n"
-			+ "}\n";
-
 	private final String methodFindContent = "private boolean find(String xpath, String content) {\n"
 			+ "ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);\n"
 			+ "for (HtmlElement div : matchingDivs) {\n"
@@ -178,6 +138,25 @@ public class HTMLJunitGenerator extends Generator {
 			+ "}\n"
 			+ "return false;\n"
 			+ "}\n";
+
+	private final String methodFindOneMathingElement = "private HtmlElement findOneMathingElement(ArrayList<HtmlElement> elements, String[] attributeNames, String[] attributeValues) {\n"
+			+ "for (HtmlElement domNode : elements) {\n"
+			+ "for (int i = 0 ; i <attributeNames.length; i++) {\n"
+			+ "if (domNode.getAttributes().getNamedItem(attributeNames[i]).equals(attributeValues[i]))\n"
+			+ "return domNode;\n"
+			+ "}\n"
+			+ "}\n"
+			+ "return null;\n"
+			+ "}\n";
+
+	private final String methodGetElementsByTagName = "private ArrayList<HtmlElement> getElementsByTagName(String xpath, String name) {\n"
+			+" ArrayList<HtmlElement> elements = (ArrayList<HtmlElement>) page.getByXPath(xpath);\n"
+			+" ArrayList<HtmlElement> result = new ArrayList<HtmlElement>();\n"
+			+" for (HtmlElement element : elements)\n"
+			+"  if (element.getNodeName().equals(name))\n"
+			+"   result.add(element);\n"
+			+" return result;\n"
+			+"}\n";
 
 	private String currentUrl;
 	private final String testFileName;
@@ -219,39 +198,78 @@ public class HTMLJunitGenerator extends Generator {
 		return currentUrl;
 	}
 
-	private String getCurrentUrl() {
-		return currentUrl;
-	}
-
-
 	private void handle(Find find) {
-		addMethod(methodFindOrFail);
-		addMethod(methodFindOrFailContent);
-		addMethod(methodFindContent);
-		addMethod(methodFind);
-		addMethod(methodFindRecursive);
 		result += "/**\n";
 		result += find.toString();
 		result += "*/\n";
-		//TODO: Use the findable.isAnd() boolean and rewrite find-methods... to do correct find!
+		result += "{\n";
+		result += "long endTime = System.currentTimeMillis() + "+find.getWaitAtMost()+";\n";
+		result += "do {\n";
+		result += "boolean successfull = true;\n";
+		result += "webClient.waitForBackgroundJavaScriptStartingBefore(100);\n";
+		result += "if (!(";
+		boolean isFirstFindable = true;
 		for (Findable findable : find.getFindable()) {
+			if (!isFirstFindable && findable.isAnd())
+				result += " && ";
+			else if (!isFirstFindable && !findable.isAnd())
+				result += " || ";
+			isFirstFindable = false;
 			if (findable instanceof Text) {
 				Text text = (Text)findable;
-				result += "findOrFailContent(\""+find.getPath().getValue()+"\", \""+escapeString(text.getContent())+"\", \""+getCurrentUrl()+"\", "+find.getWaitAtMost()+");\n";
+				result += "find(\""+find.getPath().getValue()+"\", \""+escapeString(text.getContent())+"\")\n";
 			} else if (findable instanceof Tag) {
 				Tag tag = (Tag)findable;
 				String tagName = tag.getName();
-				for (Attribute attribute : tag.getAttributes()) {
-					result += "findOrFail(\""+escapeString(find.getPath().getValue())+"\", \""+tagName+"\", \""+attribute.getName()+"\", \""+attribute.getValue()+"\", \""+getCurrentUrl()+"\", "+find.getWaitAtMost()+");\n";
+				String getElementsByTagName = "getElementsByTagName(\""+escapeString(find.getPath().getValue())+"\", \""+tagName+"\")";
+				Iterator<Attribute> attributesItr = tag.getAttributes().iterator();
+				result += "(";
+				boolean isFirstAttribute = true;
+				while (attributesItr.hasNext()) {
+					Attribute attribute = attributesItr.next();
+					if (attribute.isAnd()) {
+						ArrayList<String> attributeNames = new ArrayList<String>();
+						ArrayList<String> attributeValues = new ArrayList<String>();
+						attributeNames.add("\""+attribute.getName()+"\"");
+						attributeValues.add("\""+attribute.getValue().getValue()+"\"");
+
+						while (attributesItr.hasNext()) {
+							attribute = attributesItr.next();
+							if (!attribute.isAnd())
+								break;
+							attributeNames.add(",\""+attribute.getName()+"\"");
+							attributeValues.add(",\""+attribute.getValue().getValue()+"\"");
+						}
+						if (!isFirstAttribute)
+							result += " && ";
+						result += "findOneMathingElement("+getElementsByTagName+",new String[]{";
+						for (String name : attributeNames)
+							result += name;
+						result += "},new String[]{";
+						for (String value : attributeValues)
+							result += value;
+						result += "}) != null\n";
+						isFirstAttribute = false;
+					}
+
+					if (!attribute.isAnd()) {
+						if (!isFirstAttribute)
+							result += " || ";
+						result += "findOneMathingElement("+getElementsByTagName+",new String[]{\""+attribute.getName()+"\"},new String[]{\""+attribute.getValue()+"\"}) != null\n";
+						isFirstAttribute = false;
+					}
 				}
+				result += ")";
 			}
 		}
+		result += ")) {\n";
+		result += "successfull = false;\n";
+		result += "}\n";
+		result += "} while (!successfull && (endTime-System.currentTimeMillis()) > 0);\n";
+		result += "}\n";
 	}
 
 	private void handle(Form using) {
-		addMethod(methodFindById);
-		addMethod(methodSetAttributeValue);
-		addMethod(methodFindClosestXpath);
 		result += "form = getFormById(\"" + using.getName() + "\");\n";
 		for (Tag tag : using.getTags())
 			for (Attribute attribute : tag.getAttributes()) {
@@ -277,7 +295,6 @@ public class HTMLJunitGenerator extends Generator {
 	}
 
 	private void handle(Path using) {
-		addMethod(methodFindAndClick);
 		result += "findAndClick(\"" + escapeString(using.getValue()) + "\");\n";
 	}
 
@@ -319,6 +336,15 @@ public class HTMLJunitGenerator extends Generator {
 	public String toString() {
 		addMethod(methodLog);
 		addMethod(methodLogAllTags);
+		addMethod(methodFindById);
+		addMethod(methodSetAttributeValue);
+		addMethod(methodFindClosestXpath);
+		addMethod(methodFindAndClick);
+		addMethod(methodFindContent);
+		addMethod(methodFind);
+		addMethod(methodFindRecursive);
+		addMethod(methodFindOneMathingElement);
+		addMethod(methodGetElementsByTagName);
 
 		result = "package webtest;";
 		result += "\n";

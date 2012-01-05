@@ -77,5 +77,110 @@ logAllTags(element.getChildNodes(),tag);
 }
 }
 
+private HtmlForm getFormById(String id) {
+ for (HtmlForm form : page.getForms())
+  if (form.getAttributes().getNamedItem("id") != null && form.getAttributes().getNamedItem("id").getNodeValue().equals(id)
+     || form.getAttributes().getNamedItem("name") != null && form.getAttributes().getNamedItem("name").getNodeValue().equals(id)
+     )
+   return form;
+ return null;
+}
+
+private void setAttributeValue(HtmlForm form, String attribute, String value) {
+ HtmlSelect select;
+ HtmlInput input;
+ try {
+ input = form.getInputByName(attribute);
+ input.setValueAttribute(value);
+ } catch (ElementNotFoundException e) {
+ select = form.getSelectByName(attribute);
+ select.setSelectedAttribute(value, true);
+ }
+}
+
+private void findClosestXpath(String xpath) {
+if (xpath.startsWith("//*") || xpath.equals("/html"))
+	return;
+log("Searching for xpath "+xpath);
+matchingElement = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+if (page.getByXPath(xpath).size() > 0) {
+	log("\nFound close elements at "+xpath+":");
+	for (HtmlElement element : matchingElement) {
+ if (element.asXml().length() > 100)
+  log(element.asXml().substring(0, 100) + " ...");
+ else
+  log(element.asXml());
+	}
+	return;
+}
+findClosestXpath(xpath.substring(0, xpath.lastIndexOf("/")));
+}
+
+private void findAndClick(String xpath) throws Exception {
+ matchingElement = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ if (matchingElement.size() == 0) {
+  log(page.asXml());
+  findClosestXpath(xpath);
+  fail("Faild to find element " + xpath + "");
+ }
+ page = matchingElement.get(0).click();
+}
+
+private boolean find(String xpath, String content) {
+ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+for (HtmlElement div : matchingDivs) {
+if (div.getTextContent().indexOf(content) != -1)
+return true;
+}
+return false;
+}
+
+private boolean find(String xpath, String tag, String attribute, String value) {
+ ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ for (HtmlElement div : matchingDivs) {
+ if (recursiveFind(div.getChildNodes(), tag, attribute, value))
+ return true;
+ }
+ return false;
+}
+
+private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
+ String attribute, String value) {
+ for (DomNode node : nodeList) {
+ String nodeName = node.getNodeName();
+ if (tag.equals(nodeName)) {
+ Node nodeAttribute = node.getAttributes().getNamedItem(
+ attribute);
+ if (nodeAttribute != null) { String nodeAttributeValue = nodeAttribute.getNodeValue();
+ if (value.equals(nodeAttributeValue)) {
+ log("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
+ return true;
+ }
+ }
+ }
+ if (recursiveFind(node.getChildNodes(), tag, attribute, value))
+ return true;
+ }
+ return false;
+}
+private HtmlElement findOneMathingElement(ArrayList<HtmlElement> elements, String[] attributeNames, String[] attributeValues) {
+for (HtmlElement domNode : elements) {
+for (int i = 0 ; i <attributeNames.length; i++) {
+if (domNode.getAttributes().getNamedItem(attributeNames[i]).equals(attributeValues[i]))
+return domNode;
+}
+}
+return null;
+}
+
+private ArrayList<HtmlElement> getElementsByTagName(String xpath, String name) {
+ ArrayList<HtmlElement> elements = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ ArrayList<HtmlElement> result = new ArrayList<HtmlElement>();
+ for (HtmlElement element : elements)
+  if (element.getNodeName().equals(name))
+   result.add(element);
+ return result;
+}
+
 
 }

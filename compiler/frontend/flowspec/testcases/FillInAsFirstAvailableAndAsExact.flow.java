@@ -71,7 +71,17 @@ log(System.currentTimeMillis()+") Entering state 2 of 7 14% complete \"State1\""
 /**
 Find a with attribute href set to /servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false in campaignmodule
 */
-findOrFail("/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a", "href", "/servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
+{
+long endTime = System.currentTimeMillis() + 0;
+do {
+boolean successfull = true;
+webClient.waitForBackgroundJavaScriptStartingBefore(100);
+if (!((findOneMathingElement(getElementsByTagName("/html/body/div[2]/div/div[2]/div[2]/div/div[3]", "a"),new String[]{"href"},new String[]{"/servlet/orderflow/search/search-flow?Id=tcm:142-23371&draggable=false"}) != null
+))) {
+successfull = false;
+}
+} while (!successfull && (endTime-System.currentTimeMillis()) > 0);
+}
 /**
 Path campaignModuleChoose is /html/body/div[2]/div/div[2]/div[2]/div/div[3]/div/span/a/span
 Click on campaignModuleChoose and wait 10 seconds
@@ -84,7 +94,17 @@ log(System.currentTimeMillis()+") Entering state 3 of 7 28% complete \"State2\""
 /**
 Find input with attribute id set to _eventId_search in searchpopup
 */
-findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
+{
+long endTime = System.currentTimeMillis() + 0;
+do {
+boolean successfull = true;
+webClient.waitForBackgroundJavaScriptStartingBefore(100);
+if (!((findOneMathingElement(getElementsByTagName("/html/body/div[7]/div/div[9]", "input"),new String[]{"id"},new String[]{"_eventId_search"}) != null
+))) {
+successfull = false;
+}
+} while (!successfull && (endTime-System.currentTimeMillis()) > 0);
+}
 /**
 Fill in locationForm with _eventId as search and phoneNumber.fullNumber as 0768966787
 
@@ -107,7 +127,17 @@ log(System.currentTimeMillis()+") Entering state 5 of 7 57% complete \"State4\""
 /**
 Find input with attribute id set to _eventId_search in searchpopup
 */
-findOrFail("/html/body/div[7]/div/div[9]", "input", "id", "_eventId_search", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
+{
+long endTime = System.currentTimeMillis() + 0;
+do {
+boolean successfull = true;
+webClient.waitForBackgroundJavaScriptStartingBefore(100);
+if (!((findOneMathingElement(getElementsByTagName("/html/body/div[7]/div/div[9]", "input"),new String[]{"id"},new String[]{"_eventId_search"}) != null
+))) {
+successfull = false;
+}
+} while (!successfull && (endTime-System.currentTimeMillis()) > 0);
+}
 /**
 Fill in locationForm with address.floor as option number 1 and address.dummy as something
 
@@ -131,7 +161,17 @@ log(System.currentTimeMillis()+") Entering state 7 of 7 85% complete \"State6\""
 /**
 Find a with attribute href set to /orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new in searchpopup
 */
-findOrFail("/html/body/div[7]/div/div[9]", "a", "href", "/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new", "http://www.bredbandsbolaget.se/tv/kanalpaket/baspaket.html", 0);
+{
+long endTime = System.currentTimeMillis() + 0;
+do {
+boolean successfull = true;
+webClient.waitForBackgroundJavaScriptStartingBefore(100);
+if (!((findOneMathingElement(getElementsByTagName("/html/body/div[7]/div/div[9]", "a"),new String[]{"href"},new String[]{"/orderflow/index.html?Id=tcm:142-23381&fromSearch&page=new"}) != null
+))) {
+successfull = false;
+}
+} while (!successfull && (endTime-System.currentTimeMillis()) > 0);
+}
 webClient.closeAllWindows();
 }
 
@@ -153,96 +193,6 @@ else {
 logAllTags(element.getChildNodes(),tag);
 }
 }
-}
-
-private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {
- boolean successfull = false;
- long endTime = System.currentTimeMillis() + waitAtMost;
- log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
- do {
-   webClient.waitForBackgroundJavaScriptStartingBefore(100);
-   successfull = find(xpath, tag, attribute, value);
-   if (!successfull) {
-    log("\n\nDid not find "+tag+" with given attributes, found these tags of same type:");
-    logAllTags((List<DomNode>)page.getByXPath(xpath),tag);
-   }
- } while (!successfull && (endTime-System.currentTimeMillis()) > 0);
- if (successfull)
-   log(" took "+(System.currentTimeMillis() - endTime + waitAtMost) + "ms");
- if (!successfull) {
-   log(page.asXml());
-   findClosestXpath(xpath);
-   fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
- }
-}
-
-private void findOrFail(String xpath, String content, String currentUrl, int waitAtMost) throws InterruptedException {
-boolean successfull = false;
-long endTime = System.currentTimeMillis() + waitAtMost;
-log("Looking for "+content+" in "+xpath);
-do {
-webClient.waitForBackgroundJavaScriptStartingBefore(100);
-successfull = find(xpath, content, value);
-if (!successfull) {
-log("
-
-Did not find "+content);
-}
-} while (!successfull && (endTime-System.currentTimeMillis()) > 0);
-if (successfull)
-log(" took "+(System.currentTimeMillis() - endTime + waitAtMost) + "ms");
-if (!successfull) {
-log(page.asXml());
-findClosestXpath(xpath);
-}
-return successfull;
-}
-
-private boolean find(String xpath, String content) {
-ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
-for (HtmlElement div : matchingDivs) {
-if (div.getTextContent().indexOf(content) != -1)
-return true;
-}
-return false;
-}
-
-private boolean find(String xpath, String tag, String attribute, String value) {
- ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
- for (HtmlElement div : matchingDivs) {
- if (recursiveFind(div.getChildNodes(), tag, attribute, value))
- return true;
- }
- return false;
-}
-
-private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
- String attribute, String value) {
- for (DomNode node : nodeList) {
- String nodeName = node.getNodeName();
- if (tag.equals(nodeName)) {
- Node nodeAttribute = node.getAttributes().getNamedItem(
- attribute);
- if (nodeAttribute != null) { String nodeAttributeValue = nodeAttribute.getNodeValue();
- if (value.equals(nodeAttributeValue)) {
- log("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
- return true;
- }
- }
- }
- if (recursiveFind(node.getChildNodes(), tag, attribute, value))
- return true;
- }
- return false;
-}
-private void findAndClick(String xpath) throws Exception {
- matchingElement = (ArrayList<HtmlElement>) page.getByXPath(xpath);
- if (matchingElement.size() == 0) {
-  log(page.asXml());
-  findClosestXpath(xpath);
-  fail("Faild to find element " + xpath + "");
- }
- page = matchingElement.get(0).click();
 }
 
 private HtmlForm getFormById(String id) {
@@ -282,6 +232,72 @@ if (page.getByXPath(xpath).size() > 0) {
 	return;
 }
 findClosestXpath(xpath.substring(0, xpath.lastIndexOf("/")));
+}
+
+private void findAndClick(String xpath) throws Exception {
+ matchingElement = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ if (matchingElement.size() == 0) {
+  log(page.asXml());
+  findClosestXpath(xpath);
+  fail("Faild to find element " + xpath + "");
+ }
+ page = matchingElement.get(0).click();
+}
+
+private boolean find(String xpath, String content) {
+ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+for (HtmlElement div : matchingDivs) {
+if (div.getTextContent().indexOf(content) != -1)
+return true;
+}
+return false;
+}
+
+private boolean find(String xpath, String tag, String attribute, String value) {
+ ArrayList<HtmlElement> matchingDivs = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ for (HtmlElement div : matchingDivs) {
+ if (recursiveFind(div.getChildNodes(), tag, attribute, value))
+ return true;
+ }
+ return false;
+}
+
+private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
+ String attribute, String value) {
+ for (DomNode node : nodeList) {
+ String nodeName = node.getNodeName();
+ if (tag.equals(nodeName)) {
+ Node nodeAttribute = node.getAttributes().getNamedItem(
+ attribute);
+ if (nodeAttribute != null) { String nodeAttributeValue = nodeAttribute.getNodeValue();
+ if (value.equals(nodeAttributeValue)) {
+ log("Found element "+tag+" with attribute "+attribute+" and value "+value+" at "+node.getCanonicalXPath());
+ return true;
+ }
+ }
+ }
+ if (recursiveFind(node.getChildNodes(), tag, attribute, value))
+ return true;
+ }
+ return false;
+}
+private HtmlElement findOneMathingElement(ArrayList<HtmlElement> elements, String[] attributeNames, String[] attributeValues) {
+for (HtmlElement domNode : elements) {
+for (int i = 0 ; i <attributeNames.length; i++) {
+if (domNode.getAttributes().getNamedItem(attributeNames[i]).equals(attributeValues[i]))
+return domNode;
+}
+}
+return null;
+}
+
+private ArrayList<HtmlElement> getElementsByTagName(String xpath, String name) {
+ ArrayList<HtmlElement> elements = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ ArrayList<HtmlElement> result = new ArrayList<HtmlElement>();
+ for (HtmlElement element : elements)
+  if (element.getNodeName().equals(name))
+   result.add(element);
+ return result;
 }
 
 

@@ -108,7 +108,17 @@ log(System.currentTimeMillis()+") Entering state 3 of 4 50% complete \"links\"")
     </tag>
   </find>
 */
-findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/link/category/blandat", "http://bjurr.se/", 0);
+{
+long endTime = System.currentTimeMillis() + 0;
+do {
+boolean successfull = true;
+webClient.waitForBackgroundJavaScriptStartingBefore(100);
+if (!((findOneMathingElement(getElementsByTagName("/html/body/center/table/tbody/tr[3]/td/table", "a"),new String[]{"href"},new String[]{"/link/category/blandat"}) != null
+))) {
+successfull = false;
+}
+} while (!successfull && (endTime-System.currentTimeMillis()) > 0);
+}
 /**
  <path id="imagesLink">
   /html/body/center/table/tbody/tr[2]/th/table/tbody/tr/td[3]/a
@@ -126,7 +136,17 @@ log(System.currentTimeMillis()+") Entering state 4 of 4 75% complete \"images\""
     </tag>
   </find>
 */
-findOrFail("/html/body/center/table/tbody/tr[3]/td/table", "a", "href", "/image/view/?i=/080112 Fiske/", "http://bjurr.se/", 0);
+{
+long endTime = System.currentTimeMillis() + 0;
+do {
+boolean successfull = true;
+webClient.waitForBackgroundJavaScriptStartingBefore(100);
+if (!((findOneMathingElement(getElementsByTagName("/html/body/center/table/tbody/tr[3]/td/table", "a"),new String[]{"href"},new String[]{"/image/view/?i=/080112 Fiske/"}) != null
+))) {
+successfull = false;
+}
+} while (!successfull && (endTime-System.currentTimeMillis()) > 0);
+}
 webClient.closeAllWindows();
 }
 
@@ -150,6 +170,45 @@ logAllTags(element.getChildNodes(),tag);
 }
 }
 
+private HtmlForm getFormById(String id) {
+ for (HtmlForm form : page.getForms())
+  if (form.getAttributes().getNamedItem("id") != null && form.getAttributes().getNamedItem("id").getNodeValue().equals(id)
+     || form.getAttributes().getNamedItem("name") != null && form.getAttributes().getNamedItem("name").getNodeValue().equals(id)
+     )
+   return form;
+ return null;
+}
+
+private void setAttributeValue(HtmlForm form, String attribute, String value) {
+ HtmlSelect select;
+ HtmlInput input;
+ try {
+ input = form.getInputByName(attribute);
+ input.setValueAttribute(value);
+ } catch (ElementNotFoundException e) {
+ select = form.getSelectByName(attribute);
+ select.setSelectedAttribute(value, true);
+ }
+}
+
+private void findClosestXpath(String xpath) {
+if (xpath.startsWith("//*") || xpath.equals("/html"))
+	return;
+log("Searching for xpath "+xpath);
+matchingElement = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+if (page.getByXPath(xpath).size() > 0) {
+	log("\nFound close elements at "+xpath+":");
+	for (HtmlElement element : matchingElement) {
+ if (element.asXml().length() > 100)
+  log(element.asXml().substring(0, 100) + " ...");
+ else
+  log(element.asXml());
+	}
+	return;
+}
+findClosestXpath(xpath.substring(0, xpath.lastIndexOf("/")));
+}
+
 private void findAndClick(String xpath) throws Exception {
  matchingElement = (ArrayList<HtmlElement>) page.getByXPath(xpath);
  if (matchingElement.size() == 0) {
@@ -158,49 +217,6 @@ private void findAndClick(String xpath) throws Exception {
   fail("Faild to find element " + xpath + "");
  }
  page = matchingElement.get(0).click();
-}
-
-private void findOrFail(String xpath, String tag, String attribute, String value, String currentUrl, int waitAtMost) throws InterruptedException {
- boolean successfull = false;
- long endTime = System.currentTimeMillis() + waitAtMost;
- log("Looking for "+tag+" with attribute "+attribute+" and value "+value+" in "+xpath);
- do {
-   webClient.waitForBackgroundJavaScriptStartingBefore(100);
-   successfull = find(xpath, tag, attribute, value);
-   if (!successfull) {
-    log("\n\nDid not find "+tag+" with given attributes, found these tags of same type:");
-    logAllTags((List<DomNode>)page.getByXPath(xpath),tag);
-   }
- } while (!successfull && (endTime-System.currentTimeMillis()) > 0);
- if (successfull)
-   log(" took "+(System.currentTimeMillis() - endTime + waitAtMost) + "ms");
- if (!successfull) {
-   log(page.asXml());
-   findClosestXpath(xpath);
-   fail(step+") Failed finding tag \""+tag+"\" with attribute \""+attribute+"\" and value \""+value+"\" in \""+xpath+"\" at \""+currentUrl+"\"");
- }
-}
-
-private void findOrFail(String xpath, String content, String currentUrl, int waitAtMost) throws InterruptedException {
-boolean successfull = false;
-long endTime = System.currentTimeMillis() + waitAtMost;
-log("Looking for "+content+" in "+xpath);
-do {
-webClient.waitForBackgroundJavaScriptStartingBefore(100);
-successfull = find(xpath, content, value);
-if (!successfull) {
-log("
-
-Did not find "+content);
-}
-} while (!successfull && (endTime-System.currentTimeMillis()) > 0);
-if (successfull)
-log(" took "+(System.currentTimeMillis() - endTime + waitAtMost) + "ms");
-if (!successfull) {
-log(page.asXml());
-findClosestXpath(xpath);
-}
-return successfull;
 }
 
 private boolean find(String xpath, String content) {
@@ -240,5 +256,24 @@ private boolean recursiveFind(DomNodeList<DomNode> nodeList, String tag,
  }
  return false;
 }
+private HtmlElement findOneMathingElement(ArrayList<HtmlElement> elements, String[] attributeNames, String[] attributeValues) {
+for (HtmlElement domNode : elements) {
+for (int i = 0 ; i <attributeNames.length; i++) {
+if (domNode.getAttributes().getNamedItem(attributeNames[i]).equals(attributeValues[i]))
+return domNode;
+}
+}
+return null;
+}
+
+private ArrayList<HtmlElement> getElementsByTagName(String xpath, String name) {
+ ArrayList<HtmlElement> elements = (ArrayList<HtmlElement>) page.getByXPath(xpath);
+ ArrayList<HtmlElement> result = new ArrayList<HtmlElement>();
+ for (HtmlElement element : elements)
+  if (element.getNodeName().equals(name))
+   result.add(element);
+ return result;
+}
+
 
 }
