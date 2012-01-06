@@ -1,0 +1,3 @@
+Url myUrl is http://www.my.domain/page.html
+Go to myUrl
+Find a with attribute href set to /link/category/mix or attribute a set to "/link/category/other" and attribute class set to otherClass

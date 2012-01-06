@@ -1,0 +1,4 @@
+Path mypopup is //*[@id="mypopup"]
+Url myUrl is http://www.my.domain/page.html
+Go to myUrl
+Find a with attribute href set to /link/category/mix in mypopup

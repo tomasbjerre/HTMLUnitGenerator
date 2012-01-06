@@ -1,0 +1,3 @@
+Url myUrl is http://www.my.domain/page.html
+Go to myUrl
+Find a with attribute href set to /link/category/mix and containing "Alternative1" or a with attribute href set to /link/category/mix and containing "Alternative2"

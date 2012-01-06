@@ -53,87 +53,178 @@ This chapter starts with a quick look at a test case written in Flow, see Sectio
 
 \section{Introduction}
 \label{flowintro}
-A quick example of a test case written in Flow is presented in Listing \ref{hrefofatag}. The details of this test case is explained in this chapter.
+A quick example of a test case written in Flow is presented in Listing \ref{listinghrefofatag}. The details of this test case is explained in this chapter.
 
 % A small example
-\lstset{basicstyle=\footnotesize, caption=Find href of an a tag, label=hrefofatag, numbers=left, frame=single, captionpos=b}
+\lstset{basicstyle=\footnotesize, caption=Find href of an a tag, label=listinghrefofatag, numbers=left, frame=single, captionpos=b}
 \lstinputlisting{../compiler/frontend/flowspec/testcases/simple.flow}
 
 \section{Defining paths}
 %what is XPath?
-Flow uses XPath to define containers, like div-tags for example.
+Flow uses XPath\footnote{http://www.w3schools.com/xpath/} to define containers, like div-tags for example.
 
-\lstset{basicstyle=\footnotesize, caption=Defining XPaths, label=flowpaths, numbers=left, frame=single, captionpos=b}
+\lstset{basicstyle=\footnotesize, caption=Defining XPaths, label=listingpaths, numbers=left, frame=single, captionpos=b}
 \lstinputlisting{../compiler/frontend/flowspec/testcases/paths.flow}
 
-In Listing \ref{flowpaths} a div is defined as \textit{searchpopup}, an element with an id is defined as \textit{search} and the entire website content is defined as \textit{website}.
+In Listing \ref{listingpaths} a div is defined as \textit{searchpopup}, an element with an id is defined as \textit{search} and the entire website content is defined as \textit{website}.
 
 \section{Defining URL:s}
+\label{flowurls}
 %just show how to define them
+URL:s are used in Flow to go to exact URL:s, see Section \ref{flowgoto}.
+
+\lstset{basicstyle=\footnotesize, caption=Defining URLs, label=urls, numbers=left, frame=single, captionpos=b}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/urls.flow}
+
+In Listing \ref{urls} a URL is defined as \textit{myUrl} and another defined as \textit{myOtherUrl}.
 
 \section{Go to URL:s}
+\label{flowgoto}
 %Go to
+The \textit{Go to} statement is used to browse directly to a URL, see Section \ref{flowurls}.
+
+\lstset{basicstyle=\footnotesize, caption=Go to statement, label=gotosimple, numbers=left, frame=single, captionpos=b}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/gotosimple.flow}
+
+In Listing \ref{gotosimple} a URL is defined and used in a \textit{Go to} statement. This will create a test case where a browser is opened and the URL \textit{http://www.my.domain/page.html} is visited.
+
+
+So far, no assertions on the content of the visited page are made. This means the test will never fail. In order to make assertions you may want to wait for a while after the page has been loaded, in order for JavaScripts to execute. This can be done as in Listing \ref{gotowait}.
 
 %Go to and wait x seconds
+\lstset{basicstyle=\footnotesize, caption=Go to statement with wait, label=gotowait, numbers=left, frame=single, captionpos=b}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/gotowait.flow}
 
 %Refer to Find, if you want timeout
+In Listing \ref{gotowait} the test case will sleep for 5 seconds before continuing execution. This is may work in many situations but it should be avoided. You should instead wait for a condition to be true and then continue execution. This can be achieved with \textit{wait at most} in the \textit{Find} statement (see Section \ref{findwaitatmost}).
+
 
 \section{Find elements}
 %containing
+The \textit{Find} statement is used to make assertions on the content of the current page.
 
-%several containing
+\lstset{basicstyle=\footnotesize, caption=Find statement, label=findsimple, numbers=left, frame=single, captionpos=b}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/findsimple.flow}
 
-%tag
-
-%several tags
-
-%attribute
-
-%several attributes
+In Listing \ref{findsimple} a web page is visited and the test will fail unless it contains ``\textit{Hello}''.
 
 %with spaces and quotes, or no spaces and no quotes, or quotes and no spaces
+If you want to match a string containing whitespaces you must add quotes to the string, see Listing \ref{findstring}.
+
+\lstset{basicstyle=\footnotesize, caption=Find statement with spaces, label=findstring, numbers=left, frame=single, captionpos=b}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/findstring.flow}
 
 %with in statement
+By default \textit{Find} will look for the given content within the entire website, \textit{/html/body}. You may change this behaviour by adding \textit{in [XPath]}. Listing \ref{findstringin} shows how the string \textit{Hello World} is asserted to be found in inside an element with \textit{id} set to \textit{mypopup}. 
+
+\lstset{basicstyle=\footnotesize, caption=Find statement in given XPath, label=findstringin, numbers=left, frame=single, captionpos=b}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/findstringin.flow}
+
+%several containing
+Boolean logics, \textit{and}/\textit{or}, can be used to accept different combinations of containing strings. Listing \ref{findstringandor} shows how the string \textit{Hello World} is asserted to be found along with \textit{Alternative1} or \textit{Alternative2}.
+
+\lstset{basicstyle=\footnotesize, caption=Find statement with boolean logics, label=findstringandor, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/findstringandor.flow}
+
+%tag
+Find can also be used to find tags. In Listing \ref{findtag} an assertion is made making sure an \textit{a} tag with attribute \textit{href} set to \textit{/link/category/blandat} is available.
+
+\lstset{basicstyle=\footnotesize, caption=Find tag statement, label=findtag, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/findtag.flow}
+
+%tag in
+In Listing \ref{findtagin} the a tag is asserted to be available within the XPath \textit{mypopup}.
+
+\lstset{basicstyle=\footnotesize, caption=Find tag statement within an XPath, label=findtagin, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/findtagin.flow}
+
+%several tags
+Tags can also be combined, as in Listing \ref{findtagandor}.
+
+\lstset{basicstyle=\footnotesize, caption=Find tag statement with and/or logics, label=findtagandor, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/findtagandor.flow}
+
+%several attributes
+Several attributes can be asserted to be available in the same tag. Listing \ref{findtagattributes} shows how tag \textit{a} is asserted to be available with either \textit{/link/category/mix} or \textit{/link/category/other} but then attribute \textit{class} has to be defined as \textit{otherClass}.
+
+\lstset{basicstyle=\footnotesize, caption=Find tag with several attributes, label=findtagattributes, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/findtagattributes.flow}
+
+%Combine tags and strings
+Find can combine tags and strings. Listing \ref{findtagandorcontaining} shows how \textit{a} with attribute \textit{href} set to \textit{/link/category/mix} along with string \textit{Alternative1} or \textit{Alternative2} is asserted to be available.
+
+\lstset{basicstyle=\footnotesize, caption=Find statement with combined tag and containing with and/or logics, label=findtagandorcontaining, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/findtagandorcontaining.flow}
 
 %Show time out example
+\label{findwaitatmost}
+The content asserted by \textit{Find} may not be available, and then the test will fail. You may accept the content to be available within a period of time, for example JavaScripts may update the DOM. Listing \ref{findwait} shows how \textit{wait at most} is used to wait at most 5 seconds for the assertion to become true.
+
+\lstset{basicstyle=\footnotesize, caption=Find statement with wait at most, label=findwait, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/findwait.flow}
 
 \section{Click on elements}
 %can be used for dynamic html or page navigation
+A click on an element may result in the entire page being reloaded or just a JavaScript adding some content to the DOM. Listing \ref{clickon} shows a simple example of an element being clicked.
+
+\lstset{basicstyle=\footnotesize, caption=Click on, label=clickon, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/clickon.flow}
 
 %and wait
+After clicking the element you will probably want to add a \textit{Find} statement. Listing \ref{clickonwait} show how a waiting period can be added after the click. When waiting for content to be available it is recommended to use \textit{Find} with \textit{wait at most} as in Section \ref{findwaitatmost}.
+
+\lstset{basicstyle=\footnotesize, caption=Click on and wait, label=clickonwait, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/clickonwait.flow}
 
 \section{Fill in forms}
 %Fill in one element
+When testing pages that contains forms you may need to add text to them. Listing \ref{fillinsimple} shows how a text field can be populated with content. The URL \textit{http://someurl.domain/} is asserted to contain a form named \textit{userForm} which contains a text field named \textit{name}. The text field is populated with ``\textit{Tomas Bjerre}''.
 
-%with spaces and quotes, or no spaces and no quotes, or quotes and no spaces
+\lstset{basicstyle=\footnotesize, caption=Fill in text field in formular, label=fillinsimple, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/fillinsimple.flow}
 
 %Fill in multiple element
+Listing \ref{fillinmulti} shows how multiple text fields can be populated.
+
+\lstset{basicstyle=\footnotesize, caption=Fill in multiple text fields in formular, label=fillinmulti, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/fillinmulti.flow}
 
 %Fill in with unique string
+Listing \ref{fillinunique} shows how the text field \textit{name} is populated with a unique (random) string.
+
+\lstset{basicstyle=\footnotesize, caption=Fill in text field in formular with unique string, label=fillinunique, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/fillinunique.flow}
 
 %Fill in with unique string of length
+The string in Listing \ref{fillinunique} can be set to a specific length as in Listing \ref{fillinuniquelength}.
+
+\lstset{basicstyle=\footnotesize, caption=Fill in text field in formular with unique string of specific length, label=fillinuniquelength, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/fillinuniquelength.flow}
 
 %Fill in with unique string of length starting with
+The string in Listing \ref{fillinuniquelength} may only be partly random as in Listing \ref{fillinuniquelengthstart}. In Listing \ref{fillinuniquelengthstart} the string is randomly generated but it will always start with the same sequence.
+
+\lstset{basicstyle=\footnotesize, caption=Fill in text field in formular with unique string of specific length and start, label=fillinuniquelengthstart, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/fillinuniquelengthstart.flow}
 
 %Fill in locationForm with address.floor as 3
-
 %Fill in locationForm with address.floor as options number 1
+When selecting an item from a drop down, the same code as above can be used. But it may be preferred to reference the item as the index number. Listing \ref{fillinoption} shows how the option number 1 is selected.
+
+\lstset{basicstyle=\footnotesize, caption=Fill in option by index number, label=fillinoption, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/fillinoption.flow}
 
 \section{Re-use test cases}
 %See PathsAndUrls.flow
+It is ofter preferred to store definitions of XPath:s and URL:s in seperate files. Then they can be re-used in test cases. Also there may be a serious of actions needed in order to get to a specific state, such actions may also be stored in sepereate files and enabled to be re-used. Listing \ref{see} shows how test code can be made available in another test.
+
+\lstset{basicstyle=\footnotesize, caption=See statement, label=see, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/see.flow}
 
 \section{Use proxy}
-%See PathsAndUrls.flow
+Test cases may need to be configured to use proxies when run. Listing \ref{useproxy} shows how to set the proxy server to use.
 
-\chapter{Back End}
-
-\section{HTMLUnit}
-
-
-\section{Implementing your own generator}
-\label{backendimpl}
-%Just briefly describe it, as it will most likely change.
-
-\subsection{subsection}
+\lstset{basicstyle=\footnotesize, caption=Use proxy statement, label=useproxy, numbers=left, frame=single, captionpos=b, breaklines=true}
+\lstinputlisting{../compiler/frontend/flowspec/testcases/useproxy.flow}
 
 \end{document}

@@ -1,0 +1,4 @@
+Path Website is /html/body
+Url SomeUrl is http://someurl.domain/
+Go to SomeUrl
+Fill in userForm with name as unique string of length 6
