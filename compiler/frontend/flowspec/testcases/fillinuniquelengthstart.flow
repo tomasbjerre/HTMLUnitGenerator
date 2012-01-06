@@ -1,4 +1,6 @@
 Path Website is /html/body
+Path choose is //*[@id="choose"]
 Url SomeUrl is http://someurl.domain/
 Go to SomeUrl
 Fill in userForm with name as unique string of length 6 starting with My
+Click on choose

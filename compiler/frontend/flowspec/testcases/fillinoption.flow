@@ -1,4 +1,6 @@
 Path Website is /html/body
+Path choose is //*[@id="choose"]
 Url SomeUrl is http://someurl.domain/
 Go to SomeUrl
 Fill in locationForm with floor as option number 1
+Click on choose
